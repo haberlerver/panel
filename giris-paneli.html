@@ -1747,14 +1747,14 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
      IIFE / blok kapsamında olduğu için aralarında isim çakışması yok.
      ============================================================ -->
 <button id='hv-auth-btn' onclick='hvAuthTikla()'>
-  <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>
+  <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>
   <span>ÜYE GİRİŞİ</span>
 </button>
 
 <!-- Modal Overlay -->
 <div id='hv-modal-overlay'>
   <div id='hv-modal'>
-    <span class='hv-swipe-bar'/>
+    <span class='hv-swipe-bar'></span>
     <div class='hv-modal-header'>
       <h2 id='hv-modal-baslik'>Haberlerver.com</h2>
       <button id='hv-kapat' onclick='hvModalKapat()' title='Kapat'>&#215;</button>
@@ -1767,8 +1767,8 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
         <button id='tab-kayit' onclick='hvTab(&quot;kayit&quot;)'>Kayıt Ol</button>
       </div>
 
-      <div class='hv-mesaj hv-hata' id='hv-ana-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-ana-basari'/>
+      <div class='hv-mesaj hv-hata' id='hv-ana-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-ana-basari'></div>
 
       <div id='hv-kayit-alanlar' style='display:none'>
         <div class='hv-ikili-grup'>
@@ -1795,18 +1795,18 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
       <div class='hv-input-grup hv-sifre-wrap'>
         <input autocomplete='current-password' id='hv-sifre' oninput='hvSifreGucIslem(this.value)' placeholder='Şifre' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-sifre&quot;,this)' title='Şifreyi göster/gizle' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
       <div id='hv-sifre-guc-alan' style='display:none'>
-        <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-sifre-guc-bar'/></div>
+        <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-sifre-guc-bar'></div></div>
         <div class='hv-bilgi-notu'>En az 8 karakter, büyük/küçük harf ve özel sembol (@!#$%^*())</div>
       </div>
 
       <div class='hv-input-grup hv-sifre-wrap' id='hv-sifre2-wrap' style='display:none'>
         <input autocomplete='new-password' id='hv-sifre2' placeholder='Şifreyi tekrar girin' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-sifre2&quot;,this)' title='Şifreyi göster/gizle' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
 
@@ -1840,7 +1840,7 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
 
       <!-- Sadece Google -->
       <button class='hv-btn hv-btn-beyaz' onclick='hvSosyalGiris(&quot;google&quot;)'>
-        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'/><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'/><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'/><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'/></svg>
+        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'></path><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'></path><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'></path><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'></path></svg>
         Google ile devam et
       </button>
       <div class='hv-google-kvkk-not'>Google ile devam ederek <a class='hv-link' href='/p/kvkk-aydinlatma-metni.html' target='_blank'>KVKK Aydınlatma Metni</a>&#39;ni kabul etmiş sayılırsınız.</div>
@@ -1849,14 +1849,14 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
     <!-- PROFİL PANELİ -->
     <div id='hv-profil-panel' style='display:none'>
       <div class='hv-profil-baslik'>
-        <div class='hv-profil-foto-wrap' id='hv-p-foto-wrap'/>
-        <h3 id='hv-p-ad'/>
-        <p id='hv-p-ka'/>
-        <p id='hv-p-email'/>
+        <div class='hv-profil-foto-wrap' id='hv-p-foto-wrap'></div>
+        <h3 id='hv-p-ad'></h3>
+        <p id='hv-p-ka'></p>
+        <p id='hv-p-email'></p>
       </div>
 
-      <div class='hv-mesaj hv-hata' id='hv-profil-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-profil-basari'/>
+      <div class='hv-mesaj hv-hata' id='hv-profil-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-profil-basari'></div>
 
       <div class='hv-ayar-menu'>
         <a class='hv-ayar-btn' href='/p/uye-paneli.html' id='hv-uye-panel-link'>
@@ -1889,12 +1889,12 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
         <!-- 🗑&#65039; HESAP SİL BUTONU -->
         <button class='hv-ayar-btn kirmizi' onclick='hvSilmePanelAc()' style='margin-top:8px;'>
           <span>🗑&#65039; Hesabı Sil</span>
-          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><polyline points='3 6 5 6 21 6'/><path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'/></svg>
+          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><polyline points='3 6 5 6 21 6'></polyline><path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path></svg>
         </button>
         <!-- ÇIKIŞ YAP -->
         <button class='hv-ayar-btn kirmizi' onclick='hvCikisYap()'>
           <span>Çıkış Yap</span>
-          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' x2='9' y1='12' y2='12'/></svg>
+          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'></path><polyline points='16 17 21 12 16 7'></polyline><line x1='21' x2='9' y1='12' y2='12'></line></svg>
         </button>
       </div>
 
@@ -1909,7 +1909,7 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
           </div>
           <div class='hv-bildirim-modal-baslik-actions'><button id='hv-bildirim-modal-tumunu-oku' type='button'>Tümünü okundu</button><button class='hv-bildirim-modal-temizle' id='hv-bildirim-modal-temizle' type='button'>Bildirimleri temizle</button></div>
         </div>
-        <div class='hv-bildirim-modal-liste' id='hv-bildirim-modal-liste'/>
+        <div class='hv-bildirim-modal-liste' id='hv-bildirim-modal-liste'></div>
       </div>
 
       <div class='hv-duyuru-modal-panel' id='hv-duyuru-panel' style='display:none'>
@@ -1920,16 +1920,16 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
             <p>Admin Panelindeki ortak duyurular.</p>
           </div>
         </div>
-        <div class='hv-duyuru-modal-liste' id='hv-duyuru-modal-liste'/><button class='hv-duyuru-tekrar-goster' id='hv-duyuru-tekrar-goster' type='button'>📢 Duyuruyu Tekrar Göster</button>
+        <div class='hv-duyuru-modal-liste' id='hv-duyuru-modal-liste'></div><button class='hv-duyuru-tekrar-goster' id='hv-duyuru-tekrar-goster' type='button'>📢 Duyuruyu Tekrar Göster</button>
       </div>
 
     <!-- AYAR FORM PANELİ -->
     <div id='hv-ayar-form-panel' style='display:none'>
       <button class='hv-link' onclick='hvPanelGecis(&quot;hv-profil-panel&quot;)' style='display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;' type='button'>&#8592; Geri Dön</button>
-      <h3 id='hv-ayar-baslik' style='margin:0 0 16px;font-size:16px;font-weight:700;'/>
-      <div class='hv-mesaj hv-hata' id='hv-ayar-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-ayar-basari'/>
-      <div id='hv-ayar-icerik'/>
+      <h3 id='hv-ayar-baslik' style='margin:0 0 16px;font-size:16px;font-weight:700;'></h3>
+      <div class='hv-mesaj hv-hata' id='hv-ayar-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-ayar-basari'></div>
+      <div id='hv-ayar-icerik'></div>
       <button class='hv-btn hv-btn-mavi' id='hv-ayar-kaydet-btn' onclick='hvAyarKaydet()'>Kaydet</button>
     </div>
 
@@ -1940,15 +1940,15 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
       <p style='font-size:13px;color:#6b7280;margin:0 0 16px;line-height:1.6;'>
         Bu işlem <strong style='color:#ef4444'>geri alınamaz</strong>. Tüm kişisel verileriniz (ad, soyad, e-posta, kullanıcı adı) kalıcı olarak silinecektir.
       </p>
-      <div class='hv-mesaj hv-hata' id='hv-silme-hata'/>
-      <div class='hv-mesaj hv-bilgi' id='hv-silme-bilgi'/>
+      <div class='hv-mesaj hv-hata' id='hv-silme-hata'></div>
+      <div class='hv-mesaj hv-bilgi' id='hv-silme-bilgi'></div>
       <!-- E-posta şifre ile giriş yapanlar için -->
       <div class='hv-input-grup' id='hv-silme-sifre-wrap'>
         <input id='hv-silme-sifre' placeholder='Onaylamak için şifrenizi girin' type='password'/>
       </div>
       <!-- Google ile giriş yapanlar için -->
       <button class='hv-btn hv-btn-beyaz' id='hv-silme-google-btn' onclick='hvGoogleIleDogrulaVeSil()' style='display:none;margin-bottom:12px;'>
-        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'/><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'/><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'/><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'/></svg>
+        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'></path><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'></path><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'></path><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'></path></svg>
         Google ile Doğrula ve Hesabı Sil
       </button>
       <button class='hv-btn hv-btn-kirmizi' id='hv-silme-btn' onclick='hvHesapSil()'>
@@ -1960,8 +1960,8 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
     <div id='hv-unut-panel' style='display:none'>
       <button class='hv-link' onclick='hvSifreUnutGeriDon()' style='display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;' type='button'>&#8592; Geri dön</button>
       <h3 style='margin:0 0 8px;font-size:16px;font-weight:700;'>Şifre Sıfırlama</h3>
-      <div class='hv-mesaj hv-hata' id='hv-unut-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-unut-basari'/>
+      <div class='hv-mesaj hv-hata' id='hv-unut-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-unut-basari'></div>
       <p style='font-size:13px;color:#6b7280;margin:0 0 16px;line-height:1.6;'>
         Hesabınıza kayıtlı e-posta adresinizi girin. Şifre sıfırlama bağlantısı göndereceğiz.<br/>
         <strong style='color:#ef4444'>&#9888;&#65039; Not:</strong> E-posta <strong>Spam / Gereksiz</strong> klasörüne düşebilir, mutlaka kontrol edin.
@@ -1978,18 +1978,18 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
       <p style='font-size:12px;color:#6b7280;margin:0 0 16px;line-height:1.5;background:#f8fafc;border-radius:8px;padding:10px 12px;border:1px solid #e5e7eb;'>
         🔒 <strong>Şifre kuralları:</strong> En az 8 karakter, en az 1 büyük harf (A-Z), 1 küçük harf (a-z) ve 1 özel sembol (@!#$%^*()) içermelidir. &amp; işareti kullanılamaz.
       </p>
-      <div class='hv-mesaj hv-hata' id='hv-ys-hata'/>
+      <div class='hv-mesaj hv-hata' id='hv-ys-hata'></div>
       <div class='hv-input-grup hv-sifre-wrap'>
         <input autocomplete='new-password' id='hv-ys-sifre' oninput='hvSifreGucIslem(this.value,&quot;ys&quot;)' placeholder='Yeni şifreniz' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-ys-sifre&quot;,this)' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
-      <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-ys-sifre-guc-bar'/></div>
+      <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-ys-sifre-guc-bar'></div></div>
       <div class='hv-input-grup hv-sifre-wrap' style='margin-top:12px;'>
         <input autocomplete='new-password' id='hv-ys-sifre2' placeholder='Yeni şifrenizi tekrar girin' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-ys-sifre2&quot;,this)' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
       <button class='hv-btn hv-btn-mavi' id='hv-ys-kaydet-btn' onclick='hvYeniSifreKaydet()' style='margin-top:8px;'>Şifremi Güncelle</button>
@@ -2000,7 +2000,7 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
       <div style='font-size:52px;margin-bottom:12px;'>&#9993;&#65039;</div>
       <h3 style='margin:0 0 10px;font-size:18px;font-weight:800;'>E-postanızı Doğrulayın</h3>
       <p style='font-size:14px;color:#4b5563;line-height:1.6;margin:0 0 8px;'>
-        <strong id='hv-dog-email' style='color:#1a73e8'/> adresine doğrulama bağlantısı gönderdik.
+        <strong id='hv-dog-email' style='color:#1a73e8'></strong> adresine doğrulama bağlantısı gönderdik.
       </p>
       <p style='font-size:13px;color:#6b7280;line-height:1.6;margin:0 0 16px;'>
         &#9888;&#65039; <strong style='color:#ef4444'>Spam / Gereksiz</strong> klasörünüzü mutlaka kontrol edin.<br/>
@@ -2014,15 +2014,15 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
         <input id='hv-dog-sifre' placeholder='Mevcut şifreniz' type='password'/>
       </div>
 
-      <div class='hv-mesaj hv-bilgi' id='hv-dog-bilgi'/>
-      <div class='hv-mesaj hv-hata' id='hv-dog-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-dog-basari'/>
+      <div class='hv-mesaj hv-bilgi' id='hv-dog-bilgi'></div>
+      <div class='hv-mesaj hv-hata' id='hv-dog-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-dog-basari'></div>
 
       <button class='hv-btn hv-btn-mavi' id='hv-dog-tekrar-btn' onclick='hvDogrulamaTekrar()' style='margin-bottom:8px;'>Doğrulama E-postasını Tekrar Gönder</button>
       <button class='hv-btn hv-btn-beyaz' id='hv-dog-email-degistir-toggle-btn' onclick='hvDogEmailDegistirToggle()' style='margin-bottom:8px;'>&#9993;&#65039; E-posta Adresini Değiştir</button>
       <button class='hv-btn hv-btn-mavi' id='hv-dog-email-gonder-btn' onclick='hvDogEmailGonder()' style='display:none;margin-bottom:8px;'>Yeni E-postayı Kaydet ve Gönder</button>
       <button class='hv-btn hv-btn-kirmizi' onclick='hvCikisYapVeKapat()'>
-        <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' x2='9' y1='12' y2='12'/></svg>
+        <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'></path><polyline points='16 17 21 12 16 7'></polyline><line x1='21' x2='9' y1='12' y2='12'></line></svg>
         Çıkış Yap
       </button>
     </div>
@@ -2035,10 +2035,10 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
     <button aria-label='Duyuruyu kapat' class='hv-duyuru-popup-kapat' id='hv-duyuru-popup-kapat' type='button'>&#215;</button>
     <div class='hv-duyuru-popup-media'><img alt='' id='hv-duyuru-popup-resim'/></div>
     <div class='hv-duyuru-popup-icerik'>
-      <div class='hv-duyuru-popup-ust'><span class='hv-duyuru-popup-etiket'>DUYURU</span><time id='hv-duyuru-popup-tarih'/></div>
-      <h3 id='hv-duyuru-popup-baslik'/>
-      <div id='hv-duyuru-popup-metin'/>
-      <div class='hv-duyuru-popup-alt'><button aria-label='Önceki duyuru' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sol' type='button'>&#8249;</button><div class='hv-duyuru-popup-nokta' id='hv-duyuru-popup-nokta'/><button aria-label='Sonraki duyuru' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sag' type='button'>&#8250;</button></div>
+      <div class='hv-duyuru-popup-ust'><span class='hv-duyuru-popup-etiket'>DUYURU</span><time id='hv-duyuru-popup-tarih'></time></div>
+      <h3 id='hv-duyuru-popup-baslik'></h3>
+      <div id='hv-duyuru-popup-metin'></div>
+      <div class='hv-duyuru-popup-alt'><button aria-label='Önceki duyuru' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sol' type='button'>&#8249;</button><div class='hv-duyuru-popup-nokta' id='hv-duyuru-popup-nokta'></div><button aria-label='Sonraki duyuru' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sag' type='button'>&#8250;</button></div>
       <button class='hv-duyuru-popup-gizle' id='hv-duyuru-popup-gizle' type='button'>Bu duyuruyu bir daha gösterme</button>
     </div>
   </div>
@@ -3193,7 +3193,7 @@ import {
       }
     } else {
       hvDuyuruTemizle();
-      const svgIcon = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>`;
+      const svgIcon = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>`;
       if (masaustuBtn) {
         masaustuBtn.classList.remove('giris-yapildi');
         masaustuBtn.innerHTML = svgIcon + ` <span>ÜYE GİRİŞİ</span>`;
@@ -3954,7 +3954,7 @@ import {
       li.innerHTML = `
         <div class="hv-mobil-auth-actions">
           <button id="hv-mobil-auth-btn" onclick="hvAuthTikla()">
-            <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>
+            <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>
             <span>ÜYE GİRİŞİ</span>
           </button>
         </div>`;
@@ -3965,7 +3965,7 @@ import {
         const btn = document.createElement('button');
         btn.id = 'hv-mobil-auth-btn';
         btn.onclick = hvAuthTikla;
-        btn.innerHTML = `<svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg><span>ÜYE GİRİŞİ</span>`;
+        btn.innerHTML = `<svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg><span>ÜYE GİRİŞİ</span>`;
         btn.style.display = 'none';
         nav.appendChild(btn);
       }
