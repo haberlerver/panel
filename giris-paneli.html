@@ -574,10 +574,10 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   position:relative!important;
   direction:ltr!important;
   unicode-bidi:plaintext!important;
-  display:inline-flex!important;
-  align-items:baseline!important;
+  display:flex!important;
+  align-items:center!important;
   justify-content:flex-start!important;
-  gap:0!important;
+  gap:4px!important;
   flex:1 1 auto;
   min-width:0!important;
   max-width:none!important;
@@ -596,17 +596,16 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
 
 #hv-auth-btn .hv-auth-kadi-at,
 #hv-mobil-auth-btn .hv-auth-kadi-at{
-  display:inline-block!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
   flex:0 0 auto!important;
-  vertical-align:baseline!important;
   line-height:1!important;
-  margin:0 1px 0 0!important;
+  margin:0!important;
   padding:0!important;
   font-size:1em!important;
   font-weight:800!important;
   letter-spacing:0!important;
-  position:relative!important;
-  top:0!important;
 }
 #hv-auth-btn .hv-auth-kadi-name,
 #hv-mobil-auth-btn .hv-auth-kadi-name{
@@ -616,7 +615,6 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
   line-height:1!important;
-  vertical-align:baseline!important;
 }
 body.dark #hv-auth-btn{
   background:#111827;
@@ -2073,7 +2071,7 @@ import {
   deleteUser,
   onAuthStateChanged,
   getAuth
-} from 'https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js';
+} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 
 import {
   doc,
@@ -2093,7 +2091,7 @@ import {
   increment,
   where,
   runTransaction
-} from 'https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js';
+} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 /* ÖNEMLİ GÜVENLİK NOTU:
    Bu dosyadaki client-side kontroller (veriKontrol, isAdmin, küfür filtresi vb.)
    SADECE arayüz kolaylığıdır. Gerçek güvenlik Firestore Security Rules'ta
