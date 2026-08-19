@@ -5329,6 +5329,7 @@ import {
         try { window.hvIcerikKilidiUnsub(); } catch (e) {}
       }
 
+      
       window.hvIcerikKilidiUnsub = window.hvGuvenliFirestorePolling(async () => {
         try {
           const snap2 = await getDoc(ref);
