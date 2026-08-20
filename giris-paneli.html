@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Giriş Paneli</title>
+<meta charset="UTF-8">
 </head>
 <body>
 <!-- GİRİŞ PANELİ KODU BAŞLANGIÇ -->
@@ -46,7 +43,7 @@ body.dark .hv-uye-kilit p{color:#94a3b8;}
 
 /* --- GİRİŞ İLE YORUM YAPMA CSS BAŞLANGIÇ --- */
 
-.xoxx0i-post-comments > *:not(#hv-firebase-comments) {
+.xoxx0i-post-comments &gt; *:not(#hv-firebase-comments) {
   display: none !important;
 }
 
@@ -144,6 +141,19 @@ body.dark .hv-yorum-item { border-color: #2d3748; }
   margin-bottom: 6px;
 }
 body.dark .hv-yorum-metin { color: #d1d5db; }
+.hv-yorum-metin.hv-yorum-alinti {
+  background:#f3f4f6;
+  border-left:3px solid #cbd5e1;
+  border-radius:8px;
+  padding:9px 12px;
+  margin:0 0 8px;
+  color:#475569;
+}
+body.dark .hv-yorum-metin.hv-yorum-alinti {
+  background:#172033;
+  border-left-color:#475569;
+  color:#cbd5e1;
+}
 .hv-yorum-tarih { font-size: 11px; color: #9ca3af; margin-top: 4px; }
 body.dark .hv-yorum-tarih { color: #6b7280; }
 
@@ -156,22 +166,13 @@ body.dark .hv-yorum-tarih { color: #6b7280; }
   padding: 2px 4px; border-radius: 4px; transition: all 0.2s; line-height: 1;
   color: inherit; display: flex; align-items: center;
 }
-.hvp-oy-btn.begeni-btn::before {
-  content: "\f164";
-  font-family: "Font Awesome 7 Free";
-  font-weight: 900;
-  color: #16a34a;
-}
-.hvp-oy-btn.begenmeme-btn::before {
-  content: "\f165";
-  font-family: "Font Awesome 7 Free";
-  font-weight: 900;
-  color: #ef4444;
-}
+/* Yorum oy butonları: ikon HTML içinden gelir; pseudo-element ile çift ikon oluşturulmaz. */
+.hvp-oy-btn.begeni-btn { color:#16a34a; }
+.hvp-oy-btn.begenmeme-btn { color:#ef4444; }
 .hvp-oy-btn.aktif-begeni { transform: scale(1.3); background: #dcfce7; }
-.hvp-oy-btn.aktif-begeni::before { color: #15803d; }
+.hvp-oy-btn.aktif-begeni { color: #15803d; }
 .hvp-oy-btn.aktif-begenmeme { transform: scale(1.3); background: #fee2e2; }
-.hvp-oy-btn.aktif-begenmeme::before { color: #dc2626; }
+.hvp-oy-btn.aktif-begenmeme { color: #dc2626; }
 /* dark modda beğeni aktif arka plan */
 body.dark .hvp-oy-btn.aktif-begeni { background: #14532d; }
 body.dark .hvp-oy-btn.aktif-begenmeme { background: #450a0a; }
@@ -246,7 +247,7 @@ body.dark .hv-yorum-popup-kapak { background-color: #1a2035; }
 }
 body.dark .hv-yorum-popup-avatar-alani .hvp-avatar-wrapper { border-color: #2d3748; background: #1e2433; }
 
-.hvp-avatar-wrapper > * {
+.hvp-avatar-wrapper &gt; * {
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
 .hvp-avatar-img { border: none; border-radius: 50%; width: 100% !important; height: 100% !important; object-fit: cover !important; }
@@ -291,43 +292,43 @@ body.dark .hvp-derece-rozet { background: #3b1f6e; color: #ddd6fe; }
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 .hv-yorum-popup-sosyal a:hover { transform: scale(1.15); box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
-.hv-yorum-popup-sosyal a.hv-social-twitter::before { content: "\e61b"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-facebook::before { content: "\f39e"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-instagram::before { content: "\f16d"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-reddit::before { content: "\f1a1"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-github::before { content: "\f09b"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-youtube::before { content: "\f167"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-tiktok::before { content: "\e07b"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-linkedin::before { content: "\f08c"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-pinterest::before { content: "\f0d2"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-snapchat::before { content: "\f2ab"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-whatsapp::before { content: "\f232"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-telegram::before { content: "\f3fe"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-discord::before { content: "\f392"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-twitch::before { content: "\f1e8"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-spotify::before { content: "\f1bc"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-steam::before { content: "\f1b6"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-medium::before { content: "\f23a"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-soundcloud::before { content: "\f1be"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-vimeo::before { content: "\f27d"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-flickr::before { content: "\f16e"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-dribbble::before { content: "\f17d"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-behance::before { content: "\f1b4"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-codepen::before { content: "\f1cb"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-stackoverflow::before { content: "\f16c"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-etsy::before { content: "\f2d7"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-quora::before { content: "\f2c4"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-wordpress::before { content: "\f19a"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-blogger::before { content: "\f37c"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-skype::before { content: "\f17e"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-paypal::before { content: "\f1ed"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-patreon::before { content: "\f3d9"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-kickstarter::before { content: "\f3bb"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-website::before { content: "\f0ac"; font-family: "Font Awesome 7 Free"; font-weight: 900; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-bluesky::before { content: "\e671"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-tumblr::before { content: "\f173"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-threads::before { content: "\e618"; font-family: "Font Awesome 7 Brands"; color: #fff; }
-.hv-yorum-popup-sosyal a.hv-social-wikipedia::before { content: "\f266"; font-family: "Font Awesome 7 Brands"; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-twitter::before { content: &quot;\e61b&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-facebook::before { content: &quot;\f39e&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-instagram::before { content: &quot;\f16d&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-reddit::before { content: &quot;\f1a1&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-github::before { content: &quot;\f09b&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-youtube::before { content: &quot;\f167&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-tiktok::before { content: &quot;\e07b&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-linkedin::before { content: &quot;\f08c&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-pinterest::before { content: &quot;\f0d2&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-snapchat::before { content: &quot;\f2ab&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-whatsapp::before { content: &quot;\f232&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-telegram::before { content: &quot;\f3fe&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-discord::before { content: &quot;\f392&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-twitch::before { content: &quot;\f1e8&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-spotify::before { content: &quot;\f1bc&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-steam::before { content: &quot;\f1b6&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-medium::before { content: &quot;\f23a&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-soundcloud::before { content: &quot;\f1be&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-vimeo::before { content: &quot;\f27d&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-flickr::before { content: &quot;\f16e&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-dribbble::before { content: &quot;\f17d&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-behance::before { content: &quot;\f1b4&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-codepen::before { content: &quot;\f1cb&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-stackoverflow::before { content: &quot;\f16c&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-etsy::before { content: &quot;\f2d7&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-quora::before { content: &quot;\f2c4&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-wordpress::before { content: &quot;\f19a&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-blogger::before { content: &quot;\f37c&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-skype::before { content: &quot;\f17e&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-paypal::before { content: &quot;\f1ed&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-patreon::before { content: &quot;\f3d9&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-kickstarter::before { content: &quot;\f3bb&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-website::before { content: &quot;\f0ac&quot;; font-family: &quot;Font Awesome 7 Free&quot;; font-weight: 900; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-bluesky::before { content: &quot;\e671&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-tumblr::before { content: &quot;\f173&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-threads::before { content: &quot;\e618&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
+.hv-yorum-popup-sosyal a.hv-social-wikipedia::before { content: &quot;\f266&quot;; font-family: &quot;Font Awesome 7 Brands&quot;; color: #fff; }
 body.dark .hv-yorum-popup-sosyal a::before { color: #f3f4f6 !important; }
 
 /* İSTATİSTİK GRİD */
@@ -415,7 +416,7 @@ body.dark .hv-yorum-popup-close { color: #6b7280; }
 .hv-haber-eylem-btn:active:not(:disabled){transform:translateY(0);}
 .hv-haber-eylem-btn:disabled{opacity:.55;cursor:wait;}
 .hv-haber-eylem-btn[hidden]{display:none !important;}
-.hv-haber-eylem-btn.giris-gerekli::after{content:'Giriş';font-size:9px;opacity:.55;}
+.hv-haber-eylem-btn.giris-gerekli::after{content:&#39;Giriş&#39;;font-size:9px;opacity:.55;}
 .hv-haber-eylem-icon{font-size:15px;line-height:1;flex:0 0 auto;}
 .hv-haber-eylem-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
@@ -455,6 +456,12 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   background:#3a0c0c;border-color:#991b1b;color:#fca5a5;
 }
 
+@media (max-width:600px){
+  .hv-haber-eylem-toolbar{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
 /* --- HABER EYLEMLERİ CSS BİTİŞ --- */
 
 /* --- KAYMA / TAŞMA STABİLİZASYONU --- */
@@ -473,13 +480,13 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
 .hv-ayar-btn{
   min-width:0;
 }
-.hv-ayar-btn > span:first-child{
+.hv-ayar-btn &gt; span:first-child{
   min-width:0;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-.hv-ikili-grup > div{
+.hv-ikili-grup &gt; div{
   min-width:0;
 }
 .hv-input-grup,
@@ -503,7 +510,8 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   overflow-wrap:anywhere;
 }
 
-/* --- MODERN SAĞ ÜST KULLANICI BUTONU --- */
+/* --- MODERN SAĞ ÜST KULLANICI BUTONU &#8212; TEK OTORİTER TANIM --- */
+#site-navigation{position:relative;}
 #hv-auth-btn{
   height:38px;
   min-width:116px;
@@ -516,6 +524,20 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   box-shadow:0 4px 14px rgba(15,23,42,.08);
   color:#2563eb;
   line-height:1;
+  font-size:13px;
+  font-weight:700;
+  font-family:Arial,sans-serif;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  position:absolute;
+  right:50px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:100;
+  white-space:nowrap;
+  overflow:hidden;
+  transition:all .2s ease;
 }
 #hv-auth-btn:hover{
   background:#f8fafc;
@@ -530,8 +552,7 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
 #hv-auth-btn.giris-yapildi:hover{
   background:linear-gradient(135deg,#15803d,#166534);
 }
-#hv-auth-btn .avatar-circle,
-#hv-auth-btn img{
+#hv-auth-btn .avatar-circle,#hv-auth-btn img{
   width:28px !important;
   height:28px !important;
   min-width:28px !important;
@@ -540,13 +561,47 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   border-radius:50% !important;
   object-fit:cover !important;
 }
-#hv-auth-btn > span{
+#hv-auth-btn &gt; span{
   display:block;
   min-width:0;
   max-width:155px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
+}
+#hv-auth-btn &gt; .hv-auth-kadi,
+#hv-mobil-auth-btn &gt; .hv-auth-kadi{
+  position:relative!important;
+  direction:ltr!important;
+  unicode-bidi:plaintext!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:2px!important;
+  flex:1 1 auto;
+  min-width:0!important;
+  max-width:none!important;
+  padding:0 1px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  line-height:1!important;
+  font-weight:800;
+  text-align:left!important;
+  flex-wrap:nowrap!important;
+  font-variant-numeric:tabular-nums;
+  text-rendering:optimizeLegibility;
+}
+.hv-auth-avatar-wrap{flex:0 0 auto!important;}
+
+#hv-auth-btn .hv-auth-kadi-name,
+#hv-mobil-auth-btn .hv-auth-kadi-name{
+  display:inline-block!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  line-height:1!important;
 }
 body.dark #hv-auth-btn{
   background:#111827;
@@ -563,12 +618,8 @@ body.dark #hv-auth-btn.giris-yapildi{
   color:#dcfce7;
   border-color:#166534;
 }
-
-#hv-mobil-auth-btn{
-  min-height:44px;
-}
-#hv-mobil-auth-btn .avatar-circle,
-#hv-mobil-auth-btn img{
+#hv-mobil-auth-btn{min-height:44px;min-width:0;}
+#hv-mobil-auth-btn .avatar-circle,#hv-mobil-auth-btn img{
   width:28px !important;
   height:28px !important;
   min-width:28px !important;
@@ -577,51 +628,19 @@ body.dark #hv-auth-btn.giris-yapildi{
   border-radius:50% !important;
   object-fit:cover !important;
 }
-#hv-mobil-auth-btn > span{
+#hv-mobil-auth-btn &gt; span{
   min-width:0;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-
-@media (max-width:900px){
-  .hv-haber-eylem-toolbar{
-    max-width:100%;
-  }
-}
-
+@media (min-width:769px){#hv-auth-btn{display:flex;}}
 @media (max-width:560px){
-  .hv-haber-eylem-toolbar{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:7px;
-    padding:7px;
-    margin-top:8px;
-  }
-  .hv-haber-eylem-btn{
-    min-height:38px;
-    font-size:11px;
-    padding:8px 7px;
-  }
-  #hv-auth-btn{
-    min-width:0;
-    max-width:47vw;
-  }
-  #hv-auth-btn > span{
-    max-width:calc(47vw - 52px);
-  }
-}
-
-@media (max-width:360px){
-  .hv-haber-eylem-toolbar{
-    gap:6px;
-    padding:6px;
-  }
-  .hv-haber-eylem-btn{
-    font-size:10px;
-    gap:4px;
-    padding:7px 5px;
-  }
-  .hv-haber-eylem-icon{font-size:14px;}
+  #hv-auth-btn{min-width:0;max-width:47vw;}
+  #hv-auth-btn &gt; span{max-width:calc(47vw - 52px);}
 }
 
 /* --- KAYMA / TAŞMA STABİLİZASYONU BİTİŞ --- */
@@ -629,68 +648,7 @@ body.dark #hv-auth-btn.giris-yapildi{
 
 /* --- GİRİŞ PANELİ CSS BAŞLANGIÇ --- */
 
-#site-navigation { position: relative; }
-
-#hv-auth-btn {
-  background: #fff;
-  color: #1a73e8;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 7px 14px 7px 7px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: Arial, sans-serif;
-  display: none;
-  align-items: center;
-  gap: 7px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 220px;
-  transition: all 0.2s;
-  position: absolute;
-  right: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 100;
-}
-#hv-auth-btn:hover { background: #f8fafc; }
-#hv-auth-btn.giris-yapildi {
-  background: #34a853;
-  color: #fff;
-  border-color: #34a853;
-}
-#hv-auth-btn.giris-yapildi:hover { background: #2b8a44; }
-
-/* DARK: masaüstü buton */
-body.dark #hv-auth-btn {
-  background: #1f2937;
-  color: #60a5fa;
-  border-color: #374151;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
-}
-body.dark #hv-auth-btn:hover { background: #111827; }
-body.dark #hv-auth-btn.giris-yapildi {
-  background: #166534;
-  color: #bbf7d0;
-  border-color: #166534;
-}
-body.dark #hv-auth-btn.giris-yapildi:hover { background: #14532d; }
-
-.avatar-circle {
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-@media (min-width: 769px) {
-  #hv-auth-btn { display: flex; }
-}
+/* Giriş/desktop butonunun tek CSS tanımı yukarıdaki modern bloktadır. */
 
 /* ===== MOBİL MENÜ ===== */
 #hv-mobil-uye-li { list-style: none; }
@@ -979,7 +937,7 @@ body.dark .hv-btn-kirmizi:hover { background: #450a0a; }
   display: flex; align-items: center; gap: 10px;
 }
 .hv-ayrac:before, .hv-ayrac:after {
-  content: ''; flex: 1; height: 1.5px; background: #f3f4f6;
+  content: &#39;&#39;; flex: 1; height: 1.5px; background: #f3f4f6;
 }
 body.dark .hv-ayrac { color: #6b7280; }
 body.dark .hv-ayrac:before,
@@ -1162,7 +1120,7 @@ body.dark .hv-google-kvkk-not { color: #9ca3af; }
   max-width:100%;
   white-space:nowrap;
 }
-.hv-uye-icerik[aria-hidden="true"] { pointer-events:none !important; }
+.hv-uye-icerik[aria-hidden=&quot;true&quot;] { pointer-events:none !important; }
 body.dark .hv-uye-kilit button { background:#2563eb; color:#fff; }
 body.dark .hv-uye-kilit button:hover { background:#1d4ed8; }
 
@@ -1225,7 +1183,7 @@ body.dark #hv-bildirim-modal-tumunu-oku{background:#172554;color:#93c5fd;}
 
 
 /* ============================================================
-   SON ENTEGRASYON CSS — AVATAR BİLDİRİM ROZETİ
+   SON ENTEGRASYON CSS &#8212; AVATAR BİLDİRİM ROZETİ
    ============================================================ */
 .hv-auth-avatar-wrap{
   position:relative !important;
@@ -1270,7 +1228,7 @@ body.dark #hv-bildirim-modal-tumunu-oku{background:#172554;color:#93c5fd;}
   width:100%;
   min-width:0;
 }
-.hv-mobil-auth-actions > *{min-width:0;}
+.hv-mobil-auth-actions &gt; *{min-width:0;}
 .hv-mobil-auth-actions .hv-mobil-auth-actions .hv-mobil-auth-btn,
 .hv-mobil-auth-actions #hv-mobil-auth-btn{flex:1 1 auto;min-width:0;}
 @media(max-width:480px){
@@ -1357,7 +1315,7 @@ body.dark #hv-bildirim-modal-tumunu-oku{background:#172554;color:#93c5fd;}
 }
 
 /* ============================================================
-   İÇERİK KİLİDİ — TAM RESPONSIVE / ETİKET ODAKLI
+   İÇERİK KİLİDİ &#8212; TAM RESPONSIVE / ETİKET ODAKLI
    ============================================================ */
 .hv-uye-kilit{
   width:100%;
@@ -1381,7 +1339,7 @@ body.dark #hv-bildirim-modal-tumunu-oku{background:#172554;color:#93c5fd;}
   white-space:normal;
   text-align:center;
 }
-.hv-uye-icerik[aria-hidden="true"]{
+.hv-uye-icerik[aria-hidden=&quot;true&quot;]{
   pointer-events:none !important;
 }
 /* Etiket alanı görünümünü CSS değiştirmez; yalnızca hedef tespiti JS tarafından yapılır. */
@@ -1465,7 +1423,7 @@ body.dark .hv-daha-fazla-btn:hover{background:#1f2937;border-color:#3b82f6;}
 }
 
 
-/* ===== BİLDİRİM SAYISI — AVATARIN DIŞ KENARINDA KOMPAKT PROFESYONEL ROZET ===== */
+/* ===== BİLDİRİM SAYISI &#8212; AVATARIN DIŞ KENARINDA KOMPAKT PROFESYONEL ROZET ===== */
 .hv-auth-avatar-wrap{
   position:relative!important;
   display:inline-flex!important;
@@ -1480,9 +1438,9 @@ body.dark .hv-daha-fazla-btn:hover{background:#1f2937;border-color:#3b82f6;}
   overflow:visible!important;
   isolation:isolate;
 }
-.hv-auth-avatar-wrap > .avatar-circle,
-.hv-auth-avatar-wrap > img,
-.hv-auth-avatar-wrap > span.avatar-circle{
+.hv-auth-avatar-wrap &gt; .avatar-circle,
+.hv-auth-avatar-wrap &gt; img,
+.hv-auth-avatar-wrap &gt; span.avatar-circle{
   width:28px!important;
   height:28px!important;
   min-width:28px!important;
@@ -1540,7 +1498,7 @@ body.dark .hv-uye-kilit.hv-kilit-member p{color:#fbbf24;}
 
 
 /* ============================================================
-   BİLDİRİM PANELİ — PROFİL İÇİ TAM STİLLER
+   BİLDİRİM PANELİ &#8212; PROFİL İÇİ TAM STİLLER
    ============================================================ */
 .hv-bildirim-modal-panel{width:100%;min-width:0;box-sizing:border-box;}
 .hv-bildirim-geri{display:inline-flex!important;align-items:center;gap:6px;margin:0 0 14px!important;}
@@ -1581,8 +1539,9 @@ body.dark .hv-bildirim-bos{color:#64748b;}
 
 
 /* ============================================================
-   DUYURULAR + SITE AYARLARI DURUM STİLLERİ — SON EK
+   DUYURULAR + SITE AYARLARI DURUM STİLLERİ &#8212; SON EK
    ============================================================ */
+#hv-bulten-btn.pasif,
 #hv-profil-bildirim-btn.pasif,
 #hv-profil-duyuru-btn.pasif{
   opacity:.42!important;
@@ -1590,12 +1549,14 @@ body.dark .hv-bildirim-bos{color:#64748b;}
   filter:saturate(.45);
   pointer-events:none;
 }
+#hv-bulten-btn.pasif:hover,
 #hv-profil-bildirim-btn.pasif:hover,
 #hv-profil-duyuru-btn.pasif:hover{
   background:#f8fafc!important;
   border-color:#e5e7eb!important;
   color:#374151!important;
 }
+body.dark #hv-bulten-btn.pasif,
 body.dark #hv-profil-bildirim-btn.pasif,
 body.dark #hv-profil-duyuru-btn.pasif{
   background:#111827!important;
@@ -1637,7 +1598,7 @@ body.dark #hv-auth-avatar-badge,body.dark #hv-mobil-auth-avatar-badge{
 .hv-duyuru-item{display:block;padding:13px 14px;border-bottom:1px solid #eef2f7;background:#fff;color:#0f172a;box-sizing:border-box;}
 .hv-duyuru-item:last-child{border-bottom:0;}
 .hv-duyuru-item:hover{background:#f8fafc;}
-.hv-duyuru-resim{display:block;width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin:0 0 10px;aspect-ratio:16/8;}
+.hv-duyuru-resim{display:block;width:100%;height:auto;max-height:none;object-fit:cover;border-radius:10px;margin:0 0 10px;aspect-ratio:16/9;}
 .hv-duyuru-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:5px;}
 .hv-duyuru-item-head h4{margin:0;color:#0f172a;font:800 13px/1.35 Arial,sans-serif;min-width:0;overflow-wrap:anywhere;}
 .hv-duyuru-item-head time{flex:0 0 auto;color:#94a3b8;font:500 10px/1.3 Arial,sans-serif;white-space:nowrap;}
@@ -1662,7 +1623,7 @@ body.dark .hv-profil-duyuru-sayac{border-color:#111827!important;}
 }
 
 /* ============================================================
-   FINAL — DUYURU POPUP / ŞİFRE DURUMU / E-POSTA
+   FINAL &#8212; DUYURU POPUP / ŞİFRE DURUMU / E-POSTA
    ============================================================ */
 .hv-ayar-btn#hv-email-btn{opacity:1!important;filter:none!important;pointer-events:auto!important;}
 .hv-ayar-btn#hv-sifre-btn.pasif{opacity:.45!important;filter:saturate(.45)!important;pointer-events:none!important;}
@@ -1672,19 +1633,19 @@ body.dark .hv-duyuru-tekrar-goster{background:#111827;border-color:#374151;color
 .hv-duyuru-popup-overlay[hidden]{display:none!important;}
 .hv-duyuru-popup{position:relative;width:min(560px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 32px));overflow:auto;border:1px solid rgba(255,255,255,.75);border-radius:20px;background:#fff;box-shadow:0 25px 70px rgba(15,23,42,.25);color:#0f172a;}
 .hv-duyuru-popup-kapat{position:absolute;right:12px;top:12px;z-index:4;width:34px;height:34px;border:0;border-radius:50%;background:rgba(15,23,42,.72);color:#fff;font-size:24px;line-height:30px;cursor:pointer;}
-.hv-duyuru-popup-media{background:#f1f5f9;min-height:120px;display:flex;align-items:center;justify-content:center;}
-.hv-duyuru-popup-media img{display:block;width:100%;max-height:310px;object-fit:cover;}
-.hv-duyuru-popup-icerik{padding:20px;}
+.hv-duyuru-popup-media{background:#f1f5f9;min-height:0;display:flex;align-items:center;justify-content:center;margin-bottom:0;overflow:hidden;}
+.hv-duyuru-popup-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;max-height:none;object-fit:cover;object-position:center;}
+.hv-duyuru-popup-icerik{padding:4px 20px 20px;}
 .hv-duyuru-popup-ust{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
 .hv-duyuru-popup-etiket{display:inline-flex;padding:5px 8px;border-radius:999px;background:#eff6ff;color:#2563eb;font:900 9px/1 Arial,sans-serif;letter-spacing:.08em;}
-.hv-duyuru-popup-ust time{color:#94a3b8;font:600 10px/1.2 Arial,sans-serif;}
+.hv-duyuru-popup-ust time{color:#475569;font:700 10px/1.2 Arial,sans-serif;}
 .hv-duyuru-popup h3{margin:0 0 8px;font:900 22px/1.25 Arial,sans-serif;color:#0f172a;overflow-wrap:anywhere;}
-#hv-duyuru-popup-metin{color:#475569;font:500 13px/1.65 Arial,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;}
+#hv-duyuru-popup-metin{color:#334155;font:500 13px/1.65 Arial,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;}
 .hv-duyuru-popup-alt{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;}
 .hv-duyuru-popup-nav{width:36px;height:36px;border:1px solid #dbeafe;border-radius:50%;background:#eff6ff;color:#2563eb;font-size:24px;line-height:30px;cursor:pointer;}
 .hv-duyuru-popup-nav:disabled{opacity:.35;cursor:not-allowed;}
-.hv-duyuru-popup-nokta{font:800 11px/1 Arial,sans-serif;color:#64748b;}
-.hv-duyuru-popup-gizle{display:block;width:100%;margin-top:14px;padding:10px 12px;border:1px solid #e2e8f0;border-radius:10px;background:#fff;color:#475569;font:800 11px/1.2 Arial,sans-serif;cursor:pointer;}
+.hv-duyuru-popup-nokta{font:800 11px/1 Arial,sans-serif;color:#475569;}
+.hv-duyuru-popup-gizle{display:block;width:100%;margin-top:14px;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#334155;font:800 11px/1.2 Arial,sans-serif;cursor:pointer;}
 .hv-duyuru-popup-gizle:hover{background:#f8fafc;}
 body.dark .hv-duyuru-popup{background:#111827;border-color:#374151;color:#f8fafc;}
 body.dark .hv-duyuru-popup-media{background:#0f172a;}
@@ -1694,9 +1655,9 @@ body.dark .hv-duyuru-popup-gizle{background:#111827;border-color:#374151;color:#
 @media(max-width:600px){
  .hv-duyuru-popup-overlay{padding:12px;align-items:flex-end;}
  .hv-duyuru-popup{width:100%;max-height:calc(100vh - 20px);border-radius:18px;}
- .hv-duyuru-popup-icerik{padding:16px;}
+ .hv-duyuru-popup-icerik{padding:4px 16px 16px;}
  .hv-duyuru-popup h3{font-size:19px;}
- .hv-duyuru-popup-media img{max-height:250px;}
+ .hv-duyuru-popup-media img{max-height:none;}
 }
 
 /* FINAL popup stabilizasyonu */
@@ -1710,15 +1671,57 @@ body.dark .hv-duyuru-popup-gizle{background:#111827;border-color:#374151;color:#
 body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{background:#151b2a;border-color:#2d3748}
 #hv-yorum-profil-popup-overlay .hv-yorum-popup-takip-btn{min-width:150px;transition:all .18s ease}
 #hv-yorum-profil-popup-overlay .hv-yorum-popup-takip-btn:disabled{opacity:.6;cursor:wait}
-#hv-duyuru-popup-overlay[hidden='hidden']{display:none!important}
-#hv-duyuru-popup-overlay:not([hidden='hidden']){display:flex!important}
+#hv-duyuru-popup-overlay[hidden],#hv-duyuru-popup-overlay[aria-hidden=&#39;true&#39;]{display:none!important}
+#hv-duyuru-popup-overlay.acik{display:flex!important}
+html.hv-duyuru-lock,body.hv-duyuru-lock{overflow:hidden!important}
 #hv-duyuru-popup-overlay{position:fixed;inset:0;z-index:10020;background:rgba(15,23,42,.62);align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
 #hv-duyuru-popup-overlay .hv-duyuru-popup{position:relative;width:min(100%,560px);max-height:90vh;overflow:auto;border-radius:22px;background:#fff;box-shadow:0 28px 100px rgba(0,0,0,.28);border:1px solid #e5e7eb}
 #hv-duyuru-popup-overlay .hv-duyuru-popup-kapat{position:absolute;top:12px;right:12px;z-index:6;width:38px;height:38px;border:0;border-radius:50%;background:rgba(15,23,42,.58);color:#fff;font-size:22px;line-height:38px;cursor:pointer}
-#hv-duyuru-popup-overlay .hv-duyuru-popup-media img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover}
+#hv-duyuru-popup-overlay .hv-duyuru-popup-media{margin-bottom:0;overflow:hidden}
+#hv-duyuru-popup-overlay .hv-duyuru-popup-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;max-height:none;object-fit:cover;object-position:center}
 #hv-duyuru-popup-overlay .hv-duyuru-popup-icerik{padding:20px 22px 22px}
 @media(max-width:600px){#hv-yorum-profil-popup-overlay{padding:8px}#hv-yorum-profil-popup-overlay .hv-yorum-profil-popup{max-height:92vh;border-radius:18px}#hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler{grid-template-columns:repeat(2,minmax(0,1fr))}#hv-duyuru-popup-overlay{padding:10px;align-items:flex-end}#hv-duyuru-popup-overlay .hv-duyuru-popup{width:100%;max-height:92vh;border-radius:20px 20px 16px 16px}}
 
+
+/* ===== SON KULLANICI TALEPLERİ: YORUM OY İKON TEKİLİĞİ ===== */
+.hvp-oy-btn::before,.hvp-oy-btn::after,
+.hvp-oy-btn.begeni-btn::before,.hvp-oy-btn.begeni-btn::after,
+.hvp-oy-btn.begenmeme-btn::before,.hvp-oy-btn.begenmeme-btn::after{
+  content:none!important;display:none!important;
+}
+/* Bildirim / duyuru işlem butonları */
+.hv-bildirim-modal-baslik-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.hv-bildirim-modal-baslik-actions button{border:1px solid #dbe3ef;background:#fff;color:#334155;border-radius:9px;padding:7px 10px;font:700 11px/1.2 Arial,sans-serif;cursor:pointer;}
+.hv-bildirim-modal-baslik-actions button:hover{background:#f8fafc;border-color:#bfdbfe;color:#1d4ed8;}
+.hv-bildirim-modal-temizle{color:#b91c1c!important;border-color:#fecaca!important;background:#fff5f5!important;}
+.hv-bildirim-modal-temizle:hover{background:#fee2e2!important;color:#991b1b!important;}
+.hv-duyuru-item-ac{display:inline-flex;align-items:center;justify-content:center;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:9px;padding:8px 12px;font:700 11px/1 Arial,sans-serif;cursor:pointer;margin-top:10px;}
+.hv-duyuru-item-ac:hover{background:#dbeafe;}
+.hv-duyuru-item-head time,.hv-bildirim-item-tarih{white-space:nowrap;}
+body.dark .hv-bildirim-modal-baslik-actions button{background:#111827;color:#cbd5e1;border-color:#334155;}
+body.dark .hv-bildirim-modal-baslik-actions button:hover{background:#1f2937;color:#93c5fd;}
+body.dark .hv-bildirim-modal-temizle{background:#2a1114!important;color:#fecaca!important;border-color:#7f1d1d!important;}
+body.dark .hv-duyuru-item-ac{background:#172554;color:#bfdbfe;border-color:#1d4ed8;}
+/* Duyuru popup mobilde içerik taşırmaz; metin alanı bağımsız kayar */
+#hv-duyuru-popup-overlay .hv-duyuru-popup{max-height:92vh;overflow:hidden;display:flex;flex-direction:column;}
+#hv-duyuru-popup-overlay .hv-duyuru-popup-icerik{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
+#hv-duyuru-popup-overlay .hv-duyuru-popup-metin{font-size:14px;line-height:1.7;overflow-wrap:anywhere;word-break:break-word;white-space:pre-wrap;}
+@media(max-width:600px){
+  #hv-duyuru-popup-overlay{padding:10px;align-items:center;}
+  #hv-duyuru-popup-overlay .hv-duyuru-popup{width:calc(100vw - 20px);max-height:90vh;border-radius:17px;}
+  #hv-duyuru-popup-overlay .hv-duyuru-popup-media img{max-height:210px;object-fit:cover;}
+  #hv-duyuru-popup-overlay .hv-duyuru-popup-icerik{padding:16px;}
+  #hv-duyuru-popup-overlay .hv-duyuru-popup-metin{font-size:14px;line-height:1.65;}
+  .hv-bildirim-modal-baslik-actions{width:100%;}
+  .hv-bildirim-modal-baslik-actions button{flex:1;min-width:0;}
+}
+/* Yorum işlemleri kapalıyken yalnızca okuma kalır. */
+.hv-yorum-actions.hv-yorum-islem-kapali{display:none!important;}
+/* Şifre yardım notları */
+.hv-sifre-mail-notu{font-size:12px;line-height:1.5;margin:10px 0 0;padding:9px 11px;border-radius:9px;border:1px solid #dcfce7;background:#f0fdf4;color:#166534;}
+.hv-sifre-mail-hata{font-size:12px;line-height:1.5;margin:10px 0 0;padding:9px 11px;border-radius:9px;border:1px solid #fecaca;background:#fef2f2;color:#b91c1c;}
+body.dark .hv-sifre-mail-notu{background:#052e16;border-color:#166534;color:#bbf7d0;}
+body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fecaca;}
 </style>
 
 <!-- ============================================================
@@ -1731,14 +1734,14 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
      IIFE / blok kapsamında olduğu için aralarında isim çakışması yok.
      ============================================================ -->
 <button id='hv-auth-btn' onclick='hvAuthTikla()'>
-  <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>
+  <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>
   <span>ÜYE GİRİŞİ</span>
 </button>
 
 <!-- Modal Overlay -->
 <div id='hv-modal-overlay'>
   <div id='hv-modal'>
-    <span class='hv-swipe-bar'/>
+    <span class='hv-swipe-bar'></span>
     <div class='hv-modal-header'>
       <h2 id='hv-modal-baslik'>Haberlerver.com</h2>
       <button id='hv-kapat' onclick='hvModalKapat()' title='Kapat'>&#215;</button>
@@ -1751,8 +1754,8 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
         <button id='tab-kayit' onclick='hvTab(&quot;kayit&quot;)'>Kayıt Ol</button>
       </div>
 
-      <div class='hv-mesaj hv-hata' id='hv-ana-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-ana-basari'/>
+      <div class='hv-mesaj hv-hata' id='hv-ana-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-ana-basari'></div>
 
       <div id='hv-kayit-alanlar' style='display:none'>
         <div class='hv-ikili-grup'>
@@ -1779,18 +1782,18 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
       <div class='hv-input-grup hv-sifre-wrap'>
         <input autocomplete='current-password' id='hv-sifre' oninput='hvSifreGucIslem(this.value)' placeholder='Şifre' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-sifre&quot;,this)' title='Şifreyi göster/gizle' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
       <div id='hv-sifre-guc-alan' style='display:none'>
-        <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-sifre-guc-bar'/></div>
+        <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-sifre-guc-bar'></div></div>
         <div class='hv-bilgi-notu'>En az 8 karakter, büyük/küçük harf ve özel sembol (@!#$%^*())</div>
       </div>
 
       <div class='hv-input-grup hv-sifre-wrap' id='hv-sifre2-wrap' style='display:none'>
         <input autocomplete='new-password' id='hv-sifre2' placeholder='Şifreyi tekrar girin' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-sifre2&quot;,this)' title='Şifreyi göster/gizle' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
 
@@ -1798,7 +1801,7 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
         <label class='hv-cb-label'>
           <input checked='checked' class='hv-cb' id='hv-hatirla' type='checkbox'/> Beni hatırla
         </label>
-        <button class='hv-link' onclick='hvPanelGecis(&quot;hv-unut-panel&quot;)' type='button'>Şifremi unuttum</button>
+        <button class='hv-link' onclick='hvSifreUnutAc(&quot;form&quot;)' type='button'>Şifremi unuttum</button>
       </div>
 
       <div class='hv-kvkk' id='hv-kvkk-wrap' style='display:none'>
@@ -1824,7 +1827,7 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
 
       <!-- Sadece Google -->
       <button class='hv-btn hv-btn-beyaz' onclick='hvSosyalGiris(&quot;google&quot;)'>
-        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'/><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'/><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'/><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'/></svg>
+        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'></path><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'></path><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'></path><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'></path></svg>
         Google ile devam et
       </button>
       <div class='hv-google-kvkk-not'>Google ile devam ederek <a class='hv-link' href='/p/kvkk-aydinlatma-metni.html' target='_blank'>KVKK Aydınlatma Metni</a>&#39;ni kabul etmiş sayılırsınız.</div>
@@ -1833,14 +1836,14 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
     <!-- PROFİL PANELİ -->
     <div id='hv-profil-panel' style='display:none'>
       <div class='hv-profil-baslik'>
-        <div class='hv-profil-foto-wrap' id='hv-p-foto-wrap'/>
-        <h3 id='hv-p-ad'/>
-        <p id='hv-p-ka'/>
-        <p id='hv-p-email'/>
+        <div class='hv-profil-foto-wrap' id='hv-p-foto-wrap'></div>
+        <h3 id='hv-p-ad'></h3>
+        <p id='hv-p-ka'></p>
+        <p id='hv-p-email'></p>
       </div>
 
-      <div class='hv-mesaj hv-hata' id='hv-profil-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-profil-basari'/>
+      <div class='hv-mesaj hv-hata' id='hv-profil-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-profil-basari'></div>
 
       <div class='hv-ayar-menu'>
         <a class='hv-ayar-btn' href='/p/uye-paneli.html' id='hv-uye-panel-link'>
@@ -1864,56 +1867,56 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
           <span id='hv-bulten-btn-text'>🔔 Haftalık Bülten: Açık</span><span>&#8594;</span>
         </button>
         <!-- BİLDİRİMLER: aynı bildirim kaynağını kullanır -->
-        <button class='hv-ayar-btn hv-profil-bildirim-btn' id='hv-profil-bildirim-btn' data-hv-site-setting='bildirimler' onclick='hvBildirimPanelAc()' type='button' aria-disabled='false'>
-          <span>🔔 Bildirimler <span id='hv-profil-bildirim-sayac' class='hv-profil-bildirim-sayac' hidden='hidden'>0</span></span><span>&#8594;</span>
+        <button aria-disabled='false' class='hv-ayar-btn hv-profil-bildirim-btn' data-hv-site-setting='bildirimler' id='hv-profil-bildirim-btn' onclick='hvBildirimPanelAc()' type='button'>
+          <span>🔔 Bildirimler <span class='hv-profil-bildirim-sayac' hidden='hidden' id='hv-profil-bildirim-sayac'>0</span></span><span>&#8594;</span>
         </button>
-        <button class='hv-ayar-btn hv-profil-duyuru-btn' id='hv-profil-duyuru-btn' data-hv-site-setting='duyurular' onclick='hvDuyuruPanelAc()' type='button' aria-disabled='false'>
-          <span>📢 Duyurular <span id='hv-profil-duyuru-sayac' class='hv-profil-duyuru-sayac' hidden='hidden'>0</span></span><span>&#8594;</span>
+        <button aria-disabled='false' class='hv-ayar-btn hv-profil-duyuru-btn' data-hv-site-setting='duyurular' id='hv-profil-duyuru-btn' onclick='hvDuyuruPanelAc()' type='button'>
+          <span>📢 Duyurular <span class='hv-profil-duyuru-sayac' hidden='hidden' id='hv-profil-duyuru-sayac'>0</span></span><span>&#8594;</span>
         </button>
         <!-- 🗑&#65039; HESAP SİL BUTONU -->
         <button class='hv-ayar-btn kirmizi' onclick='hvSilmePanelAc()' style='margin-top:8px;'>
           <span>🗑&#65039; Hesabı Sil</span>
-          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><polyline points='3 6 5 6 21 6'/><path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'/></svg>
+          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><polyline points='3 6 5 6 21 6'></polyline><path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path></svg>
         </button>
         <!-- ÇIKIŞ YAP -->
         <button class='hv-ayar-btn kirmizi' onclick='hvCikisYap()'>
           <span>Çıkış Yap</span>
-          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' x2='9' y1='12' y2='12'/></svg>
+          <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'></path><polyline points='16 17 21 12 16 7'></polyline><line x1='21' x2='9' y1='12' y2='12'></line></svg>
         </button>
       </div>
 
     </div><!-- /hv-profil-panel -->
 
-      <div id='hv-bildirim-panel' class='hv-bildirim-modal-panel' style='display:none'>
-        <button class='hv-link hv-bildirim-geri' onclick='hvBildirimPanelKapat()' type='button'>&#8592; Profil'e Dön</button>
+      <div class='hv-bildirim-modal-panel' id='hv-bildirim-panel' style='display:none'>
+        <button class='hv-link hv-bildirim-geri' onclick='hvBildirimPanelKapat()' type='button'>&#8592; Profil&#39;e Dön</button>
         <div class='hv-bildirim-modal-baslik'>
           <div>
             <h3>🔔 Bildirimler</h3>
             <p>Admin ve Üye Paneli ile aynı bildirimler.</p>
           </div>
-          <button type='button' id='hv-bildirim-modal-tumunu-oku'>Tümünü okundu</button>
+          <div class='hv-bildirim-modal-baslik-actions'><button id='hv-bildirim-modal-tumunu-oku' type='button'>Tümünü okundu</button><button class='hv-bildirim-modal-temizle' id='hv-bildirim-modal-temizle' type='button'>Bildirimleri temizle</button></div>
         </div>
-        <div id='hv-bildirim-modal-liste' class='hv-bildirim-modal-liste'></div>
+        <div class='hv-bildirim-modal-liste' id='hv-bildirim-modal-liste'></div>
       </div>
 
-      <div id='hv-duyuru-panel' class='hv-duyuru-modal-panel' style='display:none'>
-        <button class='hv-link hv-duyuru-geri' onclick='hvDuyuruPanelKapat()' type='button'>&#8592; Profil'e Dön</button>
+      <div class='hv-duyuru-modal-panel' id='hv-duyuru-panel' style='display:none'>
+        <button class='hv-link hv-duyuru-geri' onclick='hvDuyuruPanelKapat()' type='button'>&#8592; Profil&#39;e Dön</button>
         <div class='hv-duyuru-modal-baslik'>
           <div>
             <h3>📢 Duyurular</h3>
             <p>Admin Panelindeki ortak duyurular.</p>
           </div>
         </div>
-        <div id='hv-duyuru-modal-liste' class='hv-duyuru-modal-liste'></div><button type='button' class='hv-duyuru-tekrar-goster' id='hv-duyuru-tekrar-goster'>📢 Duyuruyu Tekrar Göster</button>
+        <div class='hv-duyuru-modal-liste' id='hv-duyuru-modal-liste'></div><button class='hv-duyuru-tekrar-goster' id='hv-duyuru-tekrar-goster' type='button'>📢 Duyuruyu Tekrar Göster</button>
       </div>
 
     <!-- AYAR FORM PANELİ -->
     <div id='hv-ayar-form-panel' style='display:none'>
       <button class='hv-link' onclick='hvPanelGecis(&quot;hv-profil-panel&quot;)' style='display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;' type='button'>&#8592; Geri Dön</button>
-      <h3 id='hv-ayar-baslik' style='margin:0 0 16px;font-size:16px;font-weight:700;'/>
-      <div class='hv-mesaj hv-hata' id='hv-ayar-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-ayar-basari'/>
-      <div id='hv-ayar-icerik'/>
+      <h3 id='hv-ayar-baslik' style='margin:0 0 16px;font-size:16px;font-weight:700;'></h3>
+      <div class='hv-mesaj hv-hata' id='hv-ayar-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-ayar-basari'></div>
+      <div id='hv-ayar-icerik'></div>
       <button class='hv-btn hv-btn-mavi' id='hv-ayar-kaydet-btn' onclick='hvAyarKaydet()'>Kaydet</button>
     </div>
 
@@ -1924,15 +1927,15 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
       <p style='font-size:13px;color:#6b7280;margin:0 0 16px;line-height:1.6;'>
         Bu işlem <strong style='color:#ef4444'>geri alınamaz</strong>. Tüm kişisel verileriniz (ad, soyad, e-posta, kullanıcı adı) kalıcı olarak silinecektir.
       </p>
-      <div class='hv-mesaj hv-hata' id='hv-silme-hata'/>
-      <div class='hv-mesaj hv-bilgi' id='hv-silme-bilgi'/>
+      <div class='hv-mesaj hv-hata' id='hv-silme-hata'></div>
+      <div class='hv-mesaj hv-bilgi' id='hv-silme-bilgi'></div>
       <!-- E-posta şifre ile giriş yapanlar için -->
       <div class='hv-input-grup' id='hv-silme-sifre-wrap'>
         <input id='hv-silme-sifre' placeholder='Onaylamak için şifrenizi girin' type='password'/>
       </div>
       <!-- Google ile giriş yapanlar için -->
       <button class='hv-btn hv-btn-beyaz' id='hv-silme-google-btn' onclick='hvGoogleIleDogrulaVeSil()' style='display:none;margin-bottom:12px;'>
-        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'/><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'/><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'/><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'/></svg>
+        <svg height='18' viewBox='0 0 48 48' width='18'><path d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z' fill='#EA4335'></path><path d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z' fill='#4285F4'></path><path d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z' fill='#FBBC05'></path><path d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z' fill='#34A853'></path></svg>
         Google ile Doğrula ve Hesabı Sil
       </button>
       <button class='hv-btn hv-btn-kirmizi' id='hv-silme-btn' onclick='hvHesapSil()'>
@@ -1942,10 +1945,10 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
 
     <!-- ŞİFREMİ UNUTTUM PANELİ -->
     <div id='hv-unut-panel' style='display:none'>
-      <button class='hv-link' onclick='hvPanelGecis(&quot;hv-form-panel&quot;)' style='display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;' type='button'>&#8592; Geri dön</button>
+      <button class='hv-link' onclick='hvSifreUnutGeriDon()' style='display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;' type='button'>&#8592; Geri dön</button>
       <h3 style='margin:0 0 8px;font-size:16px;font-weight:700;'>Şifre Sıfırlama</h3>
-      <div class='hv-mesaj hv-hata' id='hv-unut-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-unut-basari'/>
+      <div class='hv-mesaj hv-hata' id='hv-unut-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-unut-basari'></div>
       <p style='font-size:13px;color:#6b7280;margin:0 0 16px;line-height:1.6;'>
         Hesabınıza kayıtlı e-posta adresinizi girin. Şifre sıfırlama bağlantısı göndereceğiz.<br/>
         <strong style='color:#ef4444'>&#9888;&#65039; Not:</strong> E-posta <strong>Spam / Gereksiz</strong> klasörüne düşebilir, mutlaka kontrol edin.
@@ -1962,18 +1965,18 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
       <p style='font-size:12px;color:#6b7280;margin:0 0 16px;line-height:1.5;background:#f8fafc;border-radius:8px;padding:10px 12px;border:1px solid #e5e7eb;'>
         🔒 <strong>Şifre kuralları:</strong> En az 8 karakter, en az 1 büyük harf (A-Z), 1 küçük harf (a-z) ve 1 özel sembol (@!#$%^*()) içermelidir. &amp; işareti kullanılamaz.
       </p>
-      <div class='hv-mesaj hv-hata' id='hv-ys-hata'/>
+      <div class='hv-mesaj hv-hata' id='hv-ys-hata'></div>
       <div class='hv-input-grup hv-sifre-wrap'>
         <input autocomplete='new-password' id='hv-ys-sifre' oninput='hvSifreGucIslem(this.value,&quot;ys&quot;)' placeholder='Yeni şifreniz' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-ys-sifre&quot;,this)' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
-      <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-ys-sifre-guc-bar'/></div>
+      <div class='hv-sifre-guc'><div class='hv-sifre-guc-bar' id='hv-ys-sifre-guc-bar'></div></div>
       <div class='hv-input-grup hv-sifre-wrap' style='margin-top:12px;'>
         <input autocomplete='new-password' id='hv-ys-sifre2' placeholder='Yeni şifrenizi tekrar girin' type='password'/>
         <button class='hv-sifre-goz' onclick='hvGozToggle(&quot;hv-ys-sifre2&quot;,this)' type='button'>
-          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path><circle cx='12' cy='12' r='3'></circle></svg>
         </button>
       </div>
       <button class='hv-btn hv-btn-mavi' id='hv-ys-kaydet-btn' onclick='hvYeniSifreKaydet()' style='margin-top:8px;'>Şifremi Güncelle</button>
@@ -1984,7 +1987,7 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
       <div style='font-size:52px;margin-bottom:12px;'>&#9993;&#65039;</div>
       <h3 style='margin:0 0 10px;font-size:18px;font-weight:800;'>E-postanızı Doğrulayın</h3>
       <p style='font-size:14px;color:#4b5563;line-height:1.6;margin:0 0 8px;'>
-        <strong id='hv-dog-email' style='color:#1a73e8'/> adresine doğrulama bağlantısı gönderdik.
+        <strong id='hv-dog-email' style='color:#1a73e8'></strong> adresine doğrulama bağlantısı gönderdik.
       </p>
       <p style='font-size:13px;color:#6b7280;line-height:1.6;margin:0 0 16px;'>
         &#9888;&#65039; <strong style='color:#ef4444'>Spam / Gereksiz</strong> klasörünüzü mutlaka kontrol edin.<br/>
@@ -1998,15 +2001,15 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
         <input id='hv-dog-sifre' placeholder='Mevcut şifreniz' type='password'/>
       </div>
 
-      <div class='hv-mesaj hv-bilgi' id='hv-dog-bilgi'/>
-      <div class='hv-mesaj hv-hata' id='hv-dog-hata'/>
-      <div class='hv-mesaj hv-basari' id='hv-dog-basari'/>
+      <div class='hv-mesaj hv-bilgi' id='hv-dog-bilgi'></div>
+      <div class='hv-mesaj hv-hata' id='hv-dog-hata'></div>
+      <div class='hv-mesaj hv-basari' id='hv-dog-basari'></div>
 
       <button class='hv-btn hv-btn-mavi' id='hv-dog-tekrar-btn' onclick='hvDogrulamaTekrar()' style='margin-bottom:8px;'>Doğrulama E-postasını Tekrar Gönder</button>
       <button class='hv-btn hv-btn-beyaz' id='hv-dog-email-degistir-toggle-btn' onclick='hvDogEmailDegistirToggle()' style='margin-bottom:8px;'>&#9993;&#65039; E-posta Adresini Değiştir</button>
       <button class='hv-btn hv-btn-mavi' id='hv-dog-email-gonder-btn' onclick='hvDogEmailGonder()' style='display:none;margin-bottom:8px;'>Yeni E-postayı Kaydet ve Gönder</button>
       <button class='hv-btn hv-btn-kirmizi' onclick='hvCikisYapVeKapat()'>
-        <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' x2='9' y1='12' y2='12'/></svg>
+        <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'></path><polyline points='16 17 21 12 16 7'></polyline><line x1='21' x2='9' y1='12' y2='12'></line></svg>
         Çıkış Yap
       </button>
     </div>
@@ -2014,16 +2017,16 @@ body.dark #hv-yorum-profil-popup-overlay .hv-yorum-popup-istatler .istat-item{ba
   </div><!-- /hv-modal -->
 </div><!-- /hv-modal-overlay -->
 
-<div id='hv-duyuru-popup-overlay' class='hv-duyuru-popup-overlay' hidden='hidden' aria-hidden='true'>
-  <div class='hv-duyuru-popup' role='dialog' aria-modal='true' aria-labelledby='hv-duyuru-popup-baslik'>
-    <button type='button' class='hv-duyuru-popup-kapat' id='hv-duyuru-popup-kapat' aria-label='Duyuruyu kapat'>&#215;</button>
-    <div class='hv-duyuru-popup-media'><img id='hv-duyuru-popup-resim' alt='' /></div>
+<div aria-hidden='true' class='hv-duyuru-popup-overlay' hidden='hidden' id='hv-duyuru-popup-overlay'>
+  <div aria-labelledby='hv-duyuru-popup-baslik' aria-modal='true' class='hv-duyuru-popup' role='dialog'>
+    <button aria-label='Duyuruyu kapat' class='hv-duyuru-popup-kapat' id='hv-duyuru-popup-kapat' type='button'>&#215;</button>
+    <div class='hv-duyuru-popup-media'><img alt='' id='hv-duyuru-popup-resim'/></div>
     <div class='hv-duyuru-popup-icerik'>
       <div class='hv-duyuru-popup-ust'><span class='hv-duyuru-popup-etiket'>DUYURU</span><time id='hv-duyuru-popup-tarih'></time></div>
       <h3 id='hv-duyuru-popup-baslik'></h3>
       <div id='hv-duyuru-popup-metin'></div>
-      <div class='hv-duyuru-popup-alt'><button type='button' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sol' aria-label='Önceki duyuru'>&#8249;</button><div class='hv-duyuru-popup-nokta' id='hv-duyuru-popup-nokta'></div><button type='button' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sag' aria-label='Sonraki duyuru'>&#8250;</button></div>
-      <button type='button' class='hv-duyuru-popup-gizle' id='hv-duyuru-popup-gizle'>Bu duyuruyu bir daha gösterme</button>
+      <div class='hv-duyuru-popup-alt'><button aria-label='Önceki duyuru' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sol' type='button'>&#8249;</button><div class='hv-duyuru-popup-nokta' id='hv-duyuru-popup-nokta'></div><button aria-label='Sonraki duyuru' class='hv-duyuru-popup-nav' id='hv-duyuru-popup-sag' type='button'>&#8250;</button></div>
+      <button class='hv-duyuru-popup-gizle' id='hv-duyuru-popup-gizle' type='button'>Bu duyuruyu bir daha gösterme</button>
     </div>
   </div>
 </div>
@@ -2055,7 +2058,7 @@ import {
   deleteUser,
   onAuthStateChanged,
   getAuth
-} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js';
 
 import {
   doc,
@@ -2069,14 +2072,13 @@ import {
   query,
   orderBy,
   limit,
-  onSnapshot,
   addDoc,
   getDocs,
   getFirestore,
   increment,
   where,
   runTransaction
-} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+} from 'https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js';
 /* ÖNEMLİ GÜVENLİK NOTU:
    Bu dosyadaki client-side kontroller (veriKontrol, isAdmin, küfür filtresi vb.)
    SADECE arayüz kolaylığıdır. Gerçek güvenlik Firestore Security Rules'ta
@@ -2102,6 +2104,7 @@ import {
   let _sonIslemZamani = 0;
   let _modalKilitli = false;
   let _dogrulamaInterval = null;
+  let _siteAyarlariHazir = false;
   let _siteAyarlari = {
     uyeOlma: true, bultenAbonelik: true, yorumYapma: true, takipEtme: true,
     haberBegenme: true, haberBegenmeme: true, okunanHaberler: true,
@@ -2109,8 +2112,71 @@ import {
   };
   window.hvSiteAyarlari = _siteAyarlari;
 
+  /*
+     Güvenli Firestore polling:
+     - setInterval yerine tekil setTimeout kullanır; üst üste istek birikmez.
+     - Sekme arka plandaysa gereksiz Firestore trafiğini durdurur.
+     - Geçici ağ hatalarında kontrollü backoff uygular.
+     - Sayfa görünür olduğunda tek seferlik yenileme yapar.
+     Bu değişiklik uygulamanın mevcut polling mantığını korur; yalnızca
+     ağ yükünü ve zaman aşımı ihtimalini düşürür.
+  */
+  window.hvGuvenliFirestorePolling = function hvGuvenliFirestorePolling(fn, aralikMs = 15000) {
+    let aktif = true;
+    let calisiyor = false;
+    let timer = null;
+    let gecikme = Math.max(5000, Number(aralikMs) || 15000);
+    const normalGecikme = gecikme;
+    const maksimumGecikme = Math.max(normalGecikme * 4, 60000);
+
+    const zamanla = (ms) => {
+      if (!aktif) return;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(calistir, ms);
+    };
+
+    const calistir = async () => {
+      if (!aktif) return;
+      if (document.hidden) {
+        zamanla(normalGecikme);
+        return;
+      }
+      if (calisiyor) {
+        zamanla(normalGecikme);
+        return;
+      }
+
+      calisiyor = true;
+      try {
+        await fn();
+        gecikme = normalGecikme;
+      } catch (e) {
+        gecikme = Math.min(maksimumGecikme, Math.max(normalGecikme * 2, gecikme * 2));
+      } finally {
+        calisiyor = false;
+        zamanla(gecikme);
+      }
+    };
+
+    const gorunurOldu = () => {
+      if (document.hidden || !aktif) return;
+      gecikme = normalGecikme;
+      zamanla(50);
+    };
+
+    document.addEventListener('visibilitychange', gorunurOldu, { passive: true });
+    calistir();
+
+    return () => {
+      aktif = false;
+      if (timer) clearTimeout(timer);
+      timer = null;
+      document.removeEventListener('visibilitychange', gorunurOldu);
+    };
+  };
+
   /* ===== MERKEZİ SİTE AYARLARI SERVİSİ =====
-     Admin Panelindeki siteAyarlari/genel dokümanı tek kez dinler.
+     Admin Panelindeki siteAyarlari/genel dokümanını kontrollü aralıklarla okur.
      Tüm Giriş/Üye tarafı özellikleri aynı cache'i kullanır.
      Client-side kapılar kullanıcı deneyimi içindir; gerçek yetki Rules'tadır. */
   async function hvSiteAyarlariYukle() {
@@ -2122,17 +2188,20 @@ import {
         const snap = await getDoc(ref);
         if (snap.exists()) _siteAyarlari = Object.assign({}, _siteAyarlari, snap.data() || {});
         window.hvSiteAyarlari = _siteAyarlari;
+        _siteAyarlariHazir = true;
       } catch (e) {
         window.hvSiteAyarlari = _siteAyarlari;
+        _siteAyarlariHazir = true;
       }
       if (window.hvSiteAyarlariUnsub) { try { window.hvSiteAyarlariUnsub(); } catch (e) {} }
-      window.hvSiteAyarlariUnsub = onSnapshot(ref, snap2 => {
+      window.hvSiteAyarlariUnsub = window.hvGuvenliFirestorePolling(async () => {
+        const snap2 = await getDoc(ref);
         const gelen = snap2.exists() ? (snap2.data() || {}) : {};
         window.hvSiteAyarlari = Object.assign({}, window.hvSiteAyarlari || _siteAyarlari, gelen);
         _siteAyarlari = window.hvSiteAyarlari;
         hvSiteAyarlariUIUygula();
         window.dispatchEvent(new Event('hvSiteAyarlariChanged'));
-      }, () => {});
+      }, 15000);
       hvSiteAyarlariUIUygula();
       return window.hvSiteAyarlari;
     })();
@@ -2140,6 +2209,7 @@ import {
   }
 
   function hvSiteAcikMi(key) {
+    if (key === 'duyurular' && !_siteAyarlariHazir) return false;
     return window.hvSiteAyarlari?.[key] !== false;
   }
   window.hvSiteAcikMi = hvSiteAcikMi;
@@ -2147,6 +2217,10 @@ import {
 
   function hvSiteAyarlariUIUygula() {
     const s = window.hvSiteAyarlari || _siteAyarlari;
+    if (_siteAyarlariHazir && s.duyurular === false) {
+      hvDuyuruPopupKapat();
+      hvDuyuruTemizle();
+    }
     const kayitBtn = document.getElementById('tab-kayit');
     if (kayitBtn) kayitBtn.hidden = s.uyeOlma === false;
     const bulten = document.getElementById('hv-bulten-wrap');
@@ -2155,6 +2229,7 @@ import {
 
     // Bildirim / duyuru butonları görünür kalır ancak ayar kapatılırsa pasifleşir.
     const kapsuli = [
+      ['hv-bulten-btn','bultenAbonelik'],
       ['hv-profil-bildirim-btn','bildirimler'],
       ['hv-profil-duyuru-btn','duyurular']
     ];
@@ -2170,7 +2245,7 @@ import {
 
     // Diğer data-hv-site-setting elemanları mevcut davranışı korur.
     document.querySelectorAll('[data-hv-site-setting]').forEach(el => {
-      if (el.id === 'hv-profil-bildirim-btn' || el.id === 'hv-profil-duyuru-btn') return;
+      if (el.id === 'hv-bulten-btn' || el.id === 'hv-profil-bildirim-btn' || el.id === 'hv-profil-duyuru-btn') return;
       const key = el.getAttribute('data-hv-site-setting');
       const acik = s[key] !== false;
       el.hidden = !acik;
@@ -2283,6 +2358,19 @@ import {
     });
     hvMesajGizle();
   };
+  let _sifreUnutGeriPanel = 'hv-form-panel';
+  window.hvSifreUnutAc = function(kaynak) {
+    _sifreUnutGeriPanel = kaynak === 'ayar' ? 'hv-ayar-form-panel' : 'hv-form-panel';
+    hvPanelGecis('hv-unut-panel');
+  };
+  window.hvSifreUnutGeriDon = function() {
+    const hedef = _sifreUnutGeriPanel || 'hv-form-panel';
+    hvPanelGecis(hedef);
+    if (hedef === 'hv-ayar-form-panel') {
+      try { window.hvAyarAc('sifre'); } catch(e) {}
+    }
+  };
+
 
   window.hvTab = function(tab) {
     if (tab === 'kayit' && !hvSiteAcikMi('uyeOlma')) {
@@ -2308,6 +2396,19 @@ import {
     hvMesajGizle();
   };
 
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter' || e.isComposing) return;
+    const target = e.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    if (!target.closest('#hv-form-panel')) return;
+    if (target.type === 'checkbox' || target.type === 'button') return;
+    if (target.id === 'hv-sifre2' || target.id === 'hv-kullanici-adi' || target.id === 'hv-soyad' || target.id === 'hv-ad' || target.id === 'hv-giris-alan' || target.id === 'hv-sifre') {
+      e.preventDefault();
+      const btn = document.getElementById('hv-submit-btn');
+      if (btn && !btn.disabled) window.hvEmailIslem();
+    }
+  });
   window.hvGozToggle = function(id, btn) {
     const inp = document.getElementById(id);
     if (!inp) return;
@@ -2671,16 +2772,12 @@ import {
     try {
       const d = t?.toDate ? t.toDate() : (t ? new Date(t) : null);
       if (!d || Number.isNaN(d.getTime())) return '';
-      const now = Date.now(), fark = Math.max(0, now - d.getTime());
-      if (fark < 60 * 1000) return 'Az önce';
-      if (fark < 60 * 60 * 1000) return Math.floor(fark / 60000) + ' dk önce';
-      if (fark < 24 * 60 * 60 * 1000) return Math.floor(fark / 3600000) + ' sa önce';
-      return d.toLocaleDateString('tr-TR', { day:'2-digit', month:'2-digit', year:'numeric' });
+      return d.toLocaleString('tr-TR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
     } catch(e) { return ''; }
   }
 
   function hvBildirimMesaj(item) {
-    const g = item.gonderenKadi || item.gonderenIsim || '@kullanıcı';
+    const g = item.gonderenKadi || '@kullanıcı';
     switch(item.tip) {
       case 'takip': return `${g} seni takip etti.`;
       case 'yorum_begeni': return `${g} yorumunu beğendi.`;
@@ -2773,44 +2870,79 @@ import {
     hvBildirimYerelRozetGeriYukle(user);
 
     const ref = collection(window._firebaseDb, 'bildirimler', user.uid, 'liste');
-    // Sıralama için composite/index gerektirmemek adına limit ile okuyup istemci tarafında sıralıyoruz.
-    const q = query(ref, limit(50));
-    _hvBildirimUnsub = onSnapshot(q, snap => {
-      _hvBildirimCache = [];
-      snap.forEach(d => _hvBildirimCache.push({ id:d.id, ...d.data() }));
-      _hvBildirimCache.sort((a,b) => {
-        const ta = a.tarih?.toDate ? a.tarih.toDate().getTime() : new Date(a.tarih || 0).getTime();
-        const tb = b.tarih?.toDate ? b.tarih.toDate().getTime() : new Date(b.tarih || 0).getTime();
-        return tb - ta;
-      });
+    // Gerçek zamanlı Listen kanalı yerine kontrollü polling kullanılır. Böylece
+    // mobil/masaüstü ağ dalgalanmalarında Firestore Listen/channel timeout'larının
+    // PageSpeed konsoluna sürekli düşmesi engellenir.
+    _hvBildirimUnsub = window.hvGuvenliFirestorePolling(async () => {
+      try {
+        const snap = await getDocs(query(ref, limit(50)));
+        _hvBildirimCache = [];
+        snap.forEach(d => _hvBildirimCache.push({ id:d.id, ...d.data() }));
+        _hvBildirimCache.sort((a,b) => {
+          const ta = a.tarih?.toDate ? a.tarih.toDate().getTime() : new Date(a.tarih || 0).getTime();
+          const tb = b.tarih?.toDate ? b.tarih.toDate().getTime() : new Date(b.tarih || 0).getTime();
+          return tb - ta;
+        });
+      } catch (e) {
+        // Mevcut cache korunur; geçici ağ hatası kullanıcı arayüzünü boşaltmaz.
+      }
       hvBildirimRenderVeSayac();
-    }, () => {
-      // Index/Rules problemi olduğunda bildirim merkezi siteyi bozmasın.
-      _hvBildirimCache = [];
-      hvBildirimRenderVeSayac();
-    });
+    }, 15000);
   }
 
-  function hvBildirimOku(id) {
+  async function hvBildirimOku(id) {
     const user = window._firebaseAuth?.currentUser;
     if (!user || !id) return;
     const item = _hvBildirimCache.find(x => x.id === id);
     if (!item || item.okundu) { hvBildirimRenderVeSayac(); return; }
+
     item.okundu = true;
     hvBildirimRenderVeSayac();
-    void setDoc(doc(window._firebaseDb, 'bildirimler', user.uid, 'liste', id), { okundu:true }, { merge:true }).catch(()=>{});
+
+    try {
+      await setDoc(doc(window._firebaseDb, 'bildirimler', user.uid, 'liste', id), { okundu:true }, { merge:true });
+    } catch(e) {
+      item.okundu = false;
+      hvBildirimRenderVeSayac();
+    }
   }
 
-  function hvBildirimTumunuOku() {
+  async function hvBildirimleriTemizle() {
+    const user=window._firebaseAuth?.currentUser;
+    if(!user||!hvSiteAcikMi('bildirimler'))return;
+    const btn=document.getElementById('hv-bildirim-modal-temizle');
+    if(btn)btn.disabled=true;
+    try{
+      const snap=await getDocs(collection(window._firebaseDb,'bildirimler',user.uid,'liste'));
+      for(let i=0;i<snap.docs.length;i+=400){
+        const batch=writeBatch(window._firebaseDb);
+        snap.docs.slice(i,i+400).forEach(d=>batch.delete(d.ref));
+        await batch.commit();
+      }
+      _hvBildirimCache=[];
+      hvBildirimRenderVeSayac();
+    }catch(e){ hvMesaj('Bildirimler temizlenirken bir hata oluştu.','hata','hv-profil'); }
+    finally{ if(btn)btn.disabled=false; }
+  }
+
+  async function hvBildirimTumunuOku() {
     const user = window._firebaseAuth?.currentUser;
     if (!user || !hvSiteAcikMi('bildirimler')) return;
     const okunmamis = _hvBildirimCache.filter(x => !x.okundu);
     if (!okunmamis.length) return;
+    const onceki = okunmamis.slice();
+
     okunmamis.forEach(x => { x.okundu = true; });
     hvBildirimRenderVeSayac();
+
     const b = writeBatch(window._firebaseDb);
-    okunmamis.forEach(x => b.update(doc(window._firebaseDb, 'bildirimler', user.uid, 'liste', x.id), { okundu:true }));
-    void b.commit().catch(()=>{});
+    onceki.forEach(x => b.update(doc(window._firebaseDb, 'bildirimler', user.uid, 'liste', x.id), { okundu:true }));
+    try {
+      await b.commit();
+    } catch(e) {
+      onceki.forEach(x => { const item=_hvBildirimCache.find(y=>y.id===x.id); if(item) item.okundu=false; });
+      hvBildirimRenderVeSayac();
+    }
   }
 
   window.hvBildirimToggle = function(event) {
@@ -2837,41 +2969,148 @@ import {
 
   const modalTumunuOkuBtn = document.getElementById('hv-bildirim-modal-tumunu-oku');
   if (modalTumunuOkuBtn) modalTumunuOkuBtn.addEventListener('click', e => { e.stopPropagation(); hvBildirimTumunuOku(); });
+  const modalTemizleBtn = document.getElementById('hv-bildirim-modal-temizle');
+  if (modalTemizleBtn) modalTemizleBtn.addEventListener('click', e => { e.stopPropagation(); if (confirm('Tüm bildirimler kalıcı olarak silinsin mi?')) hvBildirimleriTemizle(); });
 
   window.addEventListener('hvSiteAyarlariChanged', () => {
     const user = window._firebaseAuth?.currentUser || null;
     hvSiteAyarlariUIUygula();
     hvBildirimYukle(user);
-    if (hvSiteAcikMi('duyurular')) hvDuyuruYukle().catch(()=>{}); else hvDuyuruTemizle();
+    if (hvSiteAcikMi('duyurular')) hvDuyuruYukle().catch(()=>{}); else { hvDuyuruPopupKapat(); hvDuyuruTemizle(); }
   });
 
   function hvDuyuruTarih(t) {
     try {
       const d = t?.toDate ? t.toDate() : (t ? new Date(t) : null);
-      return d && !Number.isNaN(d.getTime()) ? d.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'}) : '';
+      return d && !Number.isNaN(d.getTime()) ? d.toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
     } catch(e) { return ''; }
   }
 
   let _hvDuyuruPopupIndex = 0;
   const _hvDuyuruGizliKey = id => 'hv_duyuru_gizli_' + id;
+  const _hvDuyuruGorulduKey = id => 'hv_duyuru_goruldu_' + id;
   const _hvDuyuruGosterilenKey = id => 'hv_duyuru_gosterildi_' + id;
-  function hvDuyuruTemizle(){const list=document.getElementById('hv-duyuru-modal-liste');if(list)list.innerHTML='<div class="hv-duyuru-bos">Duyurular şu anda kapalı.</div>';const badge=document.getElementById('hv-profil-duyuru-sayac');if(badge){badge.hidden=true;badge.textContent='0';}_hvDuyuruCache=[];hvDuyuruPopupKapat();}
+  function hvDuyuruGorunenler(){return _hvDuyuruCache.filter(d=>{try{return !localStorage.getItem(_hvDuyuruGizliKey(d.id));}catch(e){return true;}});}
+  function hvDuyuruRozetSayisi(){return _hvDuyuruCache.filter(d=>{try{return !localStorage.getItem(_hvDuyuruGorulduKey(d.id))&&!localStorage.getItem(_hvDuyuruGizliKey(d.id));}catch(e){return true;}}).length;}
+  function hvDuyuruKapatilmisSayisi(){return _hvDuyuruCache.filter(d=>{try{return !!localStorage.getItem(_hvDuyuruGizliKey(d.id));}catch(e){return false;}}).length;}
+  function hvDuyuruTekrarGosterButonunuGuncelle(){const btn=document.getElementById('hv-duyuru-tekrar-goster');if(btn)btn.textContent='📢 Duyuruyu Tekrar Göster ('+hvDuyuruKapatilmisSayisi()+')';}
+  function hvDuyuruTemizle(){const list=document.getElementById('hv-duyuru-modal-liste');if(list)list.innerHTML='<div class="hv-duyuru-bos">Duyurular şu anda kapalı.</div>';const badge=document.getElementById('hv-profil-duyuru-sayac');if(badge){badge.hidden=true;badge.textContent='0';}_hvDuyuruCache=[];hvDuyuruTekrarGosterButonunuGuncelle();hvDuyuruPopupKapat();}
   function hvDuyuruSirala(){_hvDuyuruCache.sort((a,b)=>{const ta=a.tarih?.toDate?a.tarih.toDate().getTime():new Date(a.tarih||0).getTime();const tb=b.tarih?.toDate?b.tarih.toDate().getTime():new Date(b.tarih||0).getTime();return tb-ta;});}
-  function hvDuyuruOkunmamisSayisi(){return _hvDuyuruCache.filter(d=>{try{return !localStorage.getItem(_hvDuyuruGizliKey(d.id));}catch(e){return true;}}).length;}
-  function hvDuyuruRender(){const list=document.getElementById('hv-duyuru-modal-liste');if(!list)return;list.innerHTML='';const sayi=hvDuyuruOkunmamisSayisi();const badge=document.getElementById('hv-profil-duyuru-sayac');if(badge){badge.textContent=sayi>99?'99+':String(sayi);badge.hidden=sayi===0;}if(!_hvDuyuruCache.length){const bos=document.createElement('div');bos.className='hv-duyuru-bos';bos.textContent='Henüz duyuru yok.';list.appendChild(bos);return;}const frag=document.createDocumentFragment();_hvDuyuruCache.forEach(d=>{const card=document.createElement('article');card.className='hv-duyuru-item';if(d.resim&&/^https?:\/\//i.test(String(d.resim))){const img=document.createElement('img');img.className='hv-duyuru-resim';img.loading='lazy';img.decoding='async';img.src=String(d.resim);img.alt='';card.appendChild(img);}const head=document.createElement('div');head.className='hv-duyuru-item-head';const title=document.createElement('h4');title.textContent=d.baslik||'Duyuru';const date=document.createElement('time');date.textContent=hvDuyuruTarih(d.tarih);head.append(title,date);card.appendChild(head);const body=document.createElement('div');body.className='hv-duyuru-item-metin';body.textContent=d.metin||'';card.appendChild(body);frag.appendChild(card);});list.appendChild(frag);}
-  function hvDuyuruPopupKapat(){const ov=document.getElementById('hv-duyuru-popup-overlay');if(ov){ov.hidden=true;ov.setAttribute('aria-hidden','true');}}
-  function hvDuyuruPopupGuncelle(){if(!_hvDuyuruCache.length)return;const d=_hvDuyuruCache[_hvDuyuruPopupIndex];if(!d)return;const img=document.getElementById('hv-duyuru-popup-resim');if(d.resim&&/^https?:\/\//i.test(String(d.resim))){img.src=String(d.resim);img.style.display='block';}else{img.removeAttribute('src');img.style.display='none';}document.getElementById('hv-duyuru-popup-baslik').textContent=d.baslik||'Duyuru';document.getElementById('hv-duyuru-popup-metin').textContent=d.metin||'';document.getElementById('hv-duyuru-popup-tarih').textContent=hvDuyuruTarih(d.tarih);document.getElementById('hv-duyuru-popup-nokta').textContent=`${_hvDuyuruPopupIndex+1} / ${_hvDuyuruCache.length}`;document.getElementById('hv-duyuru-popup-sol').disabled=_hvDuyuruCache.length<2;document.getElementById('hv-duyuru-popup-sag').disabled=_hvDuyuruCache.length<2;}
-  function hvDuyuruPopupAc(index=0){if(!hvSiteAcikMi('duyurular')||!_hvDuyuruCache.length)return;_hvDuyuruPopupIndex=Math.max(0,Math.min(index,_hvDuyuruCache.length-1));hvDuyuruPopupGuncelle();const ov=document.getElementById('hv-duyuru-popup-overlay');if(ov){ov.hidden=false;ov.setAttribute('aria-hidden','false');}}
-  function hvDuyuruPopupIlkGirisKontrolu(){if(!hvSiteAcikMi('duyurular')||!_hvDuyuruCache.length)return;const i=_hvDuyuruCache.findIndex(d=>{try{return !localStorage.getItem(_hvDuyuruGizliKey(d.id))&&!localStorage.getItem(_hvDuyuruGosterilenKey(d.id));}catch(e){return false;}});if(i<0)return;try{localStorage.setItem(_hvDuyuruGosterilenKey(_hvDuyuruCache[i].id),'1');}catch(e){}hvDuyuruPopupAc(i);}
-  async function hvDuyuruYukle(){if(!hvSiteAcikMi('duyurular')){hvDuyuruTemizle();return;}try{const snap=await getDocs(query(collection(window._firebaseDb,'duyurular'),orderBy('tarih','desc'),limit(30)));_hvDuyuruCache=[];snap.forEach(d=>_hvDuyuruCache.push({id:d.id,...d.data()}));hvDuyuruSirala();hvDuyuruRender();hvDuyuruPopupIlkGirisKontrolu();}catch(e){_hvDuyuruCache=[];hvDuyuruRender();}}
-  document.getElementById('hv-duyuru-popup-kapat')?.addEventListener('click',hvDuyuruPopupKapat);document.getElementById('hv-duyuru-popup-sol')?.addEventListener('click',()=>{_hvDuyuruPopupIndex=(_hvDuyuruPopupIndex-1+_hvDuyuruCache.length)%_hvDuyuruCache.length;hvDuyuruPopupGuncelle();});document.getElementById('hv-duyuru-popup-sag')?.addEventListener('click',()=>{_hvDuyuruPopupIndex=(_hvDuyuruPopupIndex+1)%_hvDuyuruCache.length;hvDuyuruPopupGuncelle();});document.getElementById('hv-duyuru-popup-gizle')?.addEventListener('click',()=>{const d=_hvDuyuruCache[_hvDuyuruPopupIndex];if(d){try{localStorage.setItem(_hvDuyuruGizliKey(d.id),'1');}catch(e){}}hvDuyuruPopupKapat();hvDuyuruRender();});document.getElementById('hv-duyuru-popup-overlay')?.addEventListener('click',e=>{if(e.target.id==='hv-duyuru-popup-overlay')hvDuyuruPopupKapat();});document.getElementById('hv-duyuru-tekrar-goster')?.addEventListener('click',()=>hvDuyuruPopupAc(0));
-  window.hvDuyuruPanelAc = function() {
+  function hvDuyuruOkunmamisSayisi(){return hvDuyuruRozetSayisi();}
+  function hvDuyuruRender(){
+    const list=document.getElementById('hv-duyuru-modal-liste');
+    if(!list)return;
+    list.innerHTML='';
+    const gorunen=hvDuyuruGorunenler();
+    const badge=document.getElementById('hv-profil-duyuru-sayac');
+    const sayi=hvDuyuruRozetSayisi();
+    if(badge){badge.textContent=sayi>99?'99+':String(sayi);badge.hidden=sayi===0;}
+    hvDuyuruTekrarGosterButonunuGuncelle();
+    if(!gorunen.length){
+      const bos=document.createElement('div');bos.className='hv-duyuru-bos';bos.textContent='Henüz görünür duyuru yok.';list.appendChild(bos);return;
+    }
+    const frag=document.createDocumentFragment();
+    gorunen.forEach(d=>{
+      const card=document.createElement('article');card.className='hv-duyuru-item';
+      if(d.resim&&/^https?:\/\//i.test(String(d.resim))){const img=document.createElement('img');img.className='hv-duyuru-resim';img.loading='lazy';img.decoding='async';img.src=String(d.resim);img.alt='';card.appendChild(img);}
+      const head=document.createElement('div');head.className='hv-duyuru-item-head';
+      const title=document.createElement('h4');title.textContent=d.baslik||'Duyuru';
+      const date=document.createElement('time');date.textContent=hvDuyuruTarih(d.tarih);
+      head.append(title,date);card.appendChild(head);
+      const body=document.createElement('div');body.className='hv-duyuru-item-metin';body.textContent=d.metin||'';card.appendChild(body);
+      const go=document.createElement('button');go.type='button';go.className='hv-duyuru-item-ac';go.textContent='Görüntüle';go.addEventListener('click',()=>{_hvDuyuruPopupIndex=Math.max(0,hvDuyuruGorunenler().findIndex(x=>x.id===d.id));hvDuyuruPopupAc(_hvDuyuruPopupIndex);});card.appendChild(go);
+      frag.appendChild(card);
+    });
+    list.appendChild(frag);
+  }
+  function hvDuyuruPopupKapat(){
+    const ov=document.getElementById('hv-duyuru-popup-overlay');
+    if(ov){
+      ov.classList.remove('acik');
+      ov.hidden=true;
+      ov.setAttribute('hidden','hidden');
+      ov.style.setProperty('display','none','important');
+      ov.setAttribute('aria-hidden','true');
+      ov.removeAttribute('tabindex');
+    }
+    document.documentElement.classList.remove('hv-duyuru-lock');
+    document.body.classList.remove('hv-duyuru-lock');
+  }
+  function hvDuyuruPopupGuncelle(){
+    const liste=hvDuyuruGorunenler();
+    if(!liste.length){hvDuyuruPopupKapat();return;}
+    _hvDuyuruPopupIndex=Math.max(0,Math.min(_hvDuyuruPopupIndex,liste.length-1));
+    const d=liste[_hvDuyuruPopupIndex];
+    if(!d){hvDuyuruPopupKapat();return;}
+    const img=document.getElementById('hv-duyuru-popup-resim');
+    if(d.resim&&/^https?:\/\//i.test(String(d.resim))){img.src=String(d.resim);img.style.display='block';}else{img.removeAttribute('src');img.style.display='none';}
+    document.getElementById('hv-duyuru-popup-baslik').textContent=d.baslik||'Duyuru';
+    document.getElementById('hv-duyuru-popup-metin').textContent=d.metin||'';
+    document.getElementById('hv-duyuru-popup-tarih').textContent=hvDuyuruTarih(d.tarih);
+    document.getElementById('hv-duyuru-popup-nokta').textContent=`${_hvDuyuruPopupIndex+1} / ${liste.length}`;
+    document.getElementById('hv-duyuru-popup-sol').disabled=liste.length<2;
+    document.getElementById('hv-duyuru-popup-sag').disabled=liste.length<2;
+  }
+  function hvDuyuruPopupAc(index=0){
+    if(!_siteAyarlariHazir || !hvSiteAcikMi('duyurular')){ hvDuyuruPopupKapat(); return; }
+    const liste=hvDuyuruGorunenler();
+    if(!liste.length)return;
+    _hvDuyuruPopupIndex=Math.max(0,Math.min(index,liste.length-1));
+    hvDuyuruPopupGuncelle();
+    const ov=document.getElementById('hv-duyuru-popup-overlay');
+    if(ov){
+      ov.removeAttribute('hidden');
+      ov.hidden=false;
+      ov.classList.add('acik');
+      ov.style.setProperty('display','flex','important');
+      ov.setAttribute('aria-hidden','false');
+      ov.setAttribute('tabindex','-1');
+      document.documentElement.classList.add('hv-duyuru-lock');
+      document.body.classList.add('hv-duyuru-lock');
+    }
+  }
+  function hvDuyuruPopupIlkGirisKontrolu(){
+    if(!hvSiteAcikMi('duyurular'))return;
+    const i=hvDuyuruGorunenler().findIndex(d=>{try{return !localStorage.getItem(_hvDuyuruGosterilenKey(d.id));}catch(e){return true;}});
+    if(i<0)return;
+    try{localStorage.setItem(_hvDuyuruGosterilenKey(hvDuyuruGorunenler()[i].id),'1');}catch(e){}
+    try{localStorage.setItem(_hvDuyuruGorulduKey(hvDuyuruGorunenler()[i].id),'1');}catch(e){}
+    hvDuyuruRender();
+    hvDuyuruPopupAc(i);
+  }
+  async function hvDuyuruYukle(){
+    try { await hvSiteAyarlariYukle(); } catch(e) {}
+    if(!_siteAyarlariHazir || !hvSiteAcikMi('duyurular')){hvDuyuruTemizle();return;}
+    try{const snap=await getDocs(query(collection(window._firebaseDb,'duyurular'),orderBy('tarih','desc'),limit(30)));_hvDuyuruCache=[];snap.forEach(d=>_hvDuyuruCache.push({id:d.id,...d.data()}));hvDuyuruSirala();hvDuyuruRender();hvDuyuruPopupIlkGirisKontrolu();}catch(e){_hvDuyuruCache=[];hvDuyuruRender();}}
+  hvDuyuruTekrarGosterButonunuGuncelle();
+  document.getElementById('hv-duyuru-popup-kapat')?.addEventListener('click',(e)=>{e.preventDefault();e.stopPropagation();hvDuyuruPopupKapat();});document.getElementById('hv-duyuru-popup-sol')?.addEventListener('click',(e)=>{e.preventDefault();e.stopPropagation();const l=hvDuyuruGorunenler();if(l.length>1){_hvDuyuruPopupIndex=(_hvDuyuruPopupIndex-1+l.length)%l.length;hvDuyuruPopupGuncelle();}});document.getElementById('hv-duyuru-popup-sag')?.addEventListener('click',(e)=>{e.preventDefault();e.stopPropagation();const l=hvDuyuruGorunenler();if(l.length>1){_hvDuyuruPopupIndex=(_hvDuyuruPopupIndex+1)%l.length;hvDuyuruPopupGuncelle();}});document.getElementById('hv-duyuru-popup-gizle')?.addEventListener('click',(e)=>{e.preventDefault();e.stopPropagation();const d=hvDuyuruGorunenler()[_hvDuyuruPopupIndex];if(d){try{localStorage.setItem(_hvDuyuruGizliKey(d.id),'1');}catch(e){}}hvDuyuruPopupKapat();hvDuyuruRender();const next=hvDuyuruGorunenler();if(next.length){_hvDuyuruPopupIndex=Math.min(_hvDuyuruPopupIndex,next.length-1);hvDuyuruPopupAc(_hvDuyuruPopupIndex);}});document.getElementById('hv-duyuru-popup-overlay')?.addEventListener('click',e=>{if(e.target.id==='hv-duyuru-popup-overlay')hvDuyuruPopupKapat();});document.getElementById('hv-duyuru-tekrar-goster')?.addEventListener('click',()=>{_hvDuyuruCache.forEach(d=>{try{localStorage.removeItem(_hvDuyuruGizliKey(d.id));localStorage.removeItem(_hvDuyuruGosterilenKey(d.id));localStorage.removeItem(_hvDuyuruGorulduKey(d.id));}catch(e){}});hvDuyuruRender();hvDuyuruPopupIlkGirisKontrolu();});
+  window.hvDuyuruPanelAc = async function() {
     const btn=document.getElementById('hv-profil-duyuru-btn');
     if (btn?.disabled || !hvSiteAcikMi('duyurular')) { hvMesaj('Duyurular şu anda kapalı.','bilgi','hv-profil'); return; }
+    await hvDuyuruYukle();
+    _hvDuyuruCache.forEach(d=>{try{localStorage.setItem(_hvDuyuruGorulduKey(d.id),'1');}catch(e){}});
+    hvDuyuruRender();
     hvPanelGecis('hv-duyuru-panel');
-    void hvDuyuruYukle().catch(()=>{});
   };
   window.hvDuyuruPanelKapat = function(){ hvPanelGecis('hv-profil-panel'); };
+
+  window.addEventListener('pagehide', hvDuyuruPopupKapat);
+  window.addEventListener('pageshow', ()=>{ if(!_siteAyarlariHazir || !hvSiteAcikMi('duyurular')) hvDuyuruPopupKapat(); });
+
+  function hvAuthKadiFontAyarla(el, kadi) {
+    if (!el) return;
+    const len = String(kadi || '').length;
+    let px = 15;
+    if (len > 6) px = 14.5;
+    if (len > 9) px = 14;
+    if (len > 12) px = 13.5;
+    if (len > 15) px = 13;
+    if (len > 18) px = 12.5;
+    if (len > 20) px = 12;
+    el.style.fontSize = px + 'px';
+    el.style.letterSpacing = len > 14 ? '-0.12px' : '0';
+    el.style.transform = 'translateZ(0)';
+  }
 
   async function btnVeMenuGuncelle(user, dbData) {
     const masaustuBtn = document.getElementById('hv-auth-btn');
@@ -2887,16 +3126,10 @@ import {
           dbData = snap.exists() ? snap.data() : {};
         } catch(e) { dbData = {}; }
       }
-      // Sağ üst giriş kutusunda KESİNLİKLE kullanıcı adı gösterilmez.
-      // Öncelik: tamAd -> ad + soyad -> Firebase displayName.
-      const adSoyad = String(
-        dbData.tamAd ||
-        [dbData.ad, dbData.soyad].filter(Boolean).join(' ') ||
-        user.displayName ||
-        'Üye'
-      ).trim() || 'Üye';
-      const gorunen = adSoyad;
-      const avatarIsim = adSoyad;
+      const kadi = (dbData.kullaniciAdi || '').trim().toLowerCase();
+      if (kadi) hvKadiCacheYaz(user.uid, kadi);
+      const gorunen = (dbData.tamAd || user.displayName || 'Kullanıcı').trim();
+      const avatarIsim = gorunen || kadi || user.email || 'U';
       const fotoSrc = dbData.foto || user.photoURL;
 
       if (masaustuBtn) {
@@ -2913,7 +3146,12 @@ import {
         avatarWrap.appendChild(avatarBadge);
         masaustuBtn.appendChild(avatarWrap);
         const spanM = document.createElement('span');
-        spanM.textContent = ' ' + gorunen; // Sağ üstte yalnızca Ad Soyad gösterilir
+        spanM.className = 'hv-auth-kadi';
+        const nameM = document.createElement('span');
+        nameM.className = 'hv-auth-kadi-name';
+        nameM.textContent = gorunen || 'Kullanıcı';
+        spanM.appendChild(nameM);
+        hvAuthKadiFontAyarla(spanM, gorunen);
         masaustuBtn.appendChild(spanM);
         hvBildirimYerelRozetGeriYukle(user);
       }
@@ -2931,24 +3169,27 @@ import {
         avatarWrapM.appendChild(avatarBadgeM);
         mobilBtn.appendChild(avatarWrapM);
         const spanMb = document.createElement('span');
-        spanMb.textContent = ' ' + gorunen; // Mobilde de yalnızca Ad Soyad gösterilir
+        spanMb.className = 'hv-auth-kadi';
+        const nameMb = document.createElement('span');
+        nameMb.className = 'hv-auth-kadi-name';
+        nameMb.textContent = gorunen || 'Kullanıcı';
+        spanMb.appendChild(nameMb);
+        hvAuthKadiFontAyarla(spanMb, gorunen);
         mobilBtn.appendChild(spanMb);
         hvBildirimYerelRozetGeriYukle(user);
       }
 
-      // Kullanıcı adı indeksinin email alanı hot-path'i bloke etmemeli.
       if (dbData.kullaniciAdi && user.email) {
-        void getDoc(doc(window._firebaseDb, 'kullaniciAdlari', dbData.kullaniciAdi))
-          .then(kaSnap => {
-            if (kaSnap.exists() && !kaSnap.data().email) {
-              return setDoc(doc(window._firebaseDb, 'kullaniciAdlari', dbData.kullaniciAdi), { email: user.email }, { merge: true });
-            }
-          })
-          .catch(()=>{});
+        try {
+          const kaSnap = await getDoc(doc(window._firebaseDb, 'kullaniciAdlari', dbData.kullaniciAdi));
+          if (kaSnap.exists() && !kaSnap.data().email) {
+            await setDoc(doc(window._firebaseDb, 'kullaniciAdlari', dbData.kullaniciAdi), { email: user.email }, { merge: true });
+          }
+        } catch(e) {}
       }
     } else {
       hvDuyuruTemizle();
-      const svgIcon = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>`;
+      const svgIcon = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>`;
       if (masaustuBtn) {
         masaustuBtn.classList.remove('giris-yapildi');
         masaustuBtn.innerHTML = svgIcon + ` <span>ÜYE GİRİŞİ</span>`;
@@ -2980,6 +3221,45 @@ import {
         btn.innerHTML = orjHtml;
         btn.removeAttribute('data-orj-html');
       }
+    }
+  }
+
+  async function hvUyeLogEkle(user, olay, detay = '') {
+    if (!user || !user.uid) return false;
+    try {
+      const db = window._firebaseDb || getFirestore();
+      const uid = String(user.uid);
+      const olayMetni = String(olay || '').trim().slice(0, 160);
+      const detayMetni = String(detay || '').trim().slice(0, 500);
+
+      /*
+         Log yazımı sırasında tekrar kullanicilar/{uid} okumak gereksizdi.
+         Kullanıcı adı zaten giriş/Google senkronizasyonunda cache'e alınır.
+         Önce cache, sonra displayName; böylece her log için ekstra Firestore read
+         yapılmaz ve ağ timeout riskinin yüzeyi küçülür.
+      */
+      const cachedKadi = typeof hvKadiCacheOku === 'function' ? hvKadiCacheOku(uid) : '';
+      const displayKadi = String(user.displayName || '').trim().toLowerCase().replace(/[^a-z0-9ğüşıöç]/gi, '');
+      const kadi = cachedKadi ? '@' + cachedKadi : (displayKadi ? '@' + displayKadi.slice(0, 60) : '@kullanici');
+
+      await addDoc(collection(db, 'loglar'), {
+        uid,
+        kadi,
+        olay: olayMetni,
+        detay: detayMetni,
+        seviye: 'LOGIN',
+        kaynak: 'UYE',
+        tarih: serverTimestamp()
+      });
+      return true;
+    } catch(e) {
+      /* Log başarısızlığı giriş/çıkış/ayar işlemini asla bozmasın. */
+      if (e?.code === 'permission-denied') {
+        console.warn('Üye logu için Firestore yazma izni yok. Firestore Rules kontrol edilmeli.');
+      } else {
+        console.warn('Üye logu yazılamadı:', e?.code || e?.message || e);
+      }
+      return false;
     }
   }
 
@@ -3043,34 +3323,63 @@ import {
     return { ad: parcalar.shift(), soyad: parcalar.join(' ') };
   }
 
+  /* ============================================================
+     GOOGLE PROFİLİ — KULLANICI ADI KALICILIK KİLİDİ
+     Kullanıcı adı yalnızca Firestore'daki mevcut kayıt yoksa ilk kez üretilir.
+     Mevcut bir kullanıcı adı görüldüğü anda kanonik kabul edilir ve Google
+     hesabının displayName/e-posta bilgisi hiçbir koşulda bunun üzerine yazılmaz.
+     Eski hesaplarda kullanıcıAdiManuel alanı yoksa bile mevcut kullanıcı adı
+     otomatik olarak manuel/sabit kabul edilir.
+     ============================================================ */
+  function hvKadiCacheKey(uid) { return 'hv_google_kadi_' + String(uid || ''); }
+  function hvKadiCacheOku(uid) {
+    try {
+      const v = localStorage.getItem(hvKadiCacheKey(uid));
+      return v ? String(v).trim().toLowerCase() : '';
+    } catch (e) { return ''; }
+  }
+  function hvKadiCacheYaz(uid, kadi) {
+    const temiz = String(kadi || '').trim().toLowerCase();
+    if (!uid || !temiz) return;
+    try { localStorage.setItem(hvKadiCacheKey(uid), temiz); } catch (e) {}
+  }
+
   async function googleProfilTamamla(user, mevcutData = {}) {
     const db = window._firebaseDb || getFirestore();
     const userRef = doc(db, 'kullanicilar', user.uid);
     const data = mevcutData || {};
 
-    const isimler = googleAdSoyadAyir(user.displayName || data.tamAd, user.email);
-    const kullaniciAdi = data.kullaniciAdi || await benzersizKullaniciAdi(user.displayName, user.email);
+    /*
+      Bu fonksiyon artık yalnızca profil dokümanı gerçekten yoksa ilk kayıt için
+      çalışır. Buna rağmen güvenlik katmanı olarak localStorage'da daha önce
+      görülen kullanıcı adı varsa onu Google'dan üretmek yerine kullanırız.
+    */
+    const isimler = googleAdSoyadAyir(user.displayName, user.email);
+    const hatirlananKadi = hvKadiCacheOku(user.uid);
+    const kullaniciAdi = hatirlananKadi || await benzersizKullaniciAdi(user.displayName, user.email);
 
     const profilPatch = {
       uid: user.uid,
-      ad: data.ad || isimler.ad || '',
-      soyad: data.soyad || isimler.soyad || '',
-      tamAd: data.tamAd || user.displayName || [isimler.ad, isimler.soyad].filter(Boolean).join(' '),
-      email: (user.email || data.email || '').toLowerCase(),
+      ad: isimler.ad || '',
+      soyad: isimler.soyad || '',
+      tamAd: user.displayName || [isimler.ad, isimler.soyad].filter(Boolean).join(' '),
+      email: (user.email || '').toLowerCase(),
       kullaniciAdi,
+      /* İlk oluşturulan isim otomatik üretilebilir; ancak bir kez kaydedildikten
+         sonra artık Google girişleri bunu değiştiremez. */
+      kullaniciAdiManuel: !!hatirlananKadi,
+      ilkGoogleKullaniciAdi: kullaniciAdi,
       foto: data.foto || user.photoURL || '',
       girisYontemi: 'google',
-      // Google hesabı Firebase tarafından doğrulanmış kabul edilir.
       emailDogrulandi: true,
       bulten: data.bulten !== undefined ? data.bulten : hvSiteAcikMi('bultenAbonelik'),
-      ...(data.kvkkTarih ? {} : { kvkkTarih: serverTimestamp() }),
-      ...(data.kayitTarih ? {} : { kayitTarih: serverTimestamp() })
+      kvkkTarih: data.kvkkTarih || serverTimestamp(),
+      kayitTarih: data.kayitTarih || serverTimestamp()
     };
 
-    // Email/şifre kayıt şemasıyla aynı profil alanlarını kullan; merge mevcut profil alanlarını korur.
     await setDoc(userRef, profilPatch, { merge: true });
+    hvKadiCacheYaz(user.uid, kullaniciAdi);
 
-    // Kullanıcı adı indeksini de aynı veri modeliyle tut.
     try {
       const idxRef = doc(db, 'kullaniciAdlari', kullaniciAdi);
       const idxSnap = await getDoc(idxRef);
@@ -3078,11 +3387,9 @@ import {
         await setDoc(idxRef, { uid: user.uid, email: (user.email || '').toLowerCase() }, { merge: true });
       }
     } catch (e) {
-      // Profil oluşturma başarılıysa indeks hatası giriş akışını bozmasın.
-      console.warn('Google kullanıcı adı indeksi yazılamadı:', e.code || e.message);
+      /* Kullanıcı adı profil kaydından bağımsız olarak korunur. */
     }
 
-    // Firebase Auth profilindeki görünen adı da senkronize et.
     const authDisplay = profilPatch.tamAd || profilPatch.ad || user.email || '';
     if (authDisplay && authDisplay !== user.displayName) {
       try { await updateProfile(user, { displayName: authDisplay }); } catch (e) {}
@@ -3124,14 +3431,75 @@ import {
         if (snap.exists()) {
           const mevcut = snap.data() || {};
           const googleHesabiMi = mevcut.girisYontemi === 'google' || (user.providerData || []).some(p => p.providerId === 'google.com');
+          profileData = mevcut;
 
-          // Mevcut e-posta/şifre hesabına dokunma. Google ile ayrıca giriş yapılmışsa
-          // aynı UID korunur; mevcut kullanıcı adı, kayitTarih ve profil kimliği değişmez.
-          if (googleHesabiMi && !mevcut.kullaniciAdi) {
-            // Sadece eksik/yarım Google profilini bir kez tamamla.
-            profileData = await googleProfilTamamla(user, mevcut);
-          } else {
-            profileData = mevcut;
+          if (googleHesabiMi) {
+            /*
+              KANONİK KURAL:
+              Firestore'da mevcut kullanıcı adı varsa doğrudan onu kullan.
+              KullaniciAdiManuel alanı eski kayıtlarda bulunmasa bile asla
+              yeniden üretme. Kullanıcı adının varlığı tek başına kilittir.
+            */
+            const mevcutKadi = String(mevcut.kullaniciAdi || '').trim().toLowerCase();
+            const cacheKadi = hvKadiCacheOku(user.uid);
+            const kanonikKadi = mevcutKadi || cacheKadi;
+
+            if (kanonikKadi) {
+              hvKadiCacheYaz(user.uid, kanonikKadi);
+              profileData = { ...mevcut, kullaniciAdi: kanonikKadi, kullaniciAdiManuel: true };
+
+              const korunacakAlanlar = {};
+              if (mevcut.kullaniciAdi !== kanonikKadi) korunacakAlanlar.kullaniciAdi = kanonikKadi;
+              if (mevcut.kullaniciAdiManuel !== true) korunacakAlanlar.kullaniciAdiManuel = true;
+              if (!mevcut.ilkGoogleKullaniciAdi) korunacakAlanlar.ilkGoogleKullaniciAdi = kanonikKadi;
+
+              /* Yalnızca eksik metadata'yı düzelt; kullanıcı adını Google'dan
+                 gelen herhangi bir bilgiyle asla değiştirme. */
+              if (Object.keys(korunacakAlanlar).length) {
+                try {
+                  await setDoc(doc(db, 'kullanicilar', user.uid), korunacakAlanlar, { merge: true });
+                } catch (e) {}
+              }
+            } else {
+              /* Kullanıcı adı gerçekten yoksa yalnızca bu eski/yarım profil için
+                 ilk kez oluştur. Oluşturulduktan sonra cache + Firestore kilitlenir. */
+              try {
+                const isim = googleAdSoyadAyir(user.displayName || mevcut.tamAd, user.email);
+                const adayKadi = await benzersizKullaniciAdi(user.displayName || mevcut.tamAd, user.email);
+                profileData = {
+                  ...mevcut,
+                  kullaniciAdi: adayKadi,
+                  kullaniciAdiManuel: false,
+                  ilkGoogleKullaniciAdi: adayKadi,
+                  ad: mevcut.ad || isim.ad || '',
+                  soyad: mevcut.soyad || isim.soyad || '',
+                  tamAd: mevcut.tamAd || user.displayName || ''
+                };
+                await setDoc(doc(db, 'kullanicilar', user.uid), {
+                  kullaniciAdi: adayKadi,
+                  kullaniciAdiManuel: false,
+                  ilkGoogleKullaniciAdi: adayKadi,
+                  ad: profileData.ad,
+                  soyad: profileData.soyad,
+                  tamAd: profileData.tamAd,
+                  email: (user.email || mevcut.email || '').toLowerCase(),
+                  foto: mevcut.foto || user.photoURL || '',
+                  girisYontemi: 'google',
+                  emailDogrulandi: true
+                }, { merge: true });
+                hvKadiCacheYaz(user.uid, adayKadi);
+                try {
+                  const idxRef = doc(db, 'kullaniciAdlari', adayKadi);
+                  const idxSnap = await getDoc(idxRef);
+                  if (!idxSnap.exists() || idxSnap.data().uid === user.uid) {
+                    await setDoc(idxRef, { uid: user.uid, email: (user.email || '').toLowerCase() }, { merge: true });
+                  }
+                } catch (e) {}
+              } catch (e) {
+                /* Profil mevcutsa kullanıcı adını üretmeden mevcut yapıyı koru. */
+                profileData = mevcut;
+              }
+            }
           }
         } else {
           // Sadece ilk Google kaydında profil dokümanı + kullanıcı adı indeksi oluştur.
@@ -3152,6 +3520,7 @@ import {
 
       const fresh = await getDoc(userRef);
       await btnVeMenuGuncelle(user, fresh.exists() ? fresh.data() : profileData);
+      hvUyeLogEkle(user, 'Google ile giriş yapıldı', 'Google OAuth').catch(()=>{});
       document.dispatchEvent(new CustomEvent('authReady', { detail: user }));
       hvModalKilit(false);
       hvModalKapat();
@@ -3198,7 +3567,7 @@ import {
         await updateProfile(r.user, { displayName: ad + ' ' + soyad });
         await setDoc(doc(db, 'kullanicilar', r.user.uid), {
           uid: r.user.uid, ad, soyad, tamAd: ad + ' ' + soyad,
-          email: girisAlan.toLowerCase(), kullaniciAdi: kAdi, foto: '',
+          email: girisAlan.toLowerCase(), kullaniciAdi: kAdi, kullaniciAdiManuel: true, foto: '',
           kvkkTarih: serverTimestamp(), kayitTarih: serverTimestamp(),
           girisYontemi: 'email',
           emailDogrulandi: false,
@@ -3207,6 +3576,8 @@ import {
         await setDoc(doc(db, 'kullaniciAdlari', kAdi), { uid: r.user.uid });
         try { await setDoc(doc(db, 'istatistikler', 'genel'), { toplamUye: increment(1) }, { merge: true }); } catch(e) {}
         await sendEmailVerification(r.user);
+        hvKadiCacheYaz(r.user.uid, kAdi);
+        await hvUyeLogEkle(r.user, 'Üyelik oluşturuldu', 'E-posta ile kayıt').catch(()=>{});
         _kayitliUser = r.user;
         document.getElementById('hv-dog-email').textContent = r.user.email;
         hvPanelGecis('hv-dogrulama-panel');
@@ -3241,6 +3612,7 @@ import {
         } catch(e) {}
 
         await btnVeMenuGuncelle(r.user);
+        await hvUyeLogEkle(r.user, 'Giriş yapıldı', 'E-posta / şifre').catch(()=>{});
         hvModalKilit(false);
         hvModalKapat();
       }
@@ -3309,22 +3681,24 @@ import {
   }
 
   /* ===== BÜLTEN AÇ/KAPAT ===== */
-  window.hvBultenToggle = function() {
+  window.hvBultenToggle = async function() {
     if (!hvSiteAcikMi('bultenAbonelik')) return hvMesaj('Haber bülteni aboneliği şu anda kapalı.', 'hata', 'hv-profil');
     const auth = window._firebaseAuth, db = window._firebaseDb, user = auth.currentUser;
     if (!user) return hvMesaj('Oturum bulunamadı.', 'hata', 'hv-profil');
+
     const btnText = document.getElementById('hv-bulten-btn-text');
-    const oldText = btnText?.textContent || '';
-    const current = /Açık/.test(oldText);
-    const next = !current;
-    if (btnText) btnText.textContent = next ? '🔔 Haftalık Bülten: Açık' : '🔕 Haftalık Bülten: Kapalı';
-    void setDoc(doc(db, 'kullanicilar', user.uid), { bulten: next }, { merge: true })
-      .then(() => hvMesaj(next ? 'Bülten aboneliğiniz açıldı.' : 'Bülten aboneliğiniz kapatıldı.', 'basari', 'hv-profil'))
-      .catch(e => {
-        if (btnText) btnText.textContent = oldText;
-        console.error('Bülten güncelleme hatası:', e);
-        hvMesaj('Bülten ayarı kaydedilemedi.', 'hata', 'hv-profil');
-      });
+    const oncekiAcik = btnText ? !/Kapalı/.test(btnText.textContent || '') : true;
+    const yeniAcik = !oncekiAcik;
+
+    if (btnText) btnText.textContent = yeniAcik ? '🔔 Haftalık Bülten: Açık' : '🔕 Haftalık Bülten: Kapalı';
+    hvMesaj(oncekiAcik ? 'Bülten aboneliğiniz kapatıldı.' : 'Bülten aboneliğiniz açıldı.', 'basari', 'hv-profil');
+
+    try {
+      await setDoc(doc(db, 'kullanicilar', user.uid), { bulten: yeniAcik }, { merge: true });
+    } catch(e) {
+      if (btnText) btnText.textContent = oncekiAcik ? '🔔 Haftalık Bülten: Açık' : '🔕 Haftalık Bülten: Kapalı';
+      hvMesaj('Bülten aboneliği kaydedilemedi.', 'hata', 'hv-profil');
+    }
   };
 
   /* ===== AYAR FORMLARI ===== */
@@ -3355,7 +3729,7 @@ import {
         (passwordProvider ? '<div class="hv-input-grup"><input type="password" id="hv-mevcut-sifre" autocomplete="current-password" placeholder="Mevcut şifre"/></div>' : '<div class="hv-bilgi-notu">Google hesabınız için değişikliği Google doğrulaması ile onaylayacaksınız.</div>');
     } else if (tur === 'sifre') {
       document.getElementById('hv-ayar-baslik').textContent = 'Şifre Değiştir';
-      html = '<div class="hv-input-grup"><input type="password" id="hv-eski-sifre" placeholder="Eski şifre"/></div><div class="hv-input-grup"><input type="password" id="hv-yeni-sifre-alan" placeholder="Yeni şifre" oninput="hvSifreGucIslem(this.value,\'ayar\')"/></div><div class="hv-sifre-guc"><div class="hv-sifre-guc-bar" id="hv-ayar-sifre-guc-bar"></div></div><div class="hv-input-grup"><input type="password" id="hv-yeni-sifre-tekrar" placeholder="Yeni şifre tekrar"/></div>';
+      html = '<div class="hv-input-grup"><input type="password" id="hv-eski-sifre" autocomplete="current-password" placeholder="Eski şifre"/></div><div class="hv-input-grup"><input type="password" id="hv-yeni-sifre-alan" autocomplete="new-password" placeholder="Yeni şifre" oninput="hvSifreGucIslem(this.value,\'ayar\')"/></div><div class="hv-sifre-guc"><div class="hv-sifre-guc-bar" id="hv-ayar-sifre-guc-bar"></div></div><div class="hv-input-grup"><input type="password" id="hv-yeni-sifre-tekrar" autocomplete="new-password" placeholder="Yeni şifre tekrar"/></div><div class="hv-bilgi-notu">Şifre en az 8 karakter; en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir.</div><button type="button" class="hv-link" id="hv-sifre-unuttum-btn" style="margin-top:10px;" onclick="hvSifreUnutAc(&quot;ayar&quot;)">Şifremi Unuttum</button><div class="hv-sifre-mail-notu">Sıfırlama bağlantısı e-posta adresinize gönderilir. Mail gelmezse Spam / Gereksiz klasörünü kontrol edin.</div>';
     }
     icerik.innerHTML = html;
     hvPanelGecis('hv-ayar-form-panel');
@@ -3395,7 +3769,7 @@ import {
           }
 
           tx.set(yeniRef, { uid: user.uid, email: (user.email || '').toLowerCase() }, { merge: true });
-          tx.update(userRef, { kullaniciAdi: yeniKa });
+          tx.update(userRef, { kullaniciAdi: yeniKa, kullaniciAdiManuel: true });
         });
 
         // Yeni profil + yeni indeks kesinleşti. Eski kullanıcı adı artık boşaltılabilir.
@@ -3407,8 +3781,10 @@ import {
         // Panelin eski kullanıcı adını göstermemesi için Firestore'dan taze veriyi oku.
         const tazeSnap = await getDoc(userRef);
         const tazeData = tazeSnap.exists() ? tazeSnap.data() : {};
+        hvKadiCacheYaz(user.uid, yeniKa);
         await btnVeMenuGuncelle(user, tazeData);
         await hvProfilDoldur(user);
+        hvUyeLogEkle(user, 'Kullanıcı adı değiştirildi', '@' + yeniKa).catch(()=>{});
         hvMesaj('Kullanıcı adınız güncellendi.', 'basari', 'hv-profil');
         hvPanelGecis('hv-profil-panel');
       } else if (_islemTuru === 'tamad') {
@@ -3421,6 +3797,7 @@ import {
           await setDoc(doc(db, 'kullanicilar', user.uid), { tamAd: yeniGorunen, ad: '', soyad: '' }, { merge: true });
           await btnVeMenuGuncelle(user);
           await hvProfilDoldur(user);
+          hvUyeLogEkle(user, 'Görünen ad güncellendi', yeniGorunen).catch(()=>{});
           hvMesaj('Görünen ad başarıyla güncellendi.', 'basari', 'hv-profil');
           hvPanelGecis('hv-profil-panel');
         } else {
@@ -3434,6 +3811,7 @@ import {
           await setDoc(doc(db, 'kullanicilar', user.uid), { ad: yeniAd, soyad: yeniSoyad, tamAd }, { merge: true });
           await btnVeMenuGuncelle(user);
           await hvProfilDoldur(user);
+          hvUyeLogEkle(user, 'Ad soyad güncellendi', tamAd).catch(()=>{});
           hvMesaj('Ad soyad güncellendi.', 'basari', 'hv-profil');
           hvPanelGecis('hv-profil-panel');
         }
@@ -3460,10 +3838,11 @@ import {
         if (yeni !== yeni2) { hvModalKilit(false); return hvMesaj('Yeni şifreler eşleşmiyor.', 'hata', 'hv-ayar'); }
         const h = veriKontrol(null, null, null, yeni);
         if (h) { hvModalKilit(false); return hvMesaj(h, 'hata', 'hv-ayar'); }
+        if (!user.email) throw Object.assign(new Error('NO_EMAIL'), {code:'auth/invalid-email'});
         const cred = EmailAuthProvider.credential(user.email, eski);
         await reauthenticateWithCredential(user, cred);
-        await updatePassword(user, yeni);
-        hvMesaj('Şifreniz güncellendi.', 'basari', 'hv-profil');
+        await sendPasswordResetEmail(auth, user.email);
+        hvMesaj('Güvenlik doğrulaması başarılı. Şifre değiştirme bağlantısı e-posta adresinize gönderildi. Yeni şifreyi yalnızca e-postadaki güvenli bağlantı üzerinden belirleyebilirsiniz.', 'basari', 'hv-ayar');
         hvPanelGecis('hv-profil-panel');
       }
     } catch(e) {
@@ -3477,6 +3856,8 @@ import {
   };
 
   window.hvCikisYap = async function() {
+    const cikisUser = window._firebaseAuth?.currentUser;
+    if (cikisUser) await hvUyeLogEkle(cikisUser, 'Çıkış yapıldı').catch(()=>{});
     await signOut(window._firebaseAuth);
     _sosyalGirisYapildi = false;
     _kayitliUser = null;
@@ -3496,7 +3877,7 @@ import {
     hvModalKilit(true);
     try {
       await sendPasswordResetEmail(window._firebaseAuth, email);
-      hvMesaj('Gönderildi! Spam klasörünü kontrol edin.', 'basari', 'hv-unut');
+      hvMesaj('Şifre sıfırlama bağlantısı gönderildi. Spam / Gereksiz klasörünü kontrol edin.', 'basari', 'hv-unut');
     } catch(e) {
       hvMesaj(fbHataCevir(e.code), 'hata', 'hv-unut');
     } finally {
@@ -3577,7 +3958,7 @@ import {
       li.innerHTML = `
         <div class="hv-mobil-auth-actions">
           <button id="hv-mobil-auth-btn" onclick="hvAuthTikla()">
-            <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>
+            <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>
             <span>ÜYE GİRİŞİ</span>
           </button>
         </div>`;
@@ -3588,7 +3969,7 @@ import {
         const btn = document.createElement('button');
         btn.id = 'hv-mobil-auth-btn';
         btn.onclick = hvAuthTikla;
-        btn.innerHTML = `<svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg><span>ÜYE GİRİŞİ</span>`;
+        btn.innerHTML = `<svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg><span>ÜYE GİRİŞİ</span>`;
         btn.style.display = 'none';
         nav.appendChild(btn);
       }
@@ -3596,7 +3977,7 @@ import {
   }
 
   /* ===== SAYFA YÜKLENİNCE ===== */
-  window.addEventListener('DOMContentLoaded', async () => {
+  async function hvSayfaYuklendi() {
     const nav = document.getElementById('site-navigation');
     const masaustuBtn = document.getElementById('hv-auth-btn');
     if (nav && masaustuBtn && masaustuBtn.parentNode !== nav) {
@@ -3663,7 +4044,13 @@ import {
         if (e.target === overlay && !_modalKilitli) hvModalKapat();
       });
     }
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', hvSayfaYuklendi);
+  } else {
+    hvSayfaYuklendi();
+  }
 })();
 
 /* ============================================================
@@ -3727,72 +4114,49 @@ import {
   }
 
   async function setAction(def, uid, button) {
-    if (!actionAllowed(def.key) || !button) return;
-    if (button.dataset.hvBusy === '1') return;
-
+    if (!actionAllowed(def.key)) return;
     const db = window._firebaseDb || getFirestore();
-    const key = articleKey();
-    const data = {
+    const key = articleKey(); const data = {
       uid, url:articleUrl(), baslik:articleTitle(), tarih:serverTimestamp(),
       guncellemeTarihi:serverTimestamp(), haberId:key, path:window.location.pathname
     };
 
-    const opposite = (def.key==='okunan'?'okunacak':
-      def.key==='okunacak'?'okunan':
-      def.key==='begeni'?'begenmeme':'begeni');
+    const opposite = (def.key==='okunan'?'okunacak':def.key==='okunacak'?'okunan':def.key==='begeni'?'begenmeme':'begeni');
     const oppositeDef = ACTIONS.find(x=>x.key===opposite);
-    const previousActive = button.classList.contains(def.activeClass);
-    const oppositeButton = oppositeDef
-      ? document.querySelector(`.hv-haber-eylem-btn[data-action="${oppositeDef.key}"]`)
-      : null;
-    const previousOppositeActive = !!(oppositeButton && oppositeButton.classList.contains(oppositeDef.activeClass));
+    const oppositeButton = oppositeDef ? document.querySelector(`.hv-haber-eylem-btn[data-action="${oppositeDef.key}"]`) : null;
+    const wasActive = button.classList.contains(def.activeClass);
+    const oppositeWasActive = !!oppositeButton?.classList.contains(oppositeDef?.activeClass || '');
 
-    // SOCIAL-MEDIA DAVRANIŞI: UI önce, Firestore sonra.
-    button.dataset.hvBusy = '1';
-    button.classList.toggle(def.activeClass, !previousActive);
-    button.setAttribute('aria-pressed', previousActive ? 'false' : 'true');
-    button.hidden = !actionAllowed(def.key);
-
-    if (!previousActive && oppositeButton && oppositeDef) {
+    // UI ANINDA değişir; Firestore cevabı beklenmez.
+    button.classList.toggle(def.activeClass, !wasActive);
+    button.setAttribute('aria-pressed', wasActive ? 'false' : 'true');
+    if (!wasActive && oppositeButton && oppositeDef) {
       oppositeButton.classList.remove(oppositeDef.activeClass);
       oppositeButton.setAttribute('aria-pressed', 'false');
     }
 
-    // Kullanıcıyı ağ isteği bitene kadar kilitleme; kısa süre içinde art arda
-    // farklı sosyal eylemler yapılabilsin. Aynı butondaki yarışları önlemek
-    // için mikro-kilit yalnızca promise oluşturulana kadar tutulur.
-    button.dataset.hvBusy = '0';
-
-    const promise = (async () => {
-      try {
-        const target = doc(db, def.collection, uid, 'liste', key);
-        const oppositeRef = oppositeDef ? doc(db, oppositeDef.collection, uid, 'liste', key) : null;
-
-        // Önce mevcut hedef durumunu okumak yerine UI'daki mevcut durumu kullan.
-        // Böylece tıklama ağ gecikmesine bağlı kalmaz.
-        const batch = writeBatch(db);
-        if (previousActive) {
-          batch.delete(target);
-        } else {
-          batch.set(target, data);
-          if (oppositeRef) batch.delete(oppositeRef);
-        }
-        await batch.commit();
-      } catch(e) {
-        // Başarısızlıkta sadece ilgili UI geri alınır.
-        button.classList.toggle(def.activeClass, previousActive);
-        button.setAttribute('aria-pressed', previousActive ? 'true' : 'false');
-        if (oppositeButton && oppositeDef) {
-          oppositeButton.classList.toggle(oppositeDef.activeClass, previousOppositeActive);
-          oppositeButton.setAttribute('aria-pressed', previousOppositeActive ? 'true' : 'false');
-        }
-        console.error('Haber eylemi hatası:', e);
-        actionToast('İşlem kaydedilemedi. Lütfen tekrar deneyin.');
+    button.disabled=true;
+    try {
+      const target = doc(db, def.collection, uid, 'liste', key);
+      const oppositeRef = oppositeDef ? doc(db, oppositeDef.collection, uid, 'liste', key) : null;
+      const batch = writeBatch(db);
+      if (wasActive) {
+        batch.delete(target);
+      } else {
+        batch.set(target, data);
+        if (oppositeRef) batch.delete(oppositeRef);
       }
-    })();
-
-    // Bilerek await edilmiyor: görsel yansıma anında kalır.
-    void promise;
+      await batch.commit();
+    } catch(e) {
+      button.classList.toggle(def.activeClass, wasActive);
+      button.setAttribute('aria-pressed', wasActive ? 'true' : 'false');
+      if (oppositeButton && oppositeDef) {
+        oppositeButton.classList.toggle(oppositeDef.activeClass, oppositeWasActive);
+        oppositeButton.setAttribute('aria-pressed', oppositeWasActive ? 'true' : 'false');
+      }
+      console.error('Haber eylemi hatası:', e);
+      actionToast('İşlem kaydedilemedi. Lütfen tekrar deneyin.');
+    } finally { button.disabled=false; }
   }
 
   async function renderActionStates(uid) {
@@ -3834,6 +4198,11 @@ import {
         });
       });
     });
+    if (window._hvActionStateStop) { try { window._hvActionStateStop(); } catch(e) {} }
+    window._hvActionStateStop = window.hvGuvenliFirestorePolling(async () => {
+      const u = window._firebaseAuth?.currentUser;
+      if (u) await renderActionStates(u.uid);
+    }, 20000);
   }
 
   function init(){
@@ -3918,50 +4287,31 @@ import {
 
   async function hvOyVer(yorumRef, uid, tur, postRef=null) {
     try {
-      if (!yorumRef && !postRef) return;
-
-      // Optimistic UI handleOy() tarafından zaten güncellendi.
-      // Burada yalnızca güvenli bir Firestore senkronizasyonu yapılıyor.
-      let snap = yorumRef ? await getDoc(yorumRef) : null;
+      let snap = yorumRef ? await getDoc(yorumRef) : { exists:()=>false };
       let ref = yorumRef;
-      if ((!snap || !snap.exists()) && postRef) {
-        snap = await getDoc(postRef);
-        ref = postRef;
-      }
-      if (!snap || !snap.exists() || !ref) return;
-
-      const data = snap.data() || {};
+      if(!snap.exists() && postRef) { snap = await getDoc(postRef); ref = postRef; }
+      if(!snap.exists() || !ref) return;
+      const data = snap.data();
       const oylar = { ...(data.oylar || {}) };
       const mevcutOy = oylar[uid];
-      let begeni = Number(data.begeni || 0);
-      let begenmeme = Number(data.begenmeme || 0);
-
-      if (mevcutOy === tur) {
+      let begeni = data.begeni||0, begenmeme = data.begenmeme||0;
+      if(mevcutOy===tur) {
         delete oylar[uid];
-        if (tur === 'begeni') begeni = Math.max(0, begeni - 1);
-        else begenmeme = Math.max(0, begenmeme - 1);
+        if(tur==='begeni') begeni = Math.max(0, begeni-1);
+        else begenmeme = Math.max(0, begenmeme-1);
       } else {
-        if (mevcutOy === 'begeni') begeni = Math.max(0, begeni - 1);
-        if (mevcutOy === 'begenmeme') begenmeme = Math.max(0, begenmeme - 1);
+        if(mevcutOy==='begeni') begeni = Math.max(0, begeni-1);
+        if(mevcutOy==='begenmeme') begenmeme = Math.max(0, begenmeme-1);
         oylar[uid] = tur;
-        if (tur === 'begeni') begeni++;
-        else begenmeme++;
+        if(tur==='begeni') begeni++; else begenmeme++;
       }
-
       const guncelleme = { oylar, begeni, begenmeme };
 
-      if (yorumRef && postRef && yorumRef.path !== postRef.path) {
-        const batch = writeBatch(db);
-        batch.update(yorumRef, guncelleme);
-        batch.update(postRef, guncelleme);
-        await batch.commit();
-      } else {
-        await updateDoc(ref, guncelleme);
-      }
-    } catch(e) {
-      console.error('Oy hatası:', e);
-      throw e;
-    }
+      const batch = writeBatch(db);
+      batch.update(ref, guncelleme);
+      if(ref.path !== postRef?.path && postRef) batch.update(postRef, guncelleme);
+      await batch.commit();
+    } catch(e) { console.error('Oy hatası:', e); throw e; }
   }
 
   async function hvYorumGuncelle(yorumRef, postRef, yeniIcerik, oncekiIcerik) {
@@ -3978,6 +4328,40 @@ import {
     } else if(postRef) await deleteDoc(postRef);
   }
 
+  async function hvYorumKanonikVeriOku(yorumVerisi) {
+    if (!yorumVerisi?.uid || !yorumVerisi?.yorumKayitId) return { exists: true, data: yorumVerisi };
+    try {
+      const ref = doc(db, 'yorumlar', yorumVerisi.uid, 'liste', yorumVerisi.yorumKayitId);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) return { exists: false, data: null };
+      return { exists: true, data: snap.data() || {} };
+    } catch(e) {
+      return { exists: true, data: null, okunamadi: true };
+    }
+  }
+
+  async function hvYorumlariKanonikSenkronizeEt(yorumlar) {
+    // Eski yapı yorumları tek tek await ederek sırayla okuyordu.
+    // 30 yorum = 30 ardışık ağ turu olabildiği için birkaç saniyelik gecikme
+    // ve render sırasında hissedilir kasma oluşturabiliyordu.
+    // Davranış aynı kalacak şekilde tüm kanonik kayıtları paralel oku.
+    const sonuc = await Promise.all(yorumlar.map(async (yorum) => {
+      const kanonik = await hvYorumKanonikVeriOku(yorum);
+      if (!kanonik.exists) return null;
+      if (kanonik.data && kanonik.data.silindi === true) return null;
+
+      if (kanonik.data && !kanonik.okunamadi) {
+        yorum.icerik = kanonik.data.icerik ?? yorum.icerik;
+        yorum.oncekiIcerik = kanonik.data.oncekiIcerik ?? yorum.oncekiIcerik;
+        yorum.duzenlenmeTarihi = kanonik.data.duzenlenmeTarihi ?? yorum.duzenlenmeTarihi;
+        yorum.tarih = kanonik.data.tarih ?? yorum.tarih;
+      }
+      return yorum;
+    }));
+
+    return sonuc.filter(Boolean);
+  }
+
   let allYorumlar = [];
   let currentUser = null;
 
@@ -3985,8 +4369,19 @@ import {
     if(!hvSiteAcikMi('bildirimler')) return;
     if(aliciUid===gonderenUid) return;
     try {
+      let gonderenKadi = '';
+      let gonderenTamAd = gonderenIsim || '';
+      try {
+        const profilSnap = await getDoc(doc(db, 'kullanicilar', gonderenUid));
+        if (profilSnap.exists()) {
+          const p = profilSnap.data() || {};
+          gonderenKadi = p.kullaniciAdi ? '@' + String(p.kullaniciAdi).trim().toLowerCase() : '';
+          gonderenTamAd = p.tamAd || ([p.ad, p.soyad].filter(Boolean).join(' ')) || p.ad || gonderenTamAd;
+        }
+      } catch(e) {}
       await addDoc(collection(db, 'bildirimler', aliciUid, 'liste'), {
-        tip, gonderenUid, gonderenIsim: gonderenIsim||'Bilinmeyen',
+        tip, gonderenUid, gonderenKadi: gonderenKadi || (gonderenIsim ? (String(gonderenIsim).startsWith('@') ? gonderenIsim : '') : ''),
+        gonderenIsim: gonderenTamAd || 'Bilinmeyen',
         mesaj:'', okundu:false, tarih: serverTimestamp()
       });
     } catch(e) { console.error('Bildirim hatası:', e); }
@@ -4052,7 +4447,12 @@ import {
           biyografi: d.biyografi || '',
           kayitTarih: d.kayitTarih || null,
           rozetler: d.rozetler || [],
-          sosyalMedya: d.sosyalMedya || {}
+          sosyalMedya: d.sosyalMedya || {},
+          okunanSayisi: Number.isFinite(Number(d.okunanSayisi)) ? Number(d.okunanSayisi) : undefined,
+          okunacakSayisi: Number.isFinite(Number(d.okunacakSayisi)) ? Number(d.okunacakSayisi) : undefined,
+          begeniSayisi: Number.isFinite(Number(d.begeniSayisi)) ? Number(d.begeniSayisi) : undefined,
+          begenmemeSayisi: Number.isFinite(Number(d.begenmemeSayisi)) ? Number(d.begenmemeSayisi) : undefined,
+          yorumSayisi: Number.isFinite(Number(d.yorumSayisi)) ? Number(d.yorumSayisi) : undefined
         };
         window._bilgiCache[uid] = bilgi;
         return bilgi;
@@ -4078,6 +4478,26 @@ import {
   async function hvYorumProfilPopupAc(hedefUid) {
     const overlay = document.getElementById('hv-yorum-profil-popup-overlay');
     if(!overlay) return;
+
+    // Popup ağ beklenmeden hemen görünür.
+    overlay.setAttribute('data-uid', hedefUid);
+    overlay.style.display = 'flex';
+    const cachedProfil = window._bilgiCache?.[hedefUid];
+    const isimEl = document.getElementById('hv-yorum-popup-isim');
+    const kadiEl = document.getElementById('hv-yorum-popup-kadi');
+    const bioEl = document.getElementById('hv-yorum-popup-biyografi');
+    if (cachedProfil) {
+      if (isimEl) isimEl.textContent = cachedProfil.isim || hedefUid;
+      if (kadiEl) kadiEl.textContent = cachedProfil.kadi || '';
+      if (bioEl) bioEl.textContent = cachedProfil.biyografi || '';
+    } else {
+      if (isimEl) isimEl.textContent = 'Kullanıcı';
+      if (kadiEl) kadiEl.textContent = '';
+      if (bioEl) bioEl.textContent = '';
+    }
+    ['hv-yorum-popup-okunan','hv-yorum-popup-okunacak','hv-yorum-popup-begeni','hv-yorum-popup-begenmeme','hv-yorum-popup-yorum','hv-yorum-popup-takipci','hv-yorum-popup-takip','hv-yorum-popup-toplam-uye'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.textContent = '…';
+    });
 
     try {
       const kullaniciVerisi = await getKullaniciBilgi(hedefUid);
@@ -4199,63 +4619,52 @@ import {
         });
       }
 
-      // Popup'ı profil verisi geldikten sonra hemen aç.
-      overlay.setAttribute('data-uid', hedefUid);
-      overlay.style.display = 'flex';
-
-      // Ağır istatistikler popup'ı kilitlemez; arka planda dolar.
-      void (async () => {
-        try {
-          const countResults = await Promise.all([
-            getDocs(collection(db, 'okunanlar', hedefUid, 'liste')),
-            getDocs(collection(db, 'okunacaklar', hedefUid, 'liste')),
-            getDocs(collection(db, 'begeniler', hedefUid, 'liste')),
-            getDocs(collection(db, 'begenmemeler', hedefUid, 'liste')),
-            getDocs(collection(db, 'yorumlar', hedefUid, 'liste'))
-          ]);
-          document.getElementById('hv-yorum-popup-okunan').textContent = countResults[0].size;
-          document.getElementById('hv-yorum-popup-okunacak').textContent = countResults[1].size;
-          document.getElementById('hv-yorum-popup-begeni').textContent = countResults[2].size;
-          document.getElementById('hv-yorum-popup-begenmeme').textContent = countResults[3].size;
-          document.getElementById('hv-yorum-popup-yorum').textContent = countResults[4].docs.filter(d => !d.data().silindi).length;
-        } catch(e) {}
-
-        let gunUye = 0;
-        if(kullaniciVerisi.kayitTarih) {
-          const kt = kullaniciVerisi.kayitTarih.toDate ? kullaniciVerisi.kayitTarih.toDate() : new Date(kullaniciVerisi.kayitTarih);
-          const a=new Date();a.setHours(0,0,0,0); const b=new Date(kt);b.setHours(0,0,0,0); gunUye=Math.max(0,Math.floor((a-b)/86400000));
-        }
-        document.getElementById('hv-yorum-popup-gun').textContent = gunUye;
-
-        try {
-          const canliSnap=await getDoc(doc(db,'kullanicilar',hedefUid));
-          if(canliSnap.exists()) {
-            const canli=canliSnap.data();
-            document.getElementById('hv-yorum-popup-takipci').textContent=canli.takipciSayisi||0;
-            document.getElementById('hv-yorum-popup-takip').textContent=canli.takipSayisi||0;
-          }
-        } catch(e) {}
-
-        if (currentUser && currentUser.uid === ADMIN_UID) {
-          try {
-            const istatSnap=await getDoc(doc(db,'istatistikler','genel'));
-            document.getElementById('hv-yorum-popup-toplam-uye').textContent=istatSnap.exists()?(istatSnap.data().toplamUye||0):0;
-          } catch(e) {}
-        }
-      })();
+      // İstatistikler — özel koleksiyonlar yalnızca kullanıcı sahibine/admin'e açık olduğundan,
+      // başka kullanıcıların popup'ında Rules hatası popup'ı bozmasın.
+      const canSeePrivateStats = !!currentUser && (currentUser.uid===hedefUid || currentUser.uid===ADMIN_UID);
+      async function guvenliSay(dokRef){ try { const snap=await getDocs(dokRef); return snap.size; } catch(e) { return null; } }
+      const stats = {okunan:null,okunacak:null,begeni:null,begenmeme:null,yorum:null};
+      if (canSeePrivateStats) {
+        const [a,b,c,d,e] = await Promise.all([
+          guvenliSay(collection(db,'okunanlar',hedefUid,'liste')),
+          guvenliSay(collection(db,'okunacaklar',hedefUid,'liste')),
+          guvenliSay(collection(db,'begeniler',hedefUid,'liste')),
+          guvenliSay(collection(db,'begenmemeler',hedefUid,'liste')),
+          guvenliSay(collection(db,'yorumlar',hedefUid,'liste'))
+        ]);
+        stats.okunan=a; stats.okunacak=b; stats.begeni=c; stats.begenmeme=d; stats.yorum=e;
+      } else {
+        const publicData = window._bilgiCache?.[hedefUid] || kullaniciVerisi;
+        stats.okunan = Number.isFinite(Number(publicData.okunanSayisi)) ? Number(publicData.okunanSayisi) : 0;
+        stats.okunacak = Number.isFinite(Number(publicData.okunacakSayisi)) ? Number(publicData.okunacakSayisi) : 0;
+        stats.begeni = Number.isFinite(Number(publicData.begeniSayisi)) ? Number(publicData.begeniSayisi) : 0;
+        stats.begenmeme = Number.isFinite(Number(publicData.begenmemeSayisi)) ? Number(publicData.begenmemeSayisi) : 0;
+        stats.yorum = Number.isFinite(Number(publicData.yorumSayisi)) ? Number(publicData.yorumSayisi) : 0;
+      }
+      document.getElementById('hv-yorum-popup-okunan').textContent = stats.okunan==null ? '—' : stats.okunan;
+      document.getElementById('hv-yorum-popup-okunacak').textContent = stats.okunacak==null ? '—' : stats.okunacak;
+      document.getElementById('hv-yorum-popup-begeni').textContent = stats.begeni==null ? '—' : stats.begeni;
+      document.getElementById('hv-yorum-popup-begenmeme').textContent = stats.begenmeme==null ? '—' : stats.begenmeme;
+      document.getElementById('hv-yorum-popup-yorum').textContent = stats.yorum==null ? '—' : stats.yorum;
+      let canliVeri={};
+      try { const canliSnap=await getDoc(doc(db,'kullanicilar',hedefUid)); if(canliSnap.exists()) canliVeri=canliSnap.data(); } catch(e) {}
+      document.getElementById('hv-yorum-popup-takipci').textContent=canliVeri.takipciSayisi||0;
+      document.getElementById('hv-yorum-popup-takip').textContent=canliVeri.takipSayisi||0;
+      try { const istatSnap=await getDoc(doc(db,'istatistikler','genel')); document.getElementById('hv-yorum-popup-toplam-uye').textContent=istatSnap.exists()?(istatSnap.data().toplamUye||0):0; } catch(e) { document.getElementById('hv-yorum-popup-toplam-uye').textContent='0'; }
+      const toplamUyeItem=document.getElementById('hv-yorum-popup-toplam-uye-item'); if(toplamUyeItem) toplamUyeItem.style.display=(!currentUser||currentUser.uid!==ADMIN_UID)?'none':'';
 
       const takipBtn = document.getElementById('hv-yorum-popup-takip-btn');
       if(currentUser && currentUser.uid!==hedefUid && hvSiteAcikMi('takipEtme')) {
         takipBtn.style.display = 'inline-block';
-        takipBtn.textContent = 'Takip Et';
-        takipBtn.classList.remove('takip-ediliyor');
-        void takipDurumu(currentUser.uid, hedefUid).then(durum => {
-          takipBtn.textContent = durum?'Takibi Bırak':'Takip Et';
-          takipBtn.classList.toggle('takip-ediliyor', durum);
-        }).catch(()=>{});
+        const durum = await takipDurumu(currentUser.uid, hedefUid);
+        takipBtn.textContent = durum?'Takibi Bırak':'Takip Et';
+        takipBtn.classList.toggle('takip-ediliyor', durum);
       } else {
         takipBtn.style.display = 'none';
       }
+
+      overlay.setAttribute('data-uid', hedefUid);
+      overlay.style.display = 'flex';
     } catch(e) { console.error('Popup açma hatası:', e); }
   }
 
@@ -4263,41 +4672,41 @@ import {
     document.getElementById('hv-yorum-profil-popup-overlay').style.display = 'none';
   }
 
-  function hvYorumPopupTakip() {
+  async function hvYorumPopupTakip() {
     if(!currentUser || !hvSiteAcikMi('takipEtme')) return;
     const overlay=document.getElementById('hv-yorum-profil-popup-overlay');
     const hedefUid=overlay?.getAttribute('data-uid');
     const takipBtn=document.getElementById('hv-yorum-popup-takip-btn');
     if(!hedefUid||!takipBtn||currentUser.uid===hedefUid) return;
+    if (takipBtn.dataset.busy === '1') return;
+    takipBtn.dataset.busy='1'; takipBtn.disabled=true;
 
-    const wasFollowing = takipBtn.classList.contains('takip-ediliyor');
-    const takipciEl = document.getElementById('hv-yorum-popup-takipci');
-    const takipEl = document.getElementById('hv-yorum-popup-takip');
-    const eskiTakipci = Number(takipciEl?.textContent || 0);
-    const eskiTakip = Number(takipEl?.textContent || 0);
+    const oncekiDurum = takipBtn.classList.contains('takip-ediliyor');
+    const targetCount = document.getElementById('hv-yorum-popup-takipci');
+    const myCount = document.getElementById('hv-yorum-popup-takip');
+    const oncekiTarget = parseInt(targetCount?.textContent,10);
+    const oncekiMine = parseInt(myCount?.textContent,10);
+    const yeniDurum = !oncekiDurum;
 
-    // Anında yansıt.
-    takipBtn.textContent = wasFollowing ? 'Takip Et' : 'Takibi Bırak';
-    takipBtn.classList.toggle('takip-ediliyor', !wasFollowing);
-    if (takipciEl) takipciEl.textContent = String(Math.max(0, eskiTakipci + (wasFollowing ? -1 : 1)));
-    if (takipEl) takipEl.textContent = String(Math.max(0, eskiTakip + (wasFollowing ? -1 : 1)));
+    // UI ANINDA değişir.
+    takipBtn.textContent = yeniDurum ? 'Takibi Bırak' : 'Takip Et';
+    takipBtn.classList.toggle('takip-ediliyor', yeniDurum);
+    if (targetCount && Number.isFinite(oncekiTarget)) targetCount.textContent = String(Math.max(0, oncekiTarget + (yeniDurum ? 1 : -1)));
+    if (myCount && Number.isFinite(oncekiMine)) myCount.textContent = String(Math.max(0, oncekiMine + (yeniDurum ? 1 : -1)));
 
-    void takipEt(currentUser.uid, hedefUid, currentUser.displayName||currentUser.email||currentUser.uid)
-      .then(sonuc => {
-        // Firestore sonucu güvence olarak kullan; UI zaten anında güncellendi.
-        takipBtn.textContent = sonuc ? 'Takibi Bırak' : 'Takip Et';
-        takipBtn.classList.toggle('takip-ediliyor', sonuc);
-      })
-      .catch(e => {
-        takipBtn.textContent = wasFollowing ? 'Takibi Bırak' : 'Takip Et';
-        takipBtn.classList.toggle('takip-ediliyor', wasFollowing);
-        if (takipciEl) takipciEl.textContent = String(eskiTakipci);
-        if (takipEl) takipEl.textContent = String(eskiTakip);
-        console.error('Takip işlemi:',e);
-        hvpToast('Takip işlemi gerçekleştirilemedi.');
-      });
+    try {
+      await takipEt(currentUser.uid,hedefUid,currentUser.displayName||currentUser.email||currentUser.uid);
+    } catch(e) {
+      takipBtn.textContent = oncekiDurum ? 'Takibi Bırak' : 'Takip Et';
+      takipBtn.classList.toggle('takip-ediliyor', oncekiDurum);
+      if (targetCount && Number.isFinite(oncekiTarget)) targetCount.textContent = String(oncekiTarget);
+      if (myCount && Number.isFinite(oncekiMine)) myCount.textContent = String(oncekiMine);
+      console.error('Takip işlemi:',e);
+      hvpToast((e&&e.code==='permission-denied')?'Takip işlemi için Firestore izni gerekiyor.':'Takip işlemi gerçekleştirilemedi.');
+    } finally {
+      takipBtn.disabled=false; takipBtn.dataset.busy='0';
+    }
   }
-
   function init() {
     const container = document.querySelector('.xoxx0i-post-comments');
     if(!container) return;
@@ -4400,6 +4809,7 @@ import {
       const commentsEnabled = hvSiteAcikMi('yorumYapma');
       loginUyari.style.display = (!currentUser || !commentsEnabled)?'block':'none';
       formAlani.style.display = (currentUser && commentsEnabled)?'block':'none';
+      yorumDinlemeyiBaslat();
     });
 
     temizleBtn.addEventListener('click', () => { input.value = ''; });
@@ -4431,21 +4841,16 @@ import {
           tik.className = 'mavi-tik'; tik.textContent = ' ✔'; tik.title = 'Doğrulanmış Hesap';
           yazarDiv.appendChild(tik);
         }
-        if (!currentUser) {
-          yazarDiv.style.cursor = 'default';
-          yazarDiv.addEventListener('click', (e) => {
-            e.stopPropagation();
-          });
+        if (y.uid) {
+          yazarDiv.style.cursor = 'pointer';
+          yazarDiv.addEventListener('click', (e) => { e.stopPropagation(); hvYorumProfilPopupAc(y.uid); });
         } else {
-          yazarDiv.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if(y.uid) hvYorumProfilPopupAc(y.uid);
-          });
+          yazarDiv.style.cursor = 'default';
         }
         icerikDiv.appendChild(yazarDiv);
 
         const metinDiv = document.createElement('div');
-        metinDiv.className = 'hv-yorum-metin'; metinDiv.textContent = y.icerik;
+        metinDiv.className = 'hv-yorum-metin' + (/^@[^:]+:\s/.test(String(y.icerik||'')) ? ' hv-yorum-alinti' : ''); metinDiv.textContent = y.icerik;
         icerikDiv.appendChild(metinDiv);
 
         if(y.duzenlenmeTarihi) {
@@ -4490,11 +4895,11 @@ import {
 
         const tarihDiv = document.createElement('div');
         tarihDiv.className = 'hv-yorum-tarih';
-        tarihDiv.textContent = y.tarih ? new Date(y.tarih.toDate()).toLocaleString('tr-TR') : '';
+        tarihDiv.textContent = y.tarih ? (y.tarih.toDate ? y.tarih.toDate() : new Date(y.tarih)).toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
         icerikDiv.appendChild(tarihDiv);
 
         const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'hv-yorum-actions';
+        actionsDiv.className = 'hv-yorum-actions' + (hvSiteAcikMi('yorumYapma') ? '' : ' hv-yorum-islem-kapali');
 
         const oyGrup = document.createElement('div');
         oyGrup.className = 'hvp-oy-grup';
@@ -4503,7 +4908,6 @@ import {
         begeniBtn.className = 'hvp-oy-btn begeni-btn';
         begeniBtn.innerHTML = '<i class="fa-solid fa-thumbs-up" style="color:#10b981;"></i>'; // Yeşil
         if (y.kullaniciOyu === 'begeni') begeniBtn.classList.add('aktif-begeni');
-        begeniBtn.onclick = () => handleOy(y, 'begeni', begeniBtn, begeniSayi, begenmemeBtn, begenmemeSayi);
         const begeniSayi = document.createElement('span');
         begeniSayi.className = 'hvp-oy-sayi'; begeniSayi.textContent = y.begeni||0;
 
@@ -4511,7 +4915,6 @@ import {
         begenmemeBtn.className = 'hvp-oy-btn begenmeme-btn';
         begenmemeBtn.innerHTML = '<i class="fa-solid fa-thumbs-down" style="color:#ef4444;"></i>'; // Kırmızı
         if (y.kullaniciOyu === 'begenmeme') begenmemeBtn.classList.add('aktif-begenmeme');
-        begenmemeBtn.onclick = () => handleOy(y, 'begenmeme', begeniBtn, begeniSayi, begenmemeBtn, begenmemeSayi);
         const begenmemeSayi = document.createElement('span');
         begenmemeSayi.className = 'hvp-oy-sayi'; begenmemeSayi.textContent = y.begenmeme||0;
 
@@ -4519,6 +4922,8 @@ import {
         oyGrup.appendChild(begeniSayi);
         oyGrup.appendChild(begenmemeBtn);
         oyGrup.appendChild(begenmemeSayi);
+        begeniBtn.onclick = () => handleOy(y, 'begeni', begeniBtn, begeniSayi, begenmemeBtn, begenmemeSayi);
+        begenmemeBtn.onclick = () => handleOy(y, 'begenmeme', begeniBtn, begeniSayi, begenmemeBtn, begenmemeSayi);
         actionsDiv.appendChild(oyGrup);
 
         const alintiBtn = document.createElement('button');
@@ -4549,25 +4954,44 @@ import {
         div.appendChild(icerikDiv);
         liste.appendChild(div);
 
-        editDiv.querySelector('.edit-save').onclick = () => {
+        editDiv.querySelector('.edit-save').onclick = async () => {
           const yeniIcerik = document.getElementById('edit-text-'+y.id).value.trim();
           if(!yeniIcerik) return;
           const eskiIcerik = y.icerik;
+          const eskiDuzenleme = y.duzenlenmeTarihi;
           const postRef = doc(db, 'postYorumlar', encodedPost, 'mesajlar', y.id);
           const yorumRef = y.yorumKayitId ? doc(db, 'yorumlar', y.uid, 'liste', y.yorumKayitId) : null;
+          const duzTarih = new Date().toISOString();
 
-          // Anında ekrana yansıt.
+          // UI ANINDA güncellenir.
           y.icerik = yeniIcerik;
-          editTextarea.value = yeniIcerik;
+          y.duzenlenmeTarihi = duzTarih;
+          metinDiv.textContent = yeniIcerik;
+          metinDiv.classList.toggle('hv-yorum-alinti', /^@[^:]+:\s/.test(String(yeniIcerik||'')));
+          let duzTarihDiv = icerikDiv.querySelector('.hv-yorum-tarih');
+          if (!duzTarihDiv || !duzTarihDiv.textContent.startsWith('Düzenlendi:')) {
+            duzTarihDiv = document.createElement('div');
+            duzTarihDiv.className = 'hv-yorum-tarih';
+            duzTarihDiv.style.fontStyle = 'italic';
+            icerikDiv.insertBefore(duzTarihDiv, editDiv);
+          }
+          duzTarihDiv.textContent = 'Düzenlendi: '+new Date(duzTarih).toLocaleString('tr-TR');
           editDiv.style.display = 'none';
-          siralaVeGoster();
 
-          hvYorumGuncelle(yorumRef||postRef, postRef, yeniIcerik, eskiIcerik)
-            .catch(e => {
-              y.icerik = eskiIcerik;
-              siralaVeGoster();
-              alert('Düzenleme hatası: '+e.message);
-            });
+          try {
+            await hvYorumGuncelle(yorumRef||postRef, postRef, yeniIcerik, eskiIcerik);
+          } catch(e) {
+            y.icerik = eskiIcerik;
+            y.duzenlenmeTarihi = eskiDuzenleme;
+            metinDiv.textContent = eskiIcerik;
+            metinDiv.classList.toggle('hv-yorum-alinti', /^@[^:]+:\s/.test(String(eskiIcerik||'')));
+            if (eskiDuzenleme) {
+              duzTarihDiv.textContent = 'Düzenlendi: '+new Date(eskiDuzenleme).toLocaleString('tr-TR');
+            } else if (duzTarihDiv) {
+              duzTarihDiv.remove();
+            }
+            alert('Düzenleme hatası: '+e.message);
+          }
         };
         editDiv.querySelector('.edit-cancel').onclick = () => editDiv.style.display = 'none';
       });
@@ -4606,32 +5030,33 @@ import {
       if (yeniOy === 'begeni') yeniBegeni++;
       if (yeniOy === 'begenmeme') yeniBegenmeme++;
 
-      // SOSYAL MEDYA TİPİ OPTİMİSTİK UI: anında yansıt.
+      // UI ANINDA güncellenir; Firestore beklenmez.
       yorumVerisi.kullaniciOyu = yeniOy;
       yorumVerisi.begeni = yeniBegeni;
       yorumVerisi.begenmeme = yeniBegenmeme;
+
       if (begeniSayi) begeniSayi.textContent = String(yeniBegeni);
       if (begenmemeSayi) begenmemeSayi.textContent = String(yeniBegenmeme);
       if (begeniBtn) begeniBtn.classList.toggle('aktif-begeni', yeniOy === 'begeni');
       if (begenmemeBtn) begenmemeBtn.classList.toggle('aktif-begenmeme', yeniOy === 'begenmeme');
 
-      const postRef = doc(db, 'postYorumlar', encodedPost, 'mesajlar', yorumVerisi.id);
-      const yorumRef = yorumVerisi.yorumKayitId ? doc(db, 'yorumlar', yorumVerisi.uid, 'liste', yorumVerisi.yorumKayitId) : null;
-
-      // Firestore arka planda. Kullanıcı burada bekletilmez.
-      hvOyVer(yorumRef || postRef, currentUser.uid, tur, postRef)
-        .catch(e => {
-          yorumVerisi.kullaniciOyu = oncekiOy;
-          yorumVerisi.begeni = oncekiBegeni;
-          yorumVerisi.begenmeme = oncekiBegenmeme;
-          if (begeniSayi) begeniSayi.textContent = String(oncekiBegeni);
-          if (begenmemeSayi) begenmemeSayi.textContent = String(oncekiBegenmeme);
-          if (begeniBtn) begeniBtn.classList.toggle('aktif-begeni', oncekiOy === 'begeni');
-          if (begenmemeBtn) begenmemeBtn.classList.toggle('aktif-begenmeme', oncekiOy === 'begenmeme');
-          console.error('Oy hatası:', e);
-          actionToast('Beğeni kaydedilemedi.');
-        })
-        .finally(() => _oyBekleyenler.delete(oyAnahtar));
+      try {
+        const postRef = doc(db, 'postYorumlar', encodedPost, 'mesajlar', yorumVerisi.id);
+        const yorumRef = yorumVerisi.yorumKayitId ? doc(db, 'yorumlar', yorumVerisi.uid, 'liste', yorumVerisi.yorumKayitId) : null;
+        await hvOyVer(yorumRef||postRef, currentUser.uid, tur, postRef);
+      } catch(e) {
+        // Yazma başarısız olursa yalnızca optimistic UI değişikliği geri alınır.
+        yorumVerisi.kullaniciOyu = oncekiOy;
+        yorumVerisi.begeni = oncekiBegeni;
+        yorumVerisi.begenmeme = oncekiBegenmeme;
+        if (begeniSayi) begeniSayi.textContent = String(oncekiBegeni);
+        if (begenmemeSayi) begenmemeSayi.textContent = String(oncekiBegenmeme);
+        if (begeniBtn) begeniBtn.classList.toggle('aktif-begeni', oncekiOy === 'begeni');
+        if (begenmemeBtn) begenmemeBtn.classList.toggle('aktif-begenmeme', oncekiOy === 'begenmeme');
+        console.error('Oy hatası:', e);
+      } finally {
+        _oyBekleyenler.delete(oyAnahtar);
+      }
     }
 
     async function handleSil(yorumVerisi) {
@@ -4639,43 +5064,46 @@ import {
       if(!confirm('Emin misiniz?')) return;
       const postRef = doc(db, 'postYorumlar', encodedPost, 'mesajlar', yorumVerisi.id);
       const yorumRef = yorumVerisi.yorumKayitId ? doc(db, 'yorumlar', yorumVerisi.uid, 'liste', yorumVerisi.yorumKayitId) : null;
-      const eskiSilindi = yorumVerisi.silindi;
+      const eskiYorumlar = allYorumlar.slice();
 
-      // Anında kaldır.
+      // UI ANINDA kaldırılır.
       yorumVerisi.silindi = true;
+      allYorumlar = allYorumlar.filter(y => y.id !== yorumVerisi.id);
       sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
       siralaVeGoster();
 
-      hvYorumSil(yorumRef, postRef)
-        .catch(e => {
-          yorumVerisi.silindi = eskiSilindi || false;
-          sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
-          siralaVeGoster();
-          alert('Silme hatası: '+e.message);
-        });
+      try {
+        await hvYorumSil(yorumRef, postRef);
+      } catch(e) {
+        allYorumlar = eskiYorumlar;
+        yorumVerisi.silindi = false;
+        sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
+        siralaVeGoster();
+        alert('Silme hatası: '+e.message);
+      }
     }
 
-    let _yorumGonderiliyor = false;
-
-    gonderBtn.addEventListener('click', () => {
+    gonderBtn.addEventListener('click', async () => {
       const icerik = input.value.trim();
       if (!hvSiteAcikMi('yorumYapma')) return;
       if(!icerik||!currentUser) return;
       if (icerik.length > 2000) { alert('Yorum en fazla 2000 karakter olabilir.'); return; }
-      if (_yorumGonderiliyor) return;
+      if (gonderBtn.dataset.hvBekliyor === '1') return;
 
-      _yorumGonderiliyor = true;
+      gonderBtn.dataset.hvBekliyor = '1';
       gonderBtn.disabled = true;
 
-      const kayitId = Date.now().toString() + '_' + Math.random().toString(36).slice(2,8);
+      const kayitId = Date.now().toString();
       const postDocRef = doc(collection(db, 'postYorumlar', encodedPost, 'mesajlar'));
       const yorumRef = doc(db, 'yorumlar', currentUser.uid, 'liste', kayitId);
+      const guvenliYazar = currentUser.displayName || 'Üye';
       const profilBilgi = window._bilgiCache?.[currentUser.uid] || {};
-      const guvenliYazar = currentUser.displayName || profilBilgi.isim || 'Üye';
-
       const optimisticYorum = {
         id: postDocRef.id,
         yazar: guvenliYazar,
+        isim: profilBilgi.isim || guvenliYazar,
+        kadi: profilBilgi.kadi || null,
+        foto: profilBilgi.foto || currentUser.photoURL || null,
         icerik,
         tarih: new Date(),
         uid: currentUser.uid,
@@ -4685,67 +5113,52 @@ import {
         kullaniciOyu: null,
         yorumKayitId: kayitId,
         silindi: false,
-        isim: profilBilgi.isim || guvenliYazar,
-        kadi: profilBilgi.kadi || null,
-        foto: profilBilgi.foto || currentUser.photoURL || null,
-        _hvOptimistic: true,
-        _hvPending: true
+        _hvOptimistic: true
       };
 
-      // 1) ANINDA YANSIT.
+      // Yorum, Firestore cevabı beklenmeden anında görünür.
       allYorumlar.unshift(optimisticYorum);
       sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
       siralaVeGoster();
       input.value = '';
 
-      // 2) AĞDA ARKA PLANDA KAYDET.
-      const batch = writeBatch(db);
-      batch.set(postDocRef, {
-        yazar: guvenliYazar,
-        icerik,
-        tarih: serverTimestamp(),
-        uid: currentUser.uid,
-        begeni:0,
-        begenmeme:0,
-        oylar:{},
-        yorumKayitId:kayitId,
-        silindi:false
-      });
-      batch.set(yorumRef, {
-        url:postPath,
-        baslik:document.title,
-        icerik:icerik.substring(0,500),
-        tarih:serverTimestamp(),
-        postYorumId:`${encodedPost}/${postDocRef.id}`,
-        silindi:false
-      });
-
-      batch.commit()
-        .then(() => {
-          optimisticYorum._hvPending = false;
-          optimisticYorum._hvOptimistic = false;
-        })
-        .catch(e => {
-          allYorumlar = allYorumlar.filter(y => y.id !== optimisticYorum.id);
-          sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
-          siralaVeGoster();
-          input.value = icerik;
-          actionToast('Yorum kaydedilemedi.');
-          console.error('Yorum kaydetme hatası:', e);
-        })
-        .finally(() => {
-          // Kullanıcı yeni yorumu hemen yazabilsin.
-          _yorumGonderiliyor = false;
-          gonderBtn.disabled = false;
+      try {
+        const batch = writeBatch(db);
+        batch.set(postDocRef, {
+          yazar: guvenliYazar,
+          icerik,
+          tarih: serverTimestamp(),
+          uid: currentUser.uid,
+          begeni:0,
+          begenmeme:0,
+          oylar:{},
+          yorumKayitId:kayitId,
+          silindi:false
         });
-
-      // Kullanıcıya network bekleme hissi verme.
-      _yorumGonderiliyor = false;
-      gonderBtn.disabled = false;
+        batch.set(yorumRef, {
+          url:postPath,
+          baslik:document.title,
+          icerik:icerik.substring(0,500),
+          tarih: serverTimestamp(),
+          postYorumId:`${encodedPost}/${postDocRef.id}`,
+          silindi:false
+        });
+        await batch.commit();
+      } catch(e) {
+        // Sadece başarısız durumda anlık eklenen yorum geri alınır.
+        allYorumlar = allYorumlar.filter(y => y.id !== optimisticYorum.id);
+        sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
+        siralaVeGoster();
+        input.value = icerik;
+        alert('Hata: '+e.message);
+      } finally {
+        delete gonderBtn.dataset.hvBekliyor;
+        gonderBtn.disabled = false;
+      }
     });
 
     // PERFORMANS DÜZELTMESİ:
-    // Eskiden onSnapshot(collection(...)) ile postun TÜM yorumları (limitsiz)
+    // Yorumlar kontrollü polling ile okunur; limitsiz gerçek zamanlı Listen kanalı kullanılmaz.
     // dinleniyordu ve her güncellemede yazar bilgileri sıralı (await ... for)
     // çekiliyordu. Binlerce yorumlu bir yazıda bu hem çok fazla okuma
     // maliyeti hem de yavaş render demekti. Artık:
@@ -4758,14 +5171,14 @@ import {
     let _yorumSinir = 30;
     let _yorumDurdur = null;
 
-    function yorumDinlemeyiBaslat() {
-      if (_yorumDurdur) { _yorumDurdur(); _yorumDurdur = null; }
+    async function yorumVerisiniYukle() {
       const yorumSorgusu = query(
         collection(db, 'postYorumlar', encodedPost, 'mesajlar'),
         orderBy('tarih', 'desc'),
         limit(_yorumSinir)
       );
-      _yorumDurdur = onSnapshot(yorumSorgusu, async (snapshot) => {
+      try {
+        const snapshot = await getDocs(yorumSorgusu);
         const gecerliDoclar = snapshot.docs.filter(d => !d.data().silindi);
         const yorumlar = await Promise.all(gecerliDoclar.map(async (docSnap) => {
           const data = docSnap.data();
@@ -4775,17 +5188,23 @@ import {
             kullaniciOyu: data.oylar && currentUser ? data.oylar[currentUser.uid] : null
           };
         }));
-        // Ağdan gelen listeyi al; o anda gönderilmiş optimistic yorum varsa kaybolmasını önle.
-        const optimistic = allYorumlar.filter(y => y._hvOptimistic && !yorumlar.some(g => g.id === y.id));
-        allYorumlar = [...optimistic, ...yorumlar];
-        sayacSpan.textContent = String(allYorumlar.length);
+        const kanonikYorumlar = await hvYorumlariKanonikSenkronizeEt(yorumlar);
+        allYorumlar = kanonikYorumlar;
+        sayacSpan.textContent = kanonikYorumlar.length;
         siralaVeGoster();
 
         const dahaFazlaBtn = document.getElementById('hv-yorum-daha-fazla');
         if (dahaFazlaBtn) {
           dahaFazlaBtn.style.display = (snapshot.docs.length >= _yorumSinir) ? 'block' : 'none';
         }
-      });
+      } catch(e) {
+        /* Geçici Firestore ağ hatasında cache korunur; sonraki polling tekrar dener. */
+      }
+    }
+
+    function yorumDinlemeyiBaslat() {
+      if (_yorumDurdur) { _yorumDurdur(); _yorumDurdur = null; }
+      _yorumDurdur = window.hvGuvenliFirestorePolling(yorumVerisiniYukle, 10000);
     }
 
     const dahaFazlaBtn = document.getElementById('hv-yorum-daha-fazla');
@@ -5085,17 +5504,19 @@ import {
         try { window.hvIcerikKilidiUnsub(); } catch (e) {}
       }
 
-      window.hvIcerikKilidiUnsub = onSnapshot(ref, snap2 => {
-        const c = snap2.exists() ? snap2.data() : fallback;
-        window.hvIcerikKilidi = c;
-        uygulayici(c, auth.currentUser);
-      }, () => {
-        // Rules/izin problemi halinde mevcut eski davranışı koru.
-        window.hvIcerikKilidi = fallback;
-        uygulayici(fallback, auth.currentUser);
-      });
+      
+      window.hvIcerikKilidiUnsub = window.hvGuvenliFirestorePolling(async () => {
+        try {
+          const snap2 = await getDoc(ref);
+          const c = snap2.exists() ? snap2.data() : fallback;
+          window.hvIcerikKilidi = c;
+          uygulayici(c, auth.currentUser);
+        } catch(e) {
+          // Geçici ağ hatasında mevcut yapı korunur.
+        }
+      }, 20000);
     } catch (e) {
-      console.warn('İçerik kilidi ayarı okunamadı:', e.code || e.message);
+      /* Geçici Firestore ağ hatasında mevcut kilit durumu korunur. */
       window.hvIcerikKilidi = fallback;
       uygulayici(fallback, auth.currentUser);
     }
