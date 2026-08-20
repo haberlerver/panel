@@ -594,6 +594,20 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
 }
 .hv-auth-avatar-wrap{flex:0 0 auto!important;}
 
+#hv-auth-btn .hv-auth-kadi-at,
+#hv-mobil-auth-btn .hv-auth-kadi-at{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+  line-height:1!important;
+  margin:0!important;
+  padding:0!important;
+  font-size:1em!important;
+  font-weight:800!important;
+  letter-spacing:0!important;
+  transform:translateY(-1px)!important;
+}
 #hv-auth-btn .hv-auth-kadi-name,
 #hv-mobil-auth-btn .hv-auth-kadi-name{
   display:inline-block!important;
@@ -3111,8 +3125,8 @@ import {
       }
       const kadi = (dbData.kullaniciAdi || '').trim().toLowerCase();
       if (kadi) hvKadiCacheYaz(user.uid, kadi);
-      const gorunen = (dbData.tamAd || user.displayName || 'Kullanıcı').trim();
-      const avatarIsim = gorunen || kadi || user.email || 'U';
+      const gorunen = kadi ? ('@' + kadi) : '@kullanici';
+      let avatarIsim = kadi || dbData.tamAd || user.displayName || user.email || 'U';
       const fotoSrc = dbData.foto || user.photoURL;
 
       if (masaustuBtn) {
@@ -3130,11 +3144,15 @@ import {
         masaustuBtn.appendChild(avatarWrap);
         const spanM = document.createElement('span');
         spanM.className = 'hv-auth-kadi';
+        const atM = document.createElement('span');
+        atM.className = 'hv-auth-kadi-at';
+        atM.textContent = '@';
         const nameM = document.createElement('span');
         nameM.className = 'hv-auth-kadi-name';
-        nameM.textContent = gorunen || 'Kullanıcı';
+        nameM.textContent = kadi || 'kullanici';
+        spanM.appendChild(atM);
         spanM.appendChild(nameM);
-        hvAuthKadiFontAyarla(spanM, gorunen);
+        hvAuthKadiFontAyarla(spanM, kadi);
         masaustuBtn.appendChild(spanM);
         hvBildirimYerelRozetGeriYukle(user);
       }
@@ -3153,11 +3171,15 @@ import {
         mobilBtn.appendChild(avatarWrapM);
         const spanMb = document.createElement('span');
         spanMb.className = 'hv-auth-kadi';
+        const atMb = document.createElement('span');
+        atMb.className = 'hv-auth-kadi-at';
+        atMb.textContent = '@';
         const nameMb = document.createElement('span');
         nameMb.className = 'hv-auth-kadi-name';
-        nameMb.textContent = gorunen || 'Kullanıcı';
+        nameMb.textContent = kadi || 'kullanici';
+        spanMb.appendChild(atMb);
         spanMb.appendChild(nameMb);
-        hvAuthKadiFontAyarla(spanMb, gorunen);
+        hvAuthKadiFontAyarla(spanMb, kadi);
         mobilBtn.appendChild(spanMb);
         hvBildirimYerelRozetGeriYukle(user);
       }
