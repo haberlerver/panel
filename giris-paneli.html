@@ -4841,7 +4841,6 @@ import {
         begeniBtn.className = 'hvp-oy-btn begeni-btn';
         begeniBtn.innerHTML = '<i class="fa-solid fa-thumbs-up" style="color:#10b981;"></i>'; // Yeşil
         if (y.kullaniciOyu === 'begeni') begeniBtn.classList.add('aktif-begeni');
-        begeniBtn.onclick = () => handleOy(y, 'begeni');
         const begeniSayi = document.createElement('span');
         begeniSayi.className = 'hvp-oy-sayi'; begeniSayi.textContent = y.begeni||0;
 
@@ -4849,7 +4848,6 @@ import {
         begenmemeBtn.className = 'hvp-oy-btn begenmeme-btn';
         begenmemeBtn.innerHTML = '<i class="fa-solid fa-thumbs-down" style="color:#ef4444;"></i>'; // Kırmızı
         if (y.kullaniciOyu === 'begenmeme') begenmemeBtn.classList.add('aktif-begenmeme');
-        begenmemeBtn.onclick = () => handleOy(y, 'begenmeme');
         const begenmemeSayi = document.createElement('span');
         begenmemeSayi.className = 'hvp-oy-sayi'; begenmemeSayi.textContent = y.begenmeme||0;
 
@@ -4857,6 +4855,8 @@ import {
         oyGrup.appendChild(begeniSayi);
         oyGrup.appendChild(begenmemeBtn);
         oyGrup.appendChild(begenmemeSayi);
+        begeniBtn.onclick = () => handleOy(y, 'begeni', begeniBtn, begeniSayi, begenmemeBtn, begenmemeSayi);
+        begenmemeBtn.onclick = () => handleOy(y, 'begenmeme', begeniBtn, begeniSayi, begenmemeBtn, begenmemeSayi);
         actionsDiv.appendChild(oyGrup);
 
         const alintiBtn = document.createElement('button');
@@ -4909,11 +4909,56 @@ import {
     }
     filtreSelect.addEventListener('change', siralaVeGoster);
 
-    async function handleOy(yorumVerisi, tur) {
+    const _oyBekleyenler = new Set();
+
+    async function handleOy(yorumVerisi, tur, begeniBtn, begeniSayi, begenmemeBtn, begenmemeSayi) {
       if(!currentUser) { alert('Giriş yapmalısınız.'); return; }
-      const postRef = doc(db, 'postYorumlar', encodedPost, 'mesajlar', yorumVerisi.id);
-      const yorumRef = yorumVerisi.yorumKayitId ? doc(db, 'yorumlar', yorumVerisi.uid, 'liste', yorumVerisi.yorumKayitId) : null;
-      await hvOyVer(yorumRef||postRef, currentUser.uid, tur, postRef);
+      const oyAnahtar = yorumVerisi.id + ':' + currentUser.uid;
+      if (_oyBekleyenler.has(oyAnahtar)) return;
+      _oyBekleyenler.add(oyAnahtar);
+
+      const oncekiOy = yorumVerisi.kullaniciOyu || null;
+      const oncekiBegeni = Number(yorumVerisi.begeni || 0);
+      const oncekiBegenmeme = Number(yorumVerisi.begenmeme || 0);
+
+      let yeniOy = tur;
+      if (oncekiOy === tur) yeniOy = null;
+
+      let yeniBegeni = oncekiBegeni;
+      let yeniBegenmeme = oncekiBegenmeme;
+
+      if (oncekiOy === 'begeni') yeniBegeni = Math.max(0, yeniBegeni - 1);
+      if (oncekiOy === 'begenmeme') yeniBegenmeme = Math.max(0, yeniBegenmeme - 1);
+      if (yeniOy === 'begeni') yeniBegeni++;
+      if (yeniOy === 'begenmeme') yeniBegenmeme++;
+
+      // UI ANINDA güncellenir; Firestore beklenmez.
+      yorumVerisi.kullaniciOyu = yeniOy;
+      yorumVerisi.begeni = yeniBegeni;
+      yorumVerisi.begenmeme = yeniBegenmeme;
+
+      if (begeniSayi) begeniSayi.textContent = String(yeniBegeni);
+      if (begenmemeSayi) begenmemeSayi.textContent = String(yeniBegenmeme);
+      if (begeniBtn) begeniBtn.classList.toggle('aktif-begeni', yeniOy === 'begeni');
+      if (begenmemeBtn) begenmemeBtn.classList.toggle('aktif-begenmeme', yeniOy === 'begenmeme');
+
+      try {
+        const postRef = doc(db, 'postYorumlar', encodedPost, 'mesajlar', yorumVerisi.id);
+        const yorumRef = yorumVerisi.yorumKayitId ? doc(db, 'yorumlar', yorumVerisi.uid, 'liste', yorumVerisi.yorumKayitId) : null;
+        await hvOyVer(yorumRef||postRef, currentUser.uid, tur, postRef);
+      } catch(e) {
+        // Yazma başarısız olursa yalnızca optimistic UI değişikliği geri alınır.
+        yorumVerisi.kullaniciOyu = oncekiOy;
+        yorumVerisi.begeni = oncekiBegeni;
+        yorumVerisi.begenmeme = oncekiBegenmeme;
+        if (begeniSayi) begeniSayi.textContent = String(oncekiBegeni);
+        if (begenmemeSayi) begenmemeSayi.textContent = String(oncekiBegenmeme);
+        if (begeniBtn) begeniBtn.classList.toggle('aktif-begeni', oncekiOy === 'begeni');
+        if (begenmemeBtn) begenmemeBtn.classList.toggle('aktif-begenmeme', oncekiOy === 'begenmeme');
+        console.error('Oy hatası:', e);
+      } finally {
+        _oyBekleyenler.delete(oyAnahtar);
+      }
     }
 
     async function handleSil(yorumVerisi) {
@@ -4929,12 +4974,41 @@ import {
       if (!hvSiteAcikMi('yorumYapma')) return;
       if(!icerik||!currentUser) return;
       if (icerik.length > 2000) { alert('Yorum en fazla 2000 karakter olabilir.'); return; }
+      if (gonderBtn.dataset.hvBekliyor === '1') return;
+
+      gonderBtn.dataset.hvBekliyor = '1';
       gonderBtn.disabled = true;
+
+      const kayitId = Date.now().toString();
+      const postDocRef = doc(collection(db, 'postYorumlar', encodedPost, 'mesajlar'));
+      const yorumRef = doc(db, 'yorumlar', currentUser.uid, 'liste', kayitId);
+      const guvenliYazar = currentUser.displayName || 'Üye';
+      const profilBilgi = window._bilgiCache?.[currentUser.uid] || {};
+      const optimisticYorum = {
+        id: postDocRef.id,
+        yazar: guvenliYazar,
+        isim: profilBilgi.isim || guvenliYazar,
+        kadi: profilBilgi.kadi || null,
+        foto: profilBilgi.foto || currentUser.photoURL || null,
+        icerik,
+        tarih: new Date(),
+        uid: currentUser.uid,
+        begeni: 0,
+        begenmeme: 0,
+        oylar: {},
+        kullaniciOyu: null,
+        yorumKayitId: kayitId,
+        silindi: false,
+        _hvOptimistic: true
+      };
+
+      // Yorum, Firestore cevabı beklenmeden anında görünür.
+      allYorumlar.unshift(optimisticYorum);
+      sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
+      siralaVeGoster();
+      input.value = '';
+
       try {
-        const kayitId = Date.now().toString();
-        const postDocRef = doc(collection(db, 'postYorumlar', encodedPost, 'mesajlar'));
-        const yorumRef = doc(db, 'yorumlar', currentUser.uid, 'liste', kayitId);
-        const guvenliYazar = currentUser.displayName || 'Üye';
         const batch = writeBatch(db);
         batch.set(postDocRef, {
           yazar: guvenliYazar,
@@ -4956,9 +5030,17 @@ import {
           silindi:false
         });
         await batch.commit();
-        input.value = '';
-      } catch(e) { alert('Hata: '+e.message); }
-      gonderBtn.disabled = false;
+      } catch(e) {
+        // Sadece başarısız durumda anlık eklenen yorum geri alınır.
+        allYorumlar = allYorumlar.filter(y => y.id !== optimisticYorum.id);
+        sayacSpan.textContent = String(allYorumlar.filter(y => !y.silindi).length);
+        siralaVeGoster();
+        input.value = icerik;
+        alert('Hata: '+e.message);
+      } finally {
+        delete gonderBtn.dataset.hvBekliyor;
+        gonderBtn.disabled = false;
+      }
     });
 
     // PERFORMANS DÜZELTMESİ:
