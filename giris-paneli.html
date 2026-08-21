@@ -2295,23 +2295,29 @@ import {
     if (!auth || !auth.currentUser) return;
     const user = auth.currentUser;
     if (_dogrulamaInterval) clearInterval(_dogrulamaInterval);
+    let calisiyor = false;
     _dogrulamaInterval = setInterval(async () => {
+      if (calisiyor || auth.currentUser?.uid !== user.uid) return;
+      calisiyor = true;
       try {
         await user.reload();
         if (user.emailVerified) {
           clearInterval(_dogrulamaInterval);
           _dogrulamaInterval = null;
           try {
-            await setDoc(doc(window._firebaseDb, 'kullanicilar', user.uid), { emailDogrulandi: true }, { merge: true });
-          } catch(e) {}
-          await btnVeMenuGuncelle(user);
+            await setDoc(doc(window._firebaseDb, 'kullanicilar', user.uid), { email: (user.email || '').toLowerCase(), emailDogrulandi: true }, { merge: true });
+          } catch(e) { console.warn('E-posta doğrulama profiline işlenemedi:', e?.code || e?.message || e); }
+          try { await hvAuthDurumUygula(user, true); } catch(e) {}
           hvModalKilit(false);
           hvModalKapat();
-          window.location.reload();
         }
       } catch(e) {
-        clearInterval(_dogrulamaInterval);
-        _dogrulamaInterval = null;
+        /* Geçici ağ hatasında polling'i sonlandırma; sonraki turda tekrar dener. */
+        if (e?.code && !['auth/network-request-failed','unavailable'].includes(e.code)) {
+          console.warn('E-posta doğrulama kontrolü başarısız:', e.code);
+        }
+      } finally {
+        calisiyor = false;
       }
     }, 3000);
   }
@@ -2601,19 +2607,14 @@ import {
       await reauthenticateWithCredential(user, cred);
       await verifyBeforeUpdateEmail(user, yeniEmail);
 
-      try {
-        await setDoc(doc(db, 'kullanicilar', user.uid), { email: yeniEmail.toLowerCase() }, { merge: true });
-        const snap = await getDoc(doc(db, 'kullanicilar', user.uid));
-        if (snap.exists() && snap.data().kullaniciAdi) {
-          await setDoc(doc(db, 'kullaniciAdlari', snap.data().kullaniciAdi), { email: yeniEmail.toLowerCase() }, { merge: true });
-        }
-      } catch(e) {}
-
+      /* verifyBeforeUpdateEmail sonrası doğrulama tamamlanana kadar Auth'taki
+         mevcut e-posta korunur. Firestore'u da bu aşamada değiştirmiyoruz. */
       document.getElementById('hv-dog-email').textContent = yeniEmail;
       document.getElementById('hv-dog-email-degistir-wrap').classList.remove('goster');
       document.getElementById('hv-dog-email-gonder-btn').style.display = 'none';
       document.getElementById('hv-dog-email-degistir-toggle-btn').textContent = '✉️ E-posta Adresini Değiştir';
       hvMesaj('Yeni e-postanıza doğrulama linki gönderildi. Spam klasörünü kontrol edin.', 'basari', 'hv-dog');
+      dogrulamaKontrolBaslat();
     } catch(e) {
       if (e.code === 'auth/email-already-in-use') {
         hvMesaj('Bu e-posta adresi başka bir hesap tarafından kullanılıyor.', 'hata', 'hv-dog');
@@ -2636,7 +2637,7 @@ import {
     _sosyalGirisYapildi = false;
     _kayitliUser = null;
     dogrulamaKontrolDurdur();
-    await btnVeMenuGuncelle(null);
+    await btnVeMenuGuncelle(null).catch(()=>{});
     hvModalKilit(false);
     hvModalKapat();
   };
@@ -3116,19 +3117,31 @@ import {
     const masaustuBtn = document.getElementById('hv-auth-btn');
     const mobilBtn = document.getElementById('hv-mobil-auth-btn');
     hvBildirimYerelRozetGeriYukle(user);
-    hvBildirimYukle(user).catch(() => {});
+    if (user) hvBildirimYukle(user).catch(() => {});
+    else hvBildirimTemizle();
     if (hvSiteAcikMi('duyurular')) hvDuyuruYukle().catch(()=>{}); else hvDuyuruTemizle();
 
     if (user) {
       if (!dbData) {
         try {
-          const snap = await getDoc(doc(window._firebaseDb, 'kullanicilar', user.uid));
-          dbData = snap.exists() ? snap.data() : {};
-        } catch(e) { dbData = {}; }
+          const sonuc = await hvProfilHazirla(user, { createIfMissing: true });
+          dbData = sonuc.data;
+        } catch (e) {
+          console.error('Oturum profil senkronizasyon hatası:', e);
+          if (e?.code === 'permission-denied') {
+            /* UI'ı sahte profil ile doldurmak yerine güvenli minimal görünüm. */
+            dbData = {};
+          } else if (e?.code === 'network-request-failed' || e?.code === 'unavailable') {
+            dbData = {};
+          } else {
+            dbData = {};
+          }
+        }
       }
-      const kadi = (dbData.kullaniciAdi || '').trim().toLowerCase();
+      dbData = dbData || {};
+      const kadi = hvKadiNormalize(dbData.kullaniciAdi);
       if (kadi) hvKadiCacheYaz(user.uid, kadi);
-      const gorunen = (dbData.tamAd || user.displayName || 'Kullanıcı').trim();
+      const gorunen = String(dbData.tamAd || user.displayName || 'Kullanıcı').trim();
       const avatarIsim = gorunen || kadi || user.email || 'U';
       const fotoSrc = dbData.foto || user.photoURL;
 
@@ -3153,7 +3166,6 @@ import {
         spanM.appendChild(nameM);
         hvAuthKadiFontAyarla(spanM, gorunen);
         masaustuBtn.appendChild(spanM);
-        hvBildirimYerelRozetGeriYukle(user);
       }
       if (mobilBtn) {
         mobilBtn.classList.add('giris-yapildi');
@@ -3176,28 +3188,23 @@ import {
         spanMb.appendChild(nameMb);
         hvAuthKadiFontAyarla(spanMb, gorunen);
         mobilBtn.appendChild(spanMb);
-        hvBildirimYerelRozetGeriYukle(user);
       }
 
-      if (dbData.kullaniciAdi && user.email) {
-        try {
-          const kaSnap = await getDoc(doc(window._firebaseDb, 'kullaniciAdlari', dbData.kullaniciAdi));
-          if (kaSnap.exists() && !kaSnap.data().email) {
-            await setDoc(doc(window._firebaseDb, 'kullaniciAdlari', dbData.kullaniciAdi), { email: user.email }, { merge: true });
-          }
-        } catch(e) {}
-      }
+      /* Eksik username indeksini güvenli biçimde tamir et; doğrudan kullanıcı UID'sine
+         göre işlem yapıldığı için başka hesabın indeksine yazılmaz. */
+      if (kadi) hvKadiIndeksiSaglamlastir(user, kadi).catch(e => console.warn('Kullanıcı adı indeksi onarılamadı:', e?.code || e?.message || e));
     } else {
       hvDuyuruTemizle();
       const svgIcon = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>`;
       if (masaustuBtn) {
         masaustuBtn.classList.remove('giris-yapildi');
-        masaustuBtn.innerHTML = svgIcon + ` <span>ÜYE GİRİŞİ</span>`;
+        masaustuBtn.innerHTML = svgIcon + '<span>ÜYE GİRİŞİ</span>';
       }
       if (mobilBtn) {
         mobilBtn.classList.remove('giris-yapildi');
-        mobilBtn.innerHTML = svgIcon + ` <span>ÜYE GİRİŞİ</span>`;
+        mobilBtn.innerHTML = svgIcon + '<span>ÜYE GİRİŞİ</span>';
       }
+      hvBildirimTemizle();
     }
   }
 
@@ -3263,53 +3270,17 @@ import {
     }
   }
 
-  /* ===== GOOGLE GİRİŞİ ===== */
+  /* ===== GOOGLE GİRİŞİ / PROFİL SENKRONİZASYONU ===== */
   function googleSlug(s) {
     const map = { 'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u','Ç':'c','Ğ':'g','İ':'i','I':'i','Ö':'o','Ş':'s','Ü':'u' };
     return String(s || '').replace(/[çğışüöÇĞİŞÜÖ]/g, ch => map[ch] || ch).toLowerCase()
-      .replace(/[^a-z0-9]+/g, '').replace(/^([^a-z]{0,4})/, '') || 'kullanici';
+      .replace(/[^a-z0-9]+/g, '').replace(/^[^a-z]+/, '') || 'kullanici';
   }
 
   function googleEmailKullaniciAdi(email) {
     const local = String(email || '').split('@')[0].trim();
     const slug = googleSlug(local);
-    if (slug && slug !== 'kullanici') return slug;
-    return 'kullanici';
-  }
-
-  async function benzersizKullaniciAdi(displayName, email) {
-    // Google kullanıcı adının tek kaynağı e-posta adresinin @ öncesidir.
-    // Örn: aliveli92@gmail.com -> aliveli92
-    const ham = String(email || '').split('@')[0].trim().toLowerCase();
-    let taban = ham.replace(/[^a-z0-9]/g, '');
-    if (!taban || !/^[a-z]/.test(taban)) {
-      taban = (googleSlug(displayName) || 'kullanici').replace(/[^a-z0-9]/g, '');
-    }
-    if (!taban || !/^[a-z]/.test(taban)) taban = 'kullanici';
-    taban = taban.slice(0, 20);
-    if (taban.length < 3) taban = ('kullanici' + taban).slice(0, 20);
-
-    const uygun = async (aday) => {
-      if (!/^[a-z][a-z0-9]{2,19}$/.test(aday)) return false;
-      const mevcut = await kaKontrol(aday);
-      return !mevcut;
-    };
-
-    if (await uygun(taban)) return taban;
-
-    // Sosyal ağlardaki gibi: ali -> ali1 -> ali2 -> ...
-    const kok = taban.slice(0, 18);
-    for (let i = 1; i <= 99; i++) {
-      const aday = (kok + i).slice(0, 20);
-      if (await uygun(aday)) return aday;
-    }
-
-    // Son güvenli geri dönüş; yarış durumunda yine indeks kontrolü yapılır.
-    for (let i = 0; i < 20; i++) {
-      const aday = (taban.slice(0, 14) + Math.floor(100000 + Math.random() * 900000)).slice(0, 20);
-      if (await uygun(aday)) return aday;
-    }
-    throw new Error('Kullanıcı adı üretilemedi.');
+    return slug || 'kullanici';
   }
 
   function googleAdSoyadAyir(displayName, email) {
@@ -3323,84 +3294,240 @@ import {
     return { ad: parcalar.shift(), soyad: parcalar.join(' ') };
   }
 
-  /* ============================================================
-     GOOGLE PROFİLİ — KULLANICI ADI KALICILIK KİLİDİ
-     Kullanıcı adı yalnızca Firestore'daki mevcut kayıt yoksa ilk kez üretilir.
-     Mevcut bir kullanıcı adı görüldüğü anda kanonik kabul edilir ve Google
-     hesabının displayName/e-posta bilgisi hiçbir koşulda bunun üzerine yazılmaz.
-     Eski hesaplarda kullanıcıAdiManuel alanı yoksa bile mevcut kullanıcı adı
-     otomatik olarak manuel/sabit kabul edilir.
-     ============================================================ */
+  /*
+     Kullanıcı adı cache'i yalnızca performans optimizasyonudur; yetki kaynağı
+     Firestore'dur. Cache'ten gelen değer tek başına sahiplik kabul edilmez.
+  */
   function hvKadiCacheKey(uid) { return 'hv_google_kadi_' + String(uid || ''); }
   function hvKadiCacheOku(uid) {
     try {
       const v = localStorage.getItem(hvKadiCacheKey(uid));
-      return v ? String(v).trim().toLowerCase() : '';
+      return v ? String(v).trim().toLowerCase().replace(/^@+/, '') : '';
     } catch (e) { return ''; }
   }
   function hvKadiCacheYaz(uid, kadi) {
-    const temiz = String(kadi || '').trim().toLowerCase();
+    const temiz = String(kadi || '').trim().toLowerCase().replace(/^@+/, '');
     if (!uid || !temiz) return;
     try { localStorage.setItem(hvKadiCacheKey(uid), temiz); } catch (e) {}
   }
 
+  function hvKadiNormalize(kadi) {
+    return String(kadi || '').trim().toLowerCase().replace(/^@+/, '');
+  }
+
+  function hvKadiAdayi(email, displayName) {
+    let taban = googleEmailKullaniciAdi(email).replace(/[^a-z0-9]/g, '');
+    if (!taban || !/^[a-z]/.test(taban)) taban = googleSlug(displayName).replace(/[^a-z0-9]/g, '');
+    if (!taban || !/^[a-z]/.test(taban)) taban = 'kullanici';
+    taban = taban.slice(0, 20);
+    if (taban.length < 3) taban = ('kullanici' + taban).slice(0, 20);
+    return taban;
+  }
+
+  /* Atomik kullanıcı adı rezervasyonu: önce oku sonra transaction içinde yaz.
+     Böylece aynı anda gelen iki ilk giriş aynı kullanıcı adını alamaz. */
+  async function hvKadiRezervEtAtomik(user, aday) {
+    const db = window._firebaseDb || getFirestore();
+    const temiz = hvKadiNormalize(aday);
+    if (!user?.uid || !/^[a-z][a-z0-9]{2,19}$/.test(temiz)) return false;
+    const ref = doc(db, 'kullaniciAdlari', temiz);
+    let sahipUid = null;
+    try {
+      await runTransaction(db, async tx => {
+        const snap = await tx.get(ref);
+        if (snap.exists()) {
+          const data = snap.data() || {};
+          sahipUid = data.uid || null;
+          if (sahipUid && sahipUid !== user.uid) {
+            throw Object.assign(new Error('KULLANICI_ADI_DOLU'), { code:'KULLANICI_ADI_DOLU' });
+          }
+        }
+        tx.set(ref, {
+          uid: user.uid,
+          email: String(user.email || '').toLowerCase()
+        }, { merge: true });
+      });
+      return true;
+    } catch (e) {
+      if (e?.message === 'KULLANICI_ADI_DOLU' || e?.code === 'KULLANICI_ADI_DOLU') return false;
+      throw e;
+    }
+  }
+
+  async function benzersizKullaniciAdi(displayName, email, user) {
+    const db = window._firebaseDb || getFirestore();
+    const base = hvKadiAdayi(email, displayName);
+    const adaylar = [];
+    adaylar.push(base);
+    const kok = base.slice(0, 18);
+    for (let i = 1; i <= 999; i++) adaylar.push((kok + i).slice(0, 20));
+    for (let i = 0; i <= 999; i++) {
+      const suffix = String(i).padStart(3, '0');
+      adaylar.push(('kullanici' + suffix).slice(0, 20));
+    }
+
+    for (const aday of adaylar) {
+      if (!/^[a-z][a-z0-9]{2,19}$/.test(aday)) continue;
+      if (user) {
+        if (await hvKadiRezervEtAtomik(user, aday)) return aday;
+      } else {
+        const mevcut = await kaKontrol(aday);
+        if (!mevcut) return aday;
+      }
+    }
+    throw new Error('Kullanıcı adı üretilemedi.');
+  }
+
+  async function hvKadiIndeksiSaglamlastir(user, kadi) {
+    const temiz = hvKadiNormalize(kadi);
+    if (!user?.uid || !temiz) return false;
+    if (!/^[a-z][a-z0-9]{2,19}$/.test(temiz)) return false;
+    const db = window._firebaseDb || getFirestore();
+    return hvKadiRezervEtAtomik(user, temiz);
+  }
+
+  /*
+     Google profilini idempotent biçimde tamamlar:
+     - Mevcut kullanıcı adı asla yeniden üretilmez.
+     - Eksik alanlar tamamlanır.
+     - Kullanıcı adı yoksa atomik biçimde ayrılır.
+     - Profil ve kullanıcı adı indeksi aynı UID ile bağlanır.
+  */
   async function googleProfilTamamla(user, mevcutData = {}) {
     const db = window._firebaseDb || getFirestore();
     const userRef = doc(db, 'kullanicilar', user.uid);
     const data = mevcutData || {};
-
-    /*
-      Bu fonksiyon artık yalnızca profil dokümanı gerçekten yoksa ilk kayıt için
-      çalışır. Buna rağmen güvenlik katmanı olarak localStorage'da daha önce
-      görülen kullanıcı adı varsa onu Google'dan üretmek yerine kullanırız.
-    */
     const isimler = googleAdSoyadAyir(user.displayName, user.email);
-    const hatirlananKadi = hvKadiCacheOku(user.uid);
-    const kullaniciAdi = hatirlananKadi || await benzersizKullaniciAdi(user.displayName, user.email);
 
-    const profilPatch = {
-      uid: user.uid,
-      ad: isimler.ad || '',
-      soyad: isimler.soyad || '',
-      tamAd: user.displayName || [isimler.ad, isimler.soyad].filter(Boolean).join(' '),
-      email: (user.email || '').toLowerCase(),
-      kullaniciAdi,
-      /* İlk oluşturulan isim otomatik üretilebilir; ancak bir kez kaydedildikten
-         sonra artık Google girişleri bunu değiştiremez. */
-      kullaniciAdiManuel: !!hatirlananKadi,
-      ilkGoogleKullaniciAdi: kullaniciAdi,
-      foto: data.foto || user.photoURL || '',
-      girisYontemi: 'google',
-      emailDogrulandi: true,
-      bulten: data.bulten !== undefined ? data.bulten : hvSiteAcikMi('bultenAbonelik'),
-      kvkkTarih: data.kvkkTarih || serverTimestamp(),
-      kayitTarih: data.kayitTarih || serverTimestamp()
-    };
-
-    await setDoc(userRef, profilPatch, { merge: true });
-    hvKadiCacheYaz(user.uid, kullaniciAdi);
-
-    try {
-      const idxRef = doc(db, 'kullaniciAdlari', kullaniciAdi);
-      const idxSnap = await getDoc(idxRef);
-      if (!idxSnap.exists() || idxSnap.data().uid === user.uid) {
-        await setDoc(idxRef, { uid: user.uid, email: (user.email || '').toLowerCase() }, { merge: true });
+    let kullaniciAdi = hvKadiNormalize(data.kullaniciAdi);
+    if (!kullaniciAdi) {
+      const cacheKadi = hvKadiCacheOku(user.uid);
+      if (cacheKadi) {
+        const cacheSahip = await kaKontrol(cacheKadi);
+        if (!cacheSahip || cacheSahip.uid === user.uid) kullaniciAdi = cacheKadi;
       }
-    } catch (e) {
-      /* Kullanıcı adı profil kaydından bağımsız olarak korunur. */
+    }
+    if (!kullaniciAdi) {
+      kullaniciAdi = await benzersizKullaniciAdi(user.displayName, user.email, user);
+    } else {
+      await hvKadiIndeksiSaglamlastir(user, kullaniciAdi);
     }
 
-    const authDisplay = profilPatch.tamAd || profilPatch.ad || user.email || '';
-    if (authDisplay && authDisplay !== user.displayName) {
+    const gelenEmail = String(user.email || data.email || '').toLowerCase();
+    const tamAd = String(data.tamAd || user.displayName || [isimler.ad, isimler.soyad].filter(Boolean).join(' ')).trim();
+    const patch = {
+      uid: user.uid,
+      ad: data.ad || isimler.ad || '',
+      soyad: data.soyad || isimler.soyad || '',
+      tamAd,
+      email: gelenEmail,
+      kullaniciAdi,
+      kullaniciAdiManuel: data.kullaniciAdiManuel === true || !!data.kullaniciAdi,
+      ilkGoogleKullaniciAdi: data.ilkGoogleKullaniciAdi || kullaniciAdi,
+      foto: data.foto || user.photoURL || '',
+      girisYontemi: data.girisYontemi || 'google',
+      emailDogrulandi: true
+    };
+    if (data.bulten !== undefined) patch.bulten = data.bulten;
+    else patch.bulten = hvSiteAcikMi('bultenAbonelik');
+    if (!data.kvkkTarih) patch.kvkkTarih = serverTimestamp();
+    if (!data.kayitTarih) patch.kayitTarih = serverTimestamp();
+
+    await setDoc(userRef, patch, { merge: true });
+    await hvKadiIndeksiSaglamlastir(user, kullaniciAdi);
+    hvKadiCacheYaz(user.uid, kullaniciAdi);
+
+    const authDisplay = patch.tamAd || patch.ad || user.email || '';
+    if (authDisplay && authDisplay !== user.displayName && !data.tamAd) {
       try { await updateProfile(user, { displayName: authDisplay }); } catch (e) {}
     }
 
-    return { ...data, ...profilPatch };
+    return { ...data, ...patch };
+  }
+
+  /* Auth hesabı ile Firestore profilinin tek senkronizasyon noktası. */
+  async function hvProfilHazirla(user, { createIfMissing = true } = {}) {
+    if (!user?.uid) return { data: {}, exists: false };
+    const db = window._firebaseDb || getFirestore();
+    const ref = doc(db, 'kullanicilar', user.uid);
+    let snap;
+    try {
+      snap = await getDoc(ref);
+    } catch (e) {
+      const err = Object.assign(new Error('PROFIL_OKUMA_HATASI'), { code: e?.code || 'unknown', cause: e });
+      throw err;
+    }
+
+    if (snap.exists()) {
+      const data = snap.data() || {};
+      const googleMi = data.girisYontemi === 'google' || (user.providerData || []).some(p => p.providerId === 'google.com');
+      const kadi = hvKadiNormalize(data.kullaniciAdi);
+      if (kadi) {
+        hvKadiCacheYaz(user.uid, kadi);
+        await hvKadiIndeksiSaglamlastir(user, kadi);
+      }
+
+      /* Mevcut profil alanlarını ezmeden yalnızca eksikleri / güvenli senkron alanlarını tamamla. */
+      const patch = {};
+      if (!data.uid) patch.uid = user.uid;
+      if (!data.email && user.email) patch.email = String(user.email).toLowerCase();
+      if (!data.foto && user.photoURL) patch.foto = user.photoURL;
+      if (!data.tamAd && user.displayName) patch.tamAd = user.displayName;
+      if (!data.girisYontemi) patch.girisYontemi = googleMi ? 'google' : 'email';
+      if (googleMi && data.emailDogrulandi !== true) patch.emailDogrulandi = true;
+
+      /* Auth tarafındaki e-posta değişikliği ancak yeni adres doğrulandıktan sonra
+         görünür olduğunda Firestore'a yansıtılır. */
+      if (user.email && data.email && String(data.email).toLowerCase() !== String(user.email).toLowerCase()) {
+        patch.email = String(user.email).toLowerCase();
+      }
+
+      if (Object.keys(patch).length) await setDoc(ref, patch, { merge: true });
+      const fresh = Object.assign({}, data, patch);
+      return { data: fresh, exists: true };
+    }
+
+    if (!createIfMissing) return { data: {}, exists: false };
+    const isGoogle = (user.providerData || []).some(p => p.providerId === 'google.com');
+    const parsed = googleAdSoyadAyir(user.displayName, user.email);
+    let kadi = await benzersizKullaniciAdi(user.displayName, user.email, user);
+
+    const data = {
+      uid: user.uid,
+      ad: parsed.ad || '',
+      soyad: parsed.soyad || '',
+      tamAd: user.displayName || [parsed.ad, parsed.soyad].filter(Boolean).join(' '),
+      email: String(user.email || '').toLowerCase(),
+      kullaniciAdi: kadi,
+      kullaniciAdiManuel: false,
+      ilkGoogleKullaniciAdi: kadi,
+      foto: user.photoURL || '',
+      girisYontemi: isGoogle ? 'google' : 'email',
+      emailDogrulandi: isGoogle ? true : !!user.emailVerified,
+      bulten: hvSiteAcikMi('bultenAbonelik'),
+      kvkkTarih: serverTimestamp(),
+      kayitTarih: serverTimestamp()
+    };
+
+    try {
+      await setDoc(ref, data, { merge: false });
+      hvKadiCacheYaz(user.uid, kadi);
+      await hvKadiIndeksiSaglamlastir(user, kadi);
+      return { data, exists: true };
+    } catch (e) {
+      /* Profil oluşturma başarısızsa username indeksi boşa çıkmasın. Kullanıcı
+         yeniden giriş yaptığında mevcut UID ile tekrar bağlanabilir. */
+      try {
+        const idx = doc(db, 'kullaniciAdlari', kadi);
+        const idxSnap = await getDoc(idx);
+        if (idxSnap.exists() && idxSnap.data()?.uid === user.uid) await deleteDoc(idx);
+      } catch (cleanup) {}
+      throw e;
+    }
   }
 
   window.hvSosyalGiris = async function(tur) {
     const auth = window._firebaseAuth || getAuth();
-    const db = window._firebaseDb || getFirestore();
     hvMesajGizle();
     if (rateLimitKontrol(3000)) return hvMesaj('Çok hızlı istek gönderiyorsunuz, lütfen bekleyin.', 'hata');
     if (tur !== 'google') return hvMesaj('Yalnızca Google girişi destekleniyor.', 'hata');
@@ -3416,110 +3543,31 @@ import {
       const user = r.user;
       _sosyalGirisYapildi = true;
 
-      const userRef = doc(db, 'kullanicilar', user.uid);
-      const snap = await getDoc(userRef);
-
-      if (!snap.exists() && !hvSiteAcikMi('uyeOlma')) {
+      let mevcutAuthProfil = null;
+      try { mevcutAuthProfil = await getDoc(doc(window._firebaseDb || getFirestore(), 'kullanicilar', user.uid)); }
+      catch (readError) { console.warn('Google profil ön kontrolü okunamadı:', readError?.code || readError?.message || readError); }
+      if (!mevcutAuthProfil?.exists() && !hvSiteAcikMi('uyeOlma')) {
         try { await deleteUser(user); } catch (e) { try { await signOut(auth); } catch (e2) {} }
         _sosyalGirisYapildi = false;
-        hvModalKilit(false);
         return hvMesaj('Yeni üye kaydı şu anda kapalı.', 'hata');
       }
 
-      let profileData = {};
+      let sonuc;
       try {
-        if (snap.exists()) {
-          const mevcut = snap.data() || {};
-          const googleHesabiMi = mevcut.girisYontemi === 'google' || (user.providerData || []).some(p => p.providerId === 'google.com');
-          profileData = mevcut;
-
-          if (googleHesabiMi) {
-            /*
-              KANONİK KURAL:
-              Firestore'da mevcut kullanıcı adı varsa doğrudan onu kullan.
-              KullaniciAdiManuel alanı eski kayıtlarda bulunmasa bile asla
-              yeniden üretme. Kullanıcı adının varlığı tek başına kilittir.
-            */
-            const mevcutKadi = String(mevcut.kullaniciAdi || '').trim().toLowerCase();
-            const cacheKadi = hvKadiCacheOku(user.uid);
-            const kanonikKadi = mevcutKadi || cacheKadi;
-
-            if (kanonikKadi) {
-              hvKadiCacheYaz(user.uid, kanonikKadi);
-              profileData = { ...mevcut, kullaniciAdi: kanonikKadi, kullaniciAdiManuel: true };
-
-              const korunacakAlanlar = {};
-              if (mevcut.kullaniciAdi !== kanonikKadi) korunacakAlanlar.kullaniciAdi = kanonikKadi;
-              if (mevcut.kullaniciAdiManuel !== true) korunacakAlanlar.kullaniciAdiManuel = true;
-              if (!mevcut.ilkGoogleKullaniciAdi) korunacakAlanlar.ilkGoogleKullaniciAdi = kanonikKadi;
-
-              /* Yalnızca eksik metadata'yı düzelt; kullanıcı adını Google'dan
-                 gelen herhangi bir bilgiyle asla değiştirme. */
-              if (Object.keys(korunacakAlanlar).length) {
-                try {
-                  await setDoc(doc(db, 'kullanicilar', user.uid), korunacakAlanlar, { merge: true });
-                } catch (e) {}
-              }
-            } else {
-              /* Kullanıcı adı gerçekten yoksa yalnızca bu eski/yarım profil için
-                 ilk kez oluştur. Oluşturulduktan sonra cache + Firestore kilitlenir. */
-              try {
-                const isim = googleAdSoyadAyir(user.displayName || mevcut.tamAd, user.email);
-                const adayKadi = await benzersizKullaniciAdi(user.displayName || mevcut.tamAd, user.email);
-                profileData = {
-                  ...mevcut,
-                  kullaniciAdi: adayKadi,
-                  kullaniciAdiManuel: false,
-                  ilkGoogleKullaniciAdi: adayKadi,
-                  ad: mevcut.ad || isim.ad || '',
-                  soyad: mevcut.soyad || isim.soyad || '',
-                  tamAd: mevcut.tamAd || user.displayName || ''
-                };
-                await setDoc(doc(db, 'kullanicilar', user.uid), {
-                  kullaniciAdi: adayKadi,
-                  kullaniciAdiManuel: false,
-                  ilkGoogleKullaniciAdi: adayKadi,
-                  ad: profileData.ad,
-                  soyad: profileData.soyad,
-                  tamAd: profileData.tamAd,
-                  email: (user.email || mevcut.email || '').toLowerCase(),
-                  foto: mevcut.foto || user.photoURL || '',
-                  girisYontemi: 'google',
-                  emailDogrulandi: true
-                }, { merge: true });
-                hvKadiCacheYaz(user.uid, adayKadi);
-                try {
-                  const idxRef = doc(db, 'kullaniciAdlari', adayKadi);
-                  const idxSnap = await getDoc(idxRef);
-                  if (!idxSnap.exists() || idxSnap.data().uid === user.uid) {
-                    await setDoc(idxRef, { uid: user.uid, email: (user.email || '').toLowerCase() }, { merge: true });
-                  }
-                } catch (e) {}
-              } catch (e) {
-                /* Profil mevcutsa kullanıcı adını üretmeden mevcut yapıyı koru. */
-                profileData = mevcut;
-              }
-            }
-          }
-        } else {
-          // Sadece ilk Google kaydında profil dokümanı + kullanıcı adı indeksi oluştur.
-          profileData = await googleProfilTamamla(user, {});
-        }
+        sonuc = await hvProfilHazirla(user, { createIfMissing: true });
       } catch (e) {
         console.error('Google profil senkronizasyon hatası:', e);
-        // Auth oturumu açılmış olsa bile profil yazımı izin nedeniyle başarısızsa
-        // kullanıcıya gerçeği söyle; sessizce yarım profil oluşturma.
-        try { await signOut(auth); } catch (e2) {}
-        _sosyalGirisYapildi = false;
-        hvModalKilit(false);
-        if (e.code === 'permission-denied') {
-          return hvMesaj('Google hesabı açıldı ancak profil kaydı için Firestore yetkisi reddedildi. Firestore Rules içinde kullanıcının kendi kullanicilar/{uid} ve kullaniciAdlari/{kullaniciAdi} kayıtlarına izin verilmesi gerekiyor.', 'hata');
+        if (e?.code === 'permission-denied') {
+          return hvMesaj('Google hesabı doğrulandı ancak profil verilerine erişim izni yok. Firestore Rules içinde kullanicilar/{uid} ve kullaniciAdlari/{kullaniciAdi} için kullanıcı yetkilerini kontrol edin.', 'hata');
         }
-        return hvMesaj('Google profiliniz oluşturulamadı. Lütfen tekrar deneyin.', 'hata');
+        if (e?.code === 'network-request-failed' || e?.code === 'unavailable') {
+          return hvMesaj('Google girişi başarılı ancak profil verilerine şu anda ulaşılamıyor. İnternet bağlantısını kontrol edip tekrar deneyin.', 'hata');
+        }
+        return hvMesaj('Google hesabı doğrulandı ancak profiliniz hazırlanamadı. Tekrar giriş yapmanız gerekmeden birkaç saniye sonra yeniden deneyebilirsiniz.', 'hata');
       }
 
-      const fresh = await getDoc(userRef);
-      await btnVeMenuGuncelle(user, fresh.exists() ? fresh.data() : profileData);
+      await btnVeMenuGuncelle(user, sonuc.data);
+      await hvProfilDoldur(user, sonuc.data);
       hvUyeLogEkle(user, 'Google ile giriş yapıldı', 'Google OAuth').catch(()=>{});
       document.dispatchEvent(new CustomEvent('authReady', { detail: user }));
       hvModalKilit(false);
@@ -3528,7 +3576,6 @@ import {
       if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
         hvMesaj(fbHataCevir(e.code), 'hata');
       }
-      hvModalKilit(false);
     } finally {
       butonLoading(btn, false);
       hvModalKilit(false);
@@ -3554,7 +3601,7 @@ import {
         if (!hvSiteAcikMi('uyeOlma')) { hvModalKilit(false); return hvMesaj('Yeni üye kaydı şu anda kapalı.', 'hata'); }
         const ad = document.getElementById('hv-ad').value.trim();
         const soyad = document.getElementById('hv-soyad').value.trim();
-        const kAdi = document.getElementById('hv-kullanici-adi').value.trim();
+        const kAdi = hvKadiNormalize(document.getElementById('hv-kullanici-adi').value);
         const sifre2 = document.getElementById('hv-sifre2').value;
         const hata = veriKontrol(ad, soyad, kAdi, sifre);
         if (hata) { hvModalKilit(false); return hvMesaj(hata, 'hata'); }
@@ -3564,30 +3611,63 @@ import {
         if (await kaKontrol(kAdi)) { hvModalKilit(false); return hvMesaj('@' + kAdi + ' kullanıcı adı zaten alınmış.', 'hata'); }
 
         const r = await createUserWithEmailAndPassword(auth, girisAlan, sifre);
-        await updateProfile(r.user, { displayName: ad + ' ' + soyad });
-        await setDoc(doc(db, 'kullanicilar', r.user.uid), {
-          uid: r.user.uid, ad, soyad, tamAd: ad + ' ' + soyad,
-          email: girisAlan.toLowerCase(), kullaniciAdi: kAdi, kullaniciAdiManuel: true, foto: '',
-          kvkkTarih: serverTimestamp(), kayitTarih: serverTimestamp(),
-          girisYontemi: 'email',
-          emailDogrulandi: false,
-          bulten: hvSiteAcikMi('bultenAbonelik') && document.getElementById('hv-bulten-cb').checked // BÜLTEN
-        });
-        await setDoc(doc(db, 'kullaniciAdlari', kAdi), { uid: r.user.uid });
-        try { await setDoc(doc(db, 'istatistikler', 'genel'), { toplamUye: increment(1) }, { merge: true }); } catch(e) {}
-        await sendEmailVerification(r.user);
-        hvKadiCacheYaz(r.user.uid, kAdi);
-        await hvUyeLogEkle(r.user, 'Üyelik oluşturuldu', 'E-posta ile kayıt').catch(()=>{});
         _kayitliUser = r.user;
-        document.getElementById('hv-dog-email').textContent = r.user.email;
-        hvPanelGecis('hv-dogrulama-panel');
-        dogrulamaKontrolBaslat();
-        hvModalKilit(false);
+        try {
+          await updateProfile(r.user, { displayName: ad + ' ' + soyad });
+          const userRef = doc(db, 'kullanicilar', r.user.uid);
+          const kadiRef = doc(db, 'kullaniciAdlari', kAdi);
+
+          /* Profil ve kullanıcı adı indeksini aynı transaction ile oluştur.
+             Böylece profil oluşurken başka kullanıcı aynı kullanıcı adını alamaz. */
+          try {
+            await runTransaction(db, async tx => {
+              const kadiSnap = await tx.get(kadiRef);
+              if (kadiSnap.exists() && kadiSnap.data()?.uid !== r.user.uid) {
+                throw Object.assign(new Error('KULLANICI_ADI_DOLU'), { code:'KULLANICI_ADI_DOLU' });
+              }
+              tx.set(userRef, {
+                uid: r.user.uid, ad, soyad, tamAd: ad + ' ' + soyad,
+                email: girisAlan.toLowerCase(), kullaniciAdi: kAdi, kullaniciAdiManuel: true, foto: '',
+                kvkkTarih: serverTimestamp(), kayitTarih: serverTimestamp(),
+                girisYontemi: 'email', emailDogrulandi: false,
+                bulten: hvSiteAcikMi('bultenAbonelik') && document.getElementById('hv-bulten-cb').checked
+              }, { merge: true });
+              tx.set(kadiRef, { uid: r.user.uid, email: girisAlan.toLowerCase() }, { merge: true });
+            });
+          } catch (e) {
+            /* Profil oluşturulamıyorsa Auth hesabını da geri almaya çalış. */
+            try { await deleteUser(r.user); } catch (cleanupError) {
+              console.warn('Yarım kayıt otomatik temizlenemedi:', cleanupError?.code || cleanupError?.message || cleanupError);
+            }
+            _kayitliUser = null;
+            throw e;
+          }
+
+          try { await setDoc(doc(db, 'istatistikler', 'genel'), { toplamUye: increment(1) }, { merge: true }); } catch(e) {}
+          try {
+            await sendEmailVerification(r.user);
+          } catch (mailError) {
+            console.warn('Doğrulama e-postası gönderilemedi:', mailError?.code || mailError?.message || mailError);
+            hvMesaj('Hesabınız oluşturuldu ancak doğrulama e-postası şu anda gönderilemedi. Biraz sonra tekrar gönderebilirsiniz.', 'bilgi');
+          }
+          hvKadiCacheYaz(r.user.uid, kAdi);
+          await hvUyeLogEkle(r.user, 'Üyelik oluşturuldu', 'E-posta ile kayıt').catch(()=>{});
+          document.getElementById('hv-dog-email').textContent = r.user.email;
+          hvPanelGecis('hv-dogrulama-panel');
+          dogrulamaKontrolBaslat();
+          hvModalKilit(false);
+        } catch (e) {
+          /* Bu dış catch yalnızca beklenmeyen kayıt hatalarını işler. Auth hesabı
+             profil transaction'ından sonra geçerli olabilir; doğrulama maili hatası
+             yukarıda ayrıca ele alınmıştır. */
+          _kayitliUser = null;
+          throw e;
+        }
       } else {
         let email = girisAlan;
         const epostaRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!epostaRegex.test(girisAlan)) {
-          const arananKA = girisAlan.replace(/^@/, '').toLowerCase().trim();
+          const arananKA = hvKadiNormalize(girisAlan);
           if (!arananKA) { hvModalKilit(false); return hvMesaj('Geçerli bir kullanıcı adı veya e-posta girin.', 'hata'); }
           const sonuc = await kaKontrol(arananKA);
           if (!sonuc || !sonuc.uid) { hvModalKilit(false); return hvMesaj('Bu kullanıcı adı bulunamadı.', 'hata'); }
@@ -3597,27 +3677,28 @@ import {
         const hatirla = document.getElementById('hv-hatirla').checked;
         await setPersistence(auth, hatirla ? browserLocalPersistence : browserSessionPersistence);
         const r = await signInWithEmailAndPassword(auth, email, sifre);
+        _kayitliUser = r.user;
 
         if (!r.user.emailVerified) {
-          _kayitliUser = r.user;
-          document.getElementById('hv-dog-email').textContent = r.user.email;
+          document.getElementById('hv-dog-email').textContent = r.user.email || '';
           hvPanelGecis('hv-dogrulama-panel');
           dogrulamaKontrolBaslat();
           hvModalKilit(false);
           return;
         }
 
-        try {
-          await setDoc(doc(db, 'kullanicilar', r.user.uid), { emailDogrulandi: true }, { merge: true });
-        } catch(e) {}
-
-        await btnVeMenuGuncelle(r.user);
+        const sonuc = await hvProfilHazirla(r.user, { createIfMissing: true });
+        await btnVeMenuGuncelle(r.user, sonuc.data);
+        await hvProfilDoldur(r.user, sonuc.data);
         await hvUyeLogEkle(r.user, 'Giriş yapıldı', 'E-posta / şifre').catch(()=>{});
         hvModalKilit(false);
         hvModalKapat();
       }
     } catch(e) {
-      hvMesaj(fbHataCevir(e.code), 'hata');
+      if (e?.code === 'KULLANICI_ADI_DOLU') hvMesaj('Bu kullanıcı adı kayıt sırasında başka bir hesap tarafından alındı. Farklı bir kullanıcı adı seçin.', 'hata');
+      else if (e?.code === 'permission-denied') hvMesaj('Profil kaydı için Firestore izni reddedildi. Security Rules içindeki kullanıcı profil yetkilerini kontrol edin.', 'hata');
+      else if (e?.code === 'network-request-failed' || e?.code === 'unavailable') hvMesaj('Geçici ağ / Firestore bağlantı sorunu oluştu. Lütfen tekrar deneyin.', 'hata');
+      else hvMesaj(fbHataCevir(e.code), 'hata');
       hvModalKilit(false);
     } finally {
       butonLoading(submitBtn, false);
@@ -3625,21 +3706,31 @@ import {
   };
 
   /* ===== PROFİL DOLDUR ===== */
-  async function hvProfilDoldur(user) {
+  async function hvProfilDoldur(user, knownData = null) {
+    if (!user?.uid) return false;
     const db = window._firebaseDb;
     try {
-      const snap = await getDoc(doc(db, 'kullanicilar', user.uid));
-      const data = snap.exists() ? snap.data() : {};
+      let data = knownData;
+      if (!data) {
+        const sonuc = await hvProfilHazirla(user, { createIfMissing: true });
+        data = sonuc.data;
+      }
+      data = data || {};
+
       let avatarIsim = data.kullaniciAdi || data.tamAd || user.displayName || user.email || 'U';
       const fotoSrc = data.foto || user.photoURL;
       const fotoWrap = document.getElementById('hv-p-foto-wrap');
-      fotoWrap.innerHTML = '';
-      fotoWrap.appendChild(getAvatarElement(fotoSrc, avatarIsim, 84));
-      document.getElementById('hv-p-ad').textContent = user.displayName || data.tamAd || 'İsimsiz Kullanıcı';
-      document.getElementById('hv-p-ka').textContent = data.kullaniciAdi ? '@' + data.kullaniciAdi : '';
-      document.getElementById('hv-p-email').textContent = user.email || '';
+      if (fotoWrap) {
+        fotoWrap.innerHTML = '';
+        fotoWrap.appendChild(getAvatarElement(fotoSrc, avatarIsim, 84));
+      }
+      const adEl = document.getElementById('hv-p-ad');
+      const kaEl = document.getElementById('hv-p-ka');
+      const emailEl = document.getElementById('hv-p-email');
+      if (adEl) adEl.textContent = data.tamAd || user.displayName || 'İsimsiz Kullanıcı';
+      if (kaEl) kaEl.textContent = data.kullaniciAdi ? '@' + hvKadiNormalize(data.kullaniciAdi) : '';
+      if (emailEl) emailEl.textContent = user.email || data.email || '';
 
-      // Admin kontrolü ve panel bağlantısı güncelleme
       const admin = isAdmin(user);
       const panelText = document.getElementById('hv-uye-panel-text');
       const panelLink = document.getElementById('hv-uye-panel-link');
@@ -3653,31 +3744,34 @@ import {
 
       const isGoogle = (data.girisYontemi === 'google') || (user.providerData || []).some(p => p.providerId === 'google.com');
       const hasPassword = (user.providerData || []).some(p => p.providerId === 'password');
-      document.getElementById('hv-ad-soyad-btn').classList.remove('pasif');
-      document.getElementById('hv-email-btn').classList.remove('pasif');
-      document.getElementById('hv-email-btn').disabled = false;
+      document.getElementById('hv-ad-soyad-btn')?.classList.remove('pasif');
+      document.getElementById('hv-email-btn')?.classList.remove('pasif');
+      const emailBtn = document.getElementById('hv-email-btn');
+      if (emailBtn) emailBtn.disabled = false;
       const sifreBtn = document.getElementById('hv-sifre-btn');
       const sifreSpan = sifreBtn?.querySelector('span:first-child');
       if (hasPassword) {
         if (sifreSpan) sifreSpan.textContent = '🔒 Şifre Değiştir';
-        sifreBtn.onclick = function() { hvAyarAc('sifre'); };
-        sifreBtn.classList.remove('pasif'); sifreBtn.disabled = false;
+        if (sifreBtn) { sifreBtn.onclick = function() { hvAyarAc('sifre'); }; sifreBtn.classList.remove('pasif'); sifreBtn.disabled = false; }
       } else if (isGoogle) {
         if (sifreSpan) sifreSpan.textContent = '🔑 Şifre Oluştur';
-        sifreBtn.onclick = hvSifreOlustur;
-        sifreBtn.classList.remove('pasif'); sifreBtn.disabled = false;
-      } else {
+        if (sifreBtn) { sifreBtn.onclick = hvSifreOlustur; sifreBtn.classList.remove('pasif'); sifreBtn.disabled = false; }
+      } else if (sifreBtn) {
         if (sifreSpan) sifreSpan.textContent = '🔒 Şifre Değiştir';
-        sifreBtn.classList.add('pasif'); sifreBtn.disabled = true;
+        sifreBtn.classList.add('pasif');
+        sifreBtn.disabled = true;
       }
 
-      // BÜLTEN DURUMU
       const bultenBtn = document.getElementById('hv-bulten-btn-text');
       if (bultenBtn) {
         const bultenAcik = data.bulten === undefined ? true : data.bulten;
         bultenBtn.textContent = bultenAcik ? '🔔 Haftalık Bülten: Açık' : '🔕 Haftalık Bülten: Kapalı';
       }
-    } catch(e) { console.error('Profil doldurma hatası:', e); }
+      return true;
+    } catch(e) {
+      console.error('Profil doldurma/senkronizasyon hatası:', e);
+      throw e;
+    }
   }
 
   /* ===== BÜLTEN AÇ/KAPAT ===== */
@@ -3758,18 +3852,27 @@ import {
         await runTransaction(db, async (tx) => {
           const profilSnap = await tx.get(userRef);
           const yeniSnap = await tx.get(yeniRef);
-          if (!profilSnap.exists()) throw new Error('PROFIL_YOK');
 
-          eskiKa = profilSnap.data().kullaniciAdi || null;
+          eskiKa = profilSnap.exists() ? (profilSnap.data().kullaniciAdi || null) : null;
           if (eskiKa === yeniKa) return;
 
           if (yeniSnap.exists()) {
-            const sahipUid = yeniSnap.data().uid;
-            if (sahipUid && sahipUid !== user.uid) throw new Error('KULLANICI_ADI_DOLU');
+            const sahipUid = yeniSnap.data()?.uid;
+            if (sahipUid && sahipUid !== user.uid) throw Object.assign(new Error('KULLANICI_ADI_DOLU'), {code:'KULLANICI_ADI_DOLU'});
           }
 
+          if (!profilSnap.exists()) {
+            const parsed = googleAdSoyadAyir(user.displayName, user.email);
+            tx.set(userRef, {
+              uid:user.uid, ad:parsed.ad || '', soyad:parsed.soyad || '', tamAd:user.displayName || '',
+              email:(user.email || '').toLowerCase(), kullaniciAdi:yeniKa, kullaniciAdiManuel:true,
+              foto:user.photoURL || '', girisYontemi:(user.providerData || []).some(p=>p.providerId==='google.com')?'google':'email',
+              emailDogrulandi:!!user.emailVerified, kayitTarih:serverTimestamp()
+            }, {merge:true});
+          } else {
+            tx.update(userRef, { kullaniciAdi: yeniKa, kullaniciAdiManuel: true });
+          }
           tx.set(yeniRef, { uid: user.uid, email: (user.email || '').toLowerCase() }, { merge: true });
-          tx.update(userRef, { kullaniciAdi: yeniKa, kullaniciAdiManuel: true });
         });
 
         // Yeni profil + yeni indeks kesinleşti. Eski kullanıcı adı artık boşaltılabilir.
@@ -3835,19 +3938,20 @@ import {
         const eski = document.getElementById('hv-eski-sifre').value;
         const yeni = document.getElementById('hv-yeni-sifre-alan').value;
         const yeni2 = document.getElementById('hv-yeni-sifre-tekrar').value;
+        if (!eski) { hvModalKilit(false); return hvMesaj('Mevcut şifrenizi girin.', 'hata', 'hv-ayar'); }
         if (yeni !== yeni2) { hvModalKilit(false); return hvMesaj('Yeni şifreler eşleşmiyor.', 'hata', 'hv-ayar'); }
         const h = veriKontrol(null, null, null, yeni);
         if (h) { hvModalKilit(false); return hvMesaj(h, 'hata', 'hv-ayar'); }
         if (!user.email) throw Object.assign(new Error('NO_EMAIL'), {code:'auth/invalid-email'});
         const cred = EmailAuthProvider.credential(user.email, eski);
         await reauthenticateWithCredential(user, cred);
-        await sendPasswordResetEmail(auth, user.email);
-        hvMesaj('Güvenlik doğrulaması başarılı. Şifre değiştirme bağlantısı e-posta adresinize gönderildi. Yeni şifreyi yalnızca e-postadaki güvenli bağlantı üzerinden belirleyebilirsiniz.', 'basari', 'hv-ayar');
+        await updatePassword(user, yeni);
+        hvMesaj('Şifreniz başarıyla değiştirildi.', 'basari', 'hv-profil');
+        hvUyeLogEkle(user, 'Şifre değiştirildi').catch(()=>{});
         hvPanelGecis('hv-profil-panel');
       }
     } catch(e) {
       if (e?.message === 'KULLANICI_ADI_DOLU') hvMesaj('Bu kullanıcı adı başka bir hesap tarafından kullanılıyor.', 'hata', 'hv-ayar');
-      else if (e?.message === 'PROFIL_YOK') hvMesaj('Profil kaydı bulunamadı. Lütfen çıkış yapıp tekrar giriş yapın.', 'hata', 'hv-ayar');
       else hvMesaj(fbHataCevir(e.code), 'hata', 'hv-ayar');
     } finally {
       butonLoading(kaydetBtn, false);
@@ -3858,13 +3962,15 @@ import {
   window.hvCikisYap = async function() {
     const cikisUser = window._firebaseAuth?.currentUser;
     if (cikisUser) await hvUyeLogEkle(cikisUser, 'Çıkış yapıldı').catch(()=>{});
-    await signOut(window._firebaseAuth);
-    _sosyalGirisYapildi = false;
-    _kayitliUser = null;
-    dogrulamaKontrolDurdur();
-    await btnVeMenuGuncelle(null);
-    hvModalKilit(false);
-    hvModalKapat();
+    try { await signOut(window._firebaseAuth); } finally {
+      _authSyncGeneration++;
+      _sosyalGirisYapildi = false;
+      _kayitliUser = null;
+      dogrulamaKontrolDurdur();
+      try { await btnVeMenuGuncelle(null); } catch(e) {}
+      hvModalKilit(false);
+      hvModalKapat();
+    }
   };
 
   window.hvSifreSifirlaGonder = async function() {
@@ -3977,6 +4083,59 @@ import {
   }
 
   /* ===== SAYFA YÜKLENİNCE ===== */
+  let _authSyncGeneration = 0;
+  let _authSyncUserUid = null;
+  let _authSyncPromise = Promise.resolve();
+
+  async function hvAuthDurumUygula(user, force = false) {
+    const generation = ++_authSyncGeneration;
+    const uid = user?.uid || null;
+    _authSyncUserUid = uid;
+
+    const run = async () => {
+      if (generation !== _authSyncGeneration) return;
+      if (!user) {
+        _sosyalGirisYapildi = false;
+        _kayitliUser = null;
+        dogrulamaKontrolDurdur();
+        await btnVeMenuGuncelle(null);
+        return;
+      }
+
+      _kayitliUser = user;
+      try {
+        if (!user.emailVerified && !_sosyalGirisYapildi && (user.providerData || []).some(p => p.providerId === 'password')) {
+          document.getElementById('hv-dog-email').textContent = user.email || '';
+          await btnVeMenuGuncelle(user);
+          return;
+        }
+
+        const sonuc = await hvProfilHazirla(user, { createIfMissing: true });
+        if (generation !== _authSyncGeneration || uid !== _authSyncUserUid) return;
+        await btnVeMenuGuncelle(user, sonuc.data);
+        if (document.getElementById('hv-profil-panel')?.style.display === 'block') {
+          await hvProfilDoldur(user, sonuc.data);
+        }
+
+        if (user.emailVerified) {
+          try { await setDoc(doc(window._firebaseDb, 'kullanicilar', user.uid), { emailDogrulandi: true }, { merge: true }); } catch(e) {}
+        }
+      } catch(e) {
+        console.error('Auth/Firestore senkronizasyon hatası:', e);
+        if (e?.code === 'permission-denied') {
+          hvMesaj('Oturum açıldı ancak Firestore profil verilerine erişim izni yok. Security Rules kontrol edilmeli.', 'hata');
+        } else if (e?.code === 'network-request-failed' || e?.code === 'unavailable') {
+          hvMesaj('Oturum açıldı ancak profil verilerine geçici olarak ulaşılamıyor.', 'hata');
+        } else {
+          hvMesaj('Oturum açıldı ancak profil bilgileri hazırlanırken bir sorun oluştu.', 'hata');
+        }
+      }
+    };
+
+    _authSyncPromise = _authSyncPromise.catch(()=>{}).then(run);
+    return _authSyncPromise;
+  }
+
   async function hvSayfaYuklendi() {
     const nav = document.getElementById('site-navigation');
     const masaustuBtn = document.getElementById('hv-auth-btn');
@@ -3998,44 +4157,16 @@ import {
 
     const auth = window._firebaseAuth;
     if (auth) {
-      if (auth.currentUser) {
-        await btnVeMenuGuncelle(auth.currentUser);
-      }
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          if (!user.emailVerified && !_sosyalGirisYapildi) {
-            await btnVeMenuGuncelle(null);
-          } else {
-            await btnVeMenuGuncelle(user);
-          }
-        } else {
-          await btnVeMenuGuncelle(null);
-        }
+      onAuthStateChanged(auth, user => {
+        hvAuthDurumUygula(user).catch(e => console.error('Auth state uygulama hatası:', e));
       });
     }
 
     document.addEventListener('authReady', async (e) => {
-      const user = e.detail;
-      if (user) {
-        if (!user.emailVerified && !_sosyalGirisYapildi) {
-          await user.reload().catch(() => {});
-          if (!user.emailVerified) {
-            await btnVeMenuGuncelle(null);
-            return;
-          }
-        }
-        if (user.emailVerified) {
-          try {
-            await setDoc(doc(window._firebaseDb, 'kullanicilar', user.uid), { emailDogrulandi: true }, { merge: true });
-          } catch(e) {}
-        }
-        await btnVeMenuGuncelle(user);
-      } else {
-        await btnVeMenuGuncelle(null);
-      }
+      const user = e.detail || null;
+      await hvAuthDurumUygula(user, true);
     });
 
-    // Site ayarlarını tüm sayfalarda (sadece haber sayfalarında değil) hazırla.
     hvSiteAyarlariYukle().catch(() => {});
 
     const overlay = document.getElementById('hv-modal-overlay');
