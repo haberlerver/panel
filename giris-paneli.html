@@ -2333,6 +2333,10 @@ import {
   window.hvAuthTikla = async function() {
     const auth = window._firebaseAuth;
     hvMesajGizle();
+
+    // Firestore site ayarlarını yalnızca giriş paneli gerçekten açıldığında yükle.
+    // Böylece sayfa açılışında ziyaretçi için gereksiz siteAyarlari okuması yapılmaz.
+    try { await hvSiteAyarlariYukle(); } catch (e) {}
     if (auth && auth.currentUser) {
       const user = auth.currentUser;
       if (!user.emailVerified && !_sosyalGirisYapildi) {
@@ -4167,7 +4171,8 @@ import {
       await hvAuthDurumUygula(user, true);
     });
 
-    hvSiteAyarlariYukle().catch(() => {});
+    // siteAyarlari artık sayfa açılışında okunmuyor.
+    // Giriş paneli / gerçekten ihtiyaç duyan özellik açıldığında yükleniyor.
 
     const overlay = document.getElementById('hv-modal-overlay');
     if (overlay) {
@@ -4330,10 +4335,16 @@ import {
       });
     });
     if (window._hvActionStateStop) { try { window._hvActionStateStop(); } catch(e) {} }
-    window._hvActionStateStop = window.hvGuvenliFirestorePolling(async () => {
-      const u = window._firebaseAuth?.currentUser;
-      if (u) await renderActionStates(u.uid);
-    }, 20000);
+    // Anonim ziyaretçide toolbar için Firestore polling başlatma.
+    // Giriş yapıldığında authReady ile renderActionStates zaten çağrılır.
+    if (window._firebaseAuth?.currentUser) {
+      window._hvActionStateStop = window.hvGuvenliFirestorePolling(async () => {
+        const u = window._firebaseAuth?.currentUser;
+        if (u) await renderActionStates(u.uid);
+      }, 20000);
+    } else {
+      window._hvActionStateStop = null;
+    }
   }
 
   function init(){
@@ -5346,7 +5357,27 @@ import {
       });
     }
 
-    yorumDinlemeyiBaslat();
+    // Yorumlar görünür olmadan Firestore sorgusu başlatma.
+    // Sayfa ilk açılışında yorum bölümü aşağıdaysa ağ isteği yapılmaz.
+    // Kullanıcı yorum bölümüne geldiğinde ilk sorgu başlatılır.
+    const yorumBaslat = () => {
+      if (window._hvYorumLazyBaslatildi) return;
+      window._hvYorumLazyBaslatildi = true;
+      yorumDinlemeyiBaslat();
+    };
+
+    if ('IntersectionObserver' in window) {
+      const yorumObserver = new IntersectionObserver((entries, observer) => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          yorumBaslat();
+          try { observer.disconnect(); } catch (e) {}
+        }
+      }, { rootMargin: '500px 0px' });
+      yorumObserver.observe(container);
+    } else {
+      // Eski tarayıcılarda yalnızca load sonrasında başlat.
+      setTimeout(yorumBaslat, 1200);
+    }
   }
 
   if(document.readyState==='complete') setTimeout(init,100);
@@ -5654,9 +5685,18 @@ import {
   }
 
   function init() {
-    // Sayfa ilk açıldığında da yalnızca makaledeki .hv-uye-icerik bloklarına uygula.
-    uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, auth.currentUser);
-    kilidiYukle(auth.currentUser);
+    // Sayfada gerçekten .hv-uye-icerik varsa içerik kilidi ayarlarını yükle.
+    // Kilitli içerik yoksa siteAyarlari/icerikKilidi için gereksiz Firestore okuması yapılmaz.
+    const kilitBaslat = () => {
+      const blocks = getContentBlocks();
+      if (!blocks.length) return;
+      uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, auth.currentUser);
+      if (!window.hvIcerikKilidiReady) {
+        window.hvIcerikKilidiReady = kilidiYukle(auth.currentUser).catch(() => {});
+      }
+    };
+
+    kilitBaslat();
 
     onAuthStateChanged(auth, user => {
       uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, user);
@@ -5684,6 +5724,7 @@ import {
         if (!relevant) return;
         clearTimeout(timer);
         timer = setTimeout(() => {
+          kilitBaslat();
           uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, auth.currentUser);
         }, 80);
       });
