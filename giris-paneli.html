@@ -85,7 +85,20 @@ body.dark .hv-comments-section { background: #111827; border-color: #374151; }
   background: #fff; border-radius: 10px;
 }
 body.dark .hv-login-warn { background: #1f2937; color: #d1d5db; }
-.hv-login-warn a { color: #1A73E8; font-weight: 600; cursor: pointer; }
+.hv-login-warn a,
+.hv-login-warn .hv-login-giris {
+  color: #1A73E8;
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-decoration: none;
+}
+.hv-login-warn .hv-login-giris:hover { text-decoration: underline; }
+body.dark .hv-login-warn .hv-login-giris { color: #60a5fa; }
 
 .hv-yorum-form {
   background: #fff; border-radius: 10px; border: 1px solid #e5e7eb;
@@ -4864,7 +4877,7 @@ import {
         <h3>💬 Yorumlar</h3>
         <div style="display:flex;align-items:center;gap:10px;">
           <div class="hv-filtre-wrap">
-            <select id="hv-yorum-filtre">
+            <select id="hv-yorum-filtre" aria-label="Yorum sıralama">
               <option value="yeni">En Yeni</option>
               <option value="eski">En Eski</option>
               <option value="begeni">En Beğenilen</option>
@@ -4876,7 +4889,7 @@ import {
       <div class="hv-alert">* Lütfen spam içerikli yorum göndermeyiniz. Tüm yorumlar editör onayından geçmektedir.</div>
       <div class="hv-comments-section">
         <div id="hv-login-uyari" class="hv-login-warn">
-          Yorum yapabilmek için lütfen <a onclick="hvAuthTikla()">giriş yapın</a>.
+          Yorum yapabilmek için lütfen <button type="button" class="hv-login-giris" onclick="hvAuthTikla()">giriş yapın</button>.
         </div>
         <div id="hv-form-alani" class="hv-yorum-form" style="display:none;">
           <textarea id="hv-yorum-input" placeholder="Yorumunuzu yazın..."></textarea>
@@ -4945,7 +4958,7 @@ import {
       loginUyari.style.display = (!user || !commentsEnabled)?'block':'none';
       formAlani.style.display = (user && commentsEnabled)?'block':'none';
       if (!commentsEnabled) loginUyari.textContent = 'Yorum yapma özelliği şu anda site ayarları tarafından kapalı.';
-      else if (!user) loginUyari.innerHTML = 'Yorum yapabilmek için lütfen <a onclick="hvAuthTikla()">giriş yapın</a>.';
+      else if (!user) loginUyari.innerHTML = 'Yorum yapabilmek için lütfen <button type="button" class="hv-login-giris" onclick="hvAuthTikla()">giriş yapın</button>.';
     });
     window.addEventListener('hvSiteAyarlariChanged', () => {
       const commentsEnabled = hvSiteAcikMi('yorumYapma');
