@@ -2134,13 +2134,13 @@ import {
      Bu değişiklik uygulamanın mevcut polling mantığını korur; yalnızca
      ağ yükünü ve zaman aşımı ihtimalini düşürür.
   */
-  window.hvGuvenliFirestorePolling = function hvGuvenliFirestorePolling(fn, aralikMs = 15000) {
+  window.hvGuvenliFirestorePolling = function hvGuvenliFirestorePolling(fn, aralikMs = 45000) {
     let aktif = true;
     let calisiyor = false;
     let timer = null;
-    let gecikme = Math.max(5000, Number(aralikMs) || 15000);
+    let gecikme = Math.max(10000, Number(aralikMs) || 45000);
     const normalGecikme = gecikme;
-    const maksimumGecikme = Math.max(normalGecikme * 4, 60000);
+    const maksimumGecikme = Math.max(normalGecikme * 4, 180000);
 
     const zamanla = (ms) => {
       if (!aktif) return;
@@ -2214,7 +2214,7 @@ import {
         _siteAyarlari = window.hvSiteAyarlari;
         hvSiteAyarlariUIUygula();
         window.dispatchEvent(new Event('hvSiteAyarlariChanged'));
-      }, 15000);
+      }, 45000);
       hvSiteAyarlariUIUygula();
       return window.hvSiteAyarlari;
     })();
@@ -2905,7 +2905,7 @@ import {
         // Mevcut cache korunur; geçici ağ hatası kullanıcı arayüzünü boşaltmaz.
       }
       hvBildirimRenderVeSayac();
-    }, 15000);
+    }, 45000);
   }
 
   async function hvBildirimOku(id) {
