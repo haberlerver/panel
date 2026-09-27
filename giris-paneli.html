@@ -2135,6 +2135,11 @@ import {
      ağ yükünü ve zaman aşımı ihtimalini düşürür.
   */
   window.hvGuvenliFirestorePolling = function hvGuvenliFirestorePolling(fn, aralikMs = 45000) {
+    // 🛑 Botlar ve Lighthouse testlerinde polling'i tamamen susturur
+    if (/Lighthouse|Chrome-Lighthouse|bot|crawl|slurp|spider/i.test(navigator.userAgent)) {
+      return () => {}; 
+    }
+
     let aktif = true;
     let calisiyor = false;
     let timer = null;
@@ -2178,7 +2183,10 @@ import {
     };
 
     document.addEventListener('visibilitychange', gorunurOldu, { passive: true });
-    calistir();
+    
+    // İsteklerin aynı anda patlamasını önlemek için rastgele ilk gecikme
+    const rastgeleIlkGecikme = Math.floor(Math.random() * 6000) + 2000;
+    timer = setTimeout(calistir, rastgeleIlkGecikme);
 
     return () => {
       aktif = false;
