@@ -4354,7 +4354,7 @@ import {
       window._hvActionStateStop = window.hvGuvenliFirestorePolling(async () => {
         const u = window._firebaseAuth?.currentUser;
         if (u) await renderActionStates(u.uid);
-      }, 20000);
+      }, 40000);
     } else {
       window._hvActionStateStop = null;
     }
@@ -5359,7 +5359,7 @@ import {
 
     function yorumDinlemeyiBaslat() {
       if (_yorumDurdur) { _yorumDurdur(); _yorumDurdur = null; }
-      _yorumDurdur = window.hvGuvenliFirestorePolling(yorumVerisiniYukle, 10000);
+      _yorumDurdur = window.hvGuvenliFirestorePolling(yorumVerisiniYukle, 30000);
     }
 
     const dahaFazlaBtn = document.getElementById('hv-yorum-daha-fazla');
@@ -5689,7 +5689,7 @@ import {
         } catch(e) {
           // Geçici ağ hatasında mevcut yapı korunur.
         }
-      }, 20000);
+      }, 45000);
     } catch (e) {
       /* Geçici Firestore ağ hatasında mevcut kilit durumu korunur. */
       window.hvIcerikKilidi = fallback;
