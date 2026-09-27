@@ -2088,10 +2088,23 @@ import {
   addDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
   increment,
   where,
   runTransaction
 } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+
+/* ============================================================
+   PROFESYONEL FIREBASE BAŞLATMA
+   Tema bootstrap'ı Firebase'i otomatik başlatmaz. Giriş paneli
+   gerçekten yüklendiğinde aynı singleton'ı hazırlar.
+   ============================================================ */
+if (typeof window.hvFirebaseHazirla === 'function') {
+  await window.hvFirebaseHazirla();
+}
+if (!window._firebaseAuth || !window._firebaseDb) {
+  console.error('Giriş paneli: Firebase servisleri hazır değil.');
+}
 /* ÖNEMLİ GÜVENLİK NOTU:
    Bu dosyadaki client-side kontroller (veriKontrol, isAdmin, küfür filtresi vb.)
    SADECE arayüz kolaylığıdır. Gerçek güvenlik Firestore Security Rules'ta
@@ -2203,7 +2216,7 @@ import {
   async function hvSiteAyarlariYukle() {
     if (window.hvSiteAyarlariReady) return window.hvSiteAyarlariReady;
     window.hvSiteAyarlariReady = (async () => {
-      const db = window._firebaseDb || getFirestore();
+      const db = window._firebaseDb;
       const ref = doc(db, 'siteAyarlari', 'genel');
       try {
         const snap = await getDoc(ref);
@@ -2896,24 +2909,22 @@ import {
     hvBildirimYerelRozetGeriYukle(user);
 
     const ref = collection(window._firebaseDb, 'bildirimler', user.uid, 'liste');
-    // Gerçek zamanlı Listen kanalı yerine kontrollü polling kullanılır. Böylece
+    // Bildirimler kullanıcı oturumu açıldığında sınırlı bir realtime listener ile izlenir. Böylece
     // mobil/masaüstü ağ dalgalanmalarında Firestore Listen/channel timeout'larının
     // PageSpeed konsoluna sürekli düşmesi engellenir.
-    _hvBildirimUnsub = window.hvGuvenliFirestorePolling(async () => {
-      try {
-        const snap = await getDocs(query(ref, limit(50)));
+    _hvBildirimUnsub = onSnapshot(
+      query(ref, orderBy('tarih', 'desc'), limit(50)),
+      snap => {
         _hvBildirimCache = [];
         snap.forEach(d => _hvBildirimCache.push({ id:d.id, ...d.data() }));
-        _hvBildirimCache.sort((a,b) => {
-          const ta = a.tarih?.toDate ? a.tarih.toDate().getTime() : new Date(a.tarih || 0).getTime();
-          const tb = b.tarih?.toDate ? b.tarih.toDate().getTime() : new Date(b.tarih || 0).getTime();
-          return tb - ta;
-        });
-      } catch (e) {
-        // Mevcut cache korunur; geçici ağ hatası kullanıcı arayüzünü boşaltmaz.
+        hvBildirimRenderVeSayac();
+      },
+      error => {
+        console.warn('Bildirim realtime bağlantısı geçici olarak kapandı:', error);
+        // Cache korunur; panel tekrar açıldığında snapshot yeniden kurulabilir.
+        _hvBildirimUnsub = null;
       }
-      hvBildirimRenderVeSayac();
-    }, 45000);
+    );
   }
 
   async function hvBildirimOku(id) {
@@ -3259,7 +3270,7 @@ import {
   async function hvUyeLogEkle(user, olay, detay = '') {
     if (!user || !user.uid) return false;
     try {
-      const db = window._firebaseDb || getFirestore();
+      const db = window._firebaseDb;
       const uid = String(user.uid);
       const olayMetni = String(olay || '').trim().slice(0, 160);
       const detayMetni = String(detay || '').trim().slice(0, 500);
@@ -3352,7 +3363,7 @@ import {
   /* Atomik kullanıcı adı rezervasyonu: önce oku sonra transaction içinde yaz.
      Böylece aynı anda gelen iki ilk giriş aynı kullanıcı adını alamaz. */
   async function hvKadiRezervEtAtomik(user, aday) {
-    const db = window._firebaseDb || getFirestore();
+    const db = window._firebaseDb;
     const temiz = hvKadiNormalize(aday);
     if (!user?.uid || !/^[a-z][a-z0-9]{2,19}$/.test(temiz)) return false;
     const ref = doc(db, 'kullaniciAdlari', temiz);
@@ -3380,7 +3391,7 @@ import {
   }
 
   async function benzersizKullaniciAdi(displayName, email, user) {
-    const db = window._firebaseDb || getFirestore();
+    const db = window._firebaseDb;
     const base = hvKadiAdayi(email, displayName);
     const adaylar = [];
     adaylar.push(base);
@@ -3407,7 +3418,7 @@ import {
     const temiz = hvKadiNormalize(kadi);
     if (!user?.uid || !temiz) return false;
     if (!/^[a-z][a-z0-9]{2,19}$/.test(temiz)) return false;
-    const db = window._firebaseDb || getFirestore();
+    const db = window._firebaseDb;
     return hvKadiRezervEtAtomik(user, temiz);
   }
 
@@ -3419,7 +3430,7 @@ import {
      - Profil ve kullanıcı adı indeksi aynı UID ile bağlanır.
   */
   async function googleProfilTamamla(user, mevcutData = {}) {
-    const db = window._firebaseDb || getFirestore();
+    const db = window._firebaseDb;
     const userRef = doc(db, 'kullanicilar', user.uid);
     const data = mevcutData || {};
     const isimler = googleAdSoyadAyir(user.displayName, user.email);
@@ -3473,7 +3484,7 @@ import {
   /* Auth hesabı ile Firestore profilinin tek senkronizasyon noktası. */
   async function hvProfilHazirla(user, { createIfMissing = true } = {}) {
     if (!user?.uid) return { data: {}, exists: false };
-    const db = window._firebaseDb || getFirestore();
+    const db = window._firebaseDb;
     const ref = doc(db, 'kullanicilar', user.uid);
     let snap;
     try {
@@ -3552,7 +3563,7 @@ import {
   }
 
   window.hvSosyalGiris = async function(tur) {
-    const auth = window._firebaseAuth || getAuth();
+    const auth = window._firebaseAuth;
     hvMesajGizle();
     if (rateLimitKontrol(3000)) return hvMesaj('Çok hızlı istek gönderiyorsunuz, lütfen bekleyin.', 'hata');
     if (tur !== 'google') return hvMesaj('Yalnızca Google girişi destekleniyor.', 'hata');
@@ -3569,7 +3580,7 @@ import {
       _sosyalGirisYapildi = true;
 
       let mevcutAuthProfil = null;
-      try { mevcutAuthProfil = await getDoc(doc(window._firebaseDb || getFirestore(), 'kullanicilar', user.uid)); }
+      try { mevcutAuthProfil = await getDoc(doc(window._firebaseDb, 'kullanicilar', user.uid)); }
       catch (readError) { console.warn('Google profil ön kontrolü okunamadı:', readError?.code || readError?.message || readError); }
       if (!mevcutAuthProfil?.exists() && !hvSiteAcikMi('uyeOlma')) {
         try { await deleteUser(user); } catch (e) { try { await signOut(auth); } catch (e2) {} }
@@ -4272,7 +4283,7 @@ import {
 
   async function setAction(def, uid, button) {
     if (!actionAllowed(def.key)) return;
-    const db = window._firebaseDb || getFirestore();
+    const db = window._firebaseDb;
     const key = articleKey(); const data = {
       uid, url:articleUrl(), baslik:articleTitle(), tarih:serverTimestamp(),
       guncellemeTarihi:serverTimestamp(), haberId:key, path:window.location.pathname
@@ -4317,7 +4328,7 @@ import {
   }
 
   async function renderActionStates(uid) {
-    const db = window._firebaseDb || getFirestore(); const key=articleKey();
+    const db = window._firebaseDb; const key=articleKey();
     const refs = ACTIONS.map(def => ({def, ref:doc(db, def.collection, uid, 'liste', key)}));
     const snaps = await Promise.all(refs.map(x=>getDoc(x.ref).catch(()=>null)));
     refs.forEach((x,i)=>{
@@ -4383,7 +4394,7 @@ import {
   const postPath = window.location.pathname;
   const encodedPost = btoa(unescape(encodeURIComponent(postPath))).replace(/=/g, '');
 
-  const auth = getAuth();
+  const auth = window._firebaseAuth;
   const db = window._firebaseDb;
   if (!db) { console.warn('Firestore bulunamadı'); return; }
 
@@ -4504,6 +4515,7 @@ import {
   }
 
   async function hvYorumlariKanonikSenkronizeEt(yorumlar) {
+    if (!yorumlar.length || !db || !currentUser) return yorumlar;
     // Eski yapı yorumları tek tek await ederek sırayla okuyordu.
     // 30 yorum = 30 ardışık ağ turu olabildiği için birkaç saniyelik gecikme
     // ve render sırasında hissedilir kasma oluşturabiliyordu.
@@ -5320,8 +5332,8 @@ import {
       }
     });
 
-    // PERFORMANS DÜZELTMESİ:
-    // Yorumlar kontrollü polling ile okunur; limitsiz gerçek zamanlı Listen kanalı kullanılmaz.
+    // PERFORMANS + REALTIME:
+    // Yorumlar yalnızca bölüm görünür olduğunda sınırlı bir realtime listener ile okunur.
     // dinleniyordu ve her güncellemede yazar bilgileri sıralı (await ... for)
     // çekiliyordu. Binlerce yorumlu bir yazıda bu hem çok fazla okuma
     // maliyeti hem de yavaş render demekti. Artık:
@@ -5366,8 +5378,38 @@ import {
     }
 
     function yorumDinlemeyiBaslat() {
-      if (_yorumDurdur) { _yorumDurdur(); _yorumDurdur = null; }
-      _yorumDurdur = window.hvGuvenliFirestorePolling(yorumVerisiniYukle, 30000);
+      if (_yorumDurdur) { try { _yorumDurdur(); } catch(e) {} _yorumDurdur = null; }
+      const yorumSorgusu = query(
+        collection(db, 'postYorumlar', encodedPost, 'mesajlar'),
+        orderBy('tarih', 'desc'),
+        limit(_yorumSinir)
+      );
+      const nesil = Symbol('yorum-listener');
+      window._hvYorumListenerNesil = nesil;
+      _yorumDurdur = onSnapshot(yorumSorgusu, async snapshot => {
+        if (window._hvYorumListenerNesil !== nesil) return;
+        try {
+          const gecerliDoclar = snapshot.docs.filter(d => !d.data().silindi);
+          const yorumlar = await Promise.all(gecerliDoclar.map(async docSnap => {
+            const data = docSnap.data();
+            const bilgi = await getKullaniciBilgi(data.uid, data.yazar);
+            return { id: docSnap.id, ...data, ...bilgi, kullaniciOyu: data.oylar && currentUser ? data.oylar[currentUser.uid] : null };
+          }));
+          const kanonikYorumlar = await hvYorumlariKanonikSenkronizeEt(yorumlar);
+          allYorumlar = kanonikYorumlar;
+          sayacSpan.textContent = kanonikYorumlar.length;
+          siralaVeGoster();
+          const dahaFazlaBtn = document.getElementById('hv-yorum-daha-fazla');
+          if (dahaFazlaBtn) dahaFazlaBtn.style.display = snapshot.docs.length >= _yorumSinir ? 'block' : 'none';
+        } catch (e) {
+          console.warn('Gerçek zamanlı yorum senkronizasyonu başarısız:', e);
+        }
+      }, error => {
+        console.warn('Yorum realtime bağlantısı geçici olarak kapandı:', error);
+        // Listener ağ hatasıyla kapanırsa kısa bir tek-seferlik okuma yapılır;
+        // sürekli polling açılmaz.
+        yorumVerisiniYukle().catch(() => {});
+      });
     }
 
     const dahaFazlaBtn = document.getElementById('hv-yorum-daha-fazla');
@@ -5415,8 +5457,8 @@ import {
    - Admin Paneli / Üye Paneli / Giriş Modalı bu mekanizmadan bağımsızdır.
    ============================================================ */
 {
-  const auth = window._firebaseAuth || getAuth();
-  const db = window._firebaseDb || getFirestore();
+  const auth = window._firebaseAuth;
+  const db = window._firebaseDb;
 
   // Blogger tema varyasyonları için yalnızca makale gövdesindeki içerik
   // kilit bloklarını hedefle. Genel document.querySelectorAll('.hv-uye-icerik')
@@ -5795,8 +5837,8 @@ import {
    BÖLÜM 6 — GİRİŞ YAPMIŞ KULLANICILAR İÇİN OKUMA GEÇMİŞİ (Firestore)
    ============================================================ */
 {
-  const auth = getAuth();
-  const db = getFirestore();
+  const auth = window._firebaseAuth;
+  const db = window._firebaseDb;
 
   const kaydet = async (user) => {
     if (!user || !user.uid) return;
