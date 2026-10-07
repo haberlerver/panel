@@ -4330,15 +4330,17 @@ import {
   }
 
   function addToolbar(user) {
-    const paylaslar = document.querySelectorAll('.share-here-wrapper');
-    if(!paylaslar.length) return;
-    paylaslar.forEach(paylasDiv => {
-      if (paylasDiv.parentElement?.querySelector('.hv-haber-eylem-toolbar')) return;
-      const toolbar=document.createElement('div'); toolbar.className='hv-haber-eylem-toolbar';
-      ACTIONS.forEach(def=>toolbar.appendChild(makeButton(def)));
+    /* Yalnızca paylaşım kodunun kapak altına eklediği bar (data-hv-ana-paylas)
+       için araç çubuğu üretilir. Bara zaten çubuk eklenmişse tekrar eklenmez. */
+    document.querySelectorAll('.share-here-wrapper[data-hv-ana-paylas]').forEach(paylasDiv => {
+      const sonraki = paylasDiv.nextElementSibling;
+      if (sonraki && sonraki.classList.contains('hv-haber-eylem-toolbar')) return;
+      const toolbar = document.createElement('div');
+      toolbar.className = 'hv-haber-eylem-toolbar';
+      ACTIONS.forEach(def => toolbar.appendChild(makeButton(def)));
       paylasDiv.insertAdjacentElement('afterend', toolbar);
-      if (user) renderActionStates(user.uid).catch(()=>{});
-      else toolbar.querySelectorAll('button').forEach(btn=>{ btn.classList.add('giris-gerekli'); });
+      if (user) renderActionStates(user.uid).catch(() => {});
+      else toolbar.querySelectorAll('button').forEach(btn => btn.classList.add('giris-gerekli'));
     });
   }
 
@@ -4372,6 +4374,9 @@ import {
     if(!location.pathname.match(/\/\d{4}\/\d{2}\//) && !document.querySelector('.post-body, .post, .entry-content')) return;
     loadSiteSettings();
     document.addEventListener('authReady', e=>addToolbar(e.detail || null), {once:false});
+    /* Paylaşım kodu ana barı kurduğunda (sayfa açılışından sonra bile)
+       araç çubuğunu o bara ekle. */
+    document.addEventListener('hvPaylasBarlariHazir', ()=>addToolbar(window._firebaseAuth?.currentUser || null));
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
