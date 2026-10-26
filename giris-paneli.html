@@ -430,7 +430,27 @@ body.dark .hv-yorum-popup-close { color: #6b7280; }
 .hv-haber-eylem-btn:disabled{opacity:.55;cursor:wait;}
 .hv-haber-eylem-btn[hidden]{display:none !important;}
 .hv-haber-eylem-btn.giris-gerekli::after{content:&#39;Giriş&#39;;font-size:9px;opacity:.55;}
-.hv-haber-eylem-icon{font-size:15px;line-height:1;flex:0 0 auto;}
+.hv-haber-eylem-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  flex:0 0 26px;
+  border-radius:8px;
+  font-size:20px;
+  line-height:1;
+  box-sizing:border-box;
+  text-rendering:optimizeLegibility;
+}
+.hv-haber-eylem-btn[data-action="okunan"] .hv-haber-eylem-icon{background:#dcfce7;}
+.hv-haber-eylem-btn[data-action="okunacak"] .hv-haber-eylem-icon{background:#ffedd5;}
+.hv-haber-eylem-btn[data-action="begeni"] .hv-haber-eylem-icon{background:#dbeafe;}
+.hv-haber-eylem-btn[data-action="begenmeme"] .hv-haber-eylem-icon{background:#fee2e2;}
+body.dark .hv-haber-eylem-btn[data-action="okunan"] .hv-haber-eylem-icon{background:rgba(34,197,94,.18);}
+body.dark .hv-haber-eylem-btn[data-action="okunacak"] .hv-haber-eylem-icon{background:rgba(249,115,22,.18);}
+body.dark .hv-haber-eylem-btn[data-action="begeni"] .hv-haber-eylem-icon{background:rgba(59,130,246,.20);}
+body.dark .hv-haber-eylem-btn[data-action="begenmeme"] .hv-haber-eylem-icon{background:rgba(239,68,68,.18);}
 .hv-haber-eylem-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 .hv-haber-eylem-btn.aktif-okundu{
@@ -574,6 +594,48 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   flex:0 0 28px!important;
   border-radius:50%!important;
   object-fit:cover!important;
+}
+
+/* V3: Oturum açıldığında V74'ün masaüstü ve mobil menü bağlantıları yeşil görünür. */
+html body .hv-member-login-button.giris-yapildi,
+html body .hv-member-login-button.giris-yapildi:hover,
+html body .hv-member-login-button.giris-yapildi:focus-visible{
+  background:linear-gradient(135deg,#16a34a,#15803d)!important;
+  border-color:#15803d!important;
+  color:#fff!important;
+  box-shadow:0 4px 12px rgba(22,163,74,.22)!important;
+  outline-color:#bbf7d0!important;
+}
+html body .hv-member-login-button.giris-yapildi svg,
+html body .hv-member-login-button.giris-yapildi span{
+  color:#fff!important;
+  stroke:currentColor!important;
+}
+
+/* Mobilde oturum açılmış üye bağlantısı yeşil, belirgin ve kutu biçiminde görünür. */
+html body .mm-root a.mm-uye-girisi.giris-yapildi,
+html body .mm-root a.mm-uye-girisi.giris-yapildi:hover,
+html body .mm-root a.mm-uye-girisi.giris-yapildi:focus-visible{
+  display:flex!important;
+  width:calc(100% - 16px)!important;
+  min-height:44px!important;
+  margin:6px 8px!important;
+  padding:8px 12px!important;
+  box-sizing:border-box!important;
+  border:1px solid #15803d!important;
+  border-bottom:1px solid #15803d!important;
+  border-radius:9px!important;
+  background:linear-gradient(135deg,#16a34a,#15803d)!important;
+  color:#fff!important;
+  box-shadow:0 4px 12px rgba(22,163,74,.20)!important;
+}
+html body .mm-root a.mm-uye-girisi.giris-yapildi .mm-ikon,
+html body .mm-root a.mm-uye-girisi.giris-yapildi .mm-satir-ad,
+html body .mm-root a.mm-uye-girisi.giris-yapildi .hv-auth-kadi,
+html body .mm-root a.mm-uye-girisi.giris-yapildi .hv-auth-kadi-name,
+html body .mm-root a.mm-uye-girisi.giris-yapildi .mm-ikon svg{
+  color:#fff!important;
+  stroke:currentColor!important;
 }
 
 /* --- GİRİŞ PANELİ CSS BAŞLANGIÇ --- */
@@ -4096,8 +4158,8 @@ import {
    ============================================================ */
 (() => {
   const ACTIONS = [
-    { key:'okunan', collection:'okunanlar', label:'Okudum', icon:'✓', setting:'okunanHaberler', activeClass:'aktif-okundu' },
-    { key:'okunacak', collection:'okunacaklar', label:'Sonra Oku', icon:'◷', setting:'okunacakHaberler', activeClass:'aktif-okunacak' },
+    { key:'okunan', collection:'okunanlar', label:'Okudum', icon:'✅', setting:'okunanHaberler', activeClass:'aktif-okundu' },
+    { key:'okunacak', collection:'okunacaklar', label:'Sonra Oku', icon:'🔖', setting:'okunacakHaberler', activeClass:'aktif-okunacak' },
     { key:'begeni', collection:'begeniler', label:'Beğendim', icon:'👍', setting:'haberBegenme', activeClass:'aktif-begeni' },
     { key:'begenmeme', collection:'begenmemeler', label:'Beğenmedim', icon:'👎', setting:'haberBegenmeme', activeClass:'aktif-begenmeme' }
   ];
