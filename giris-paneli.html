@@ -612,6 +612,45 @@ html body .hv-member-login-button.giris-yapildi span{
   stroke:currentColor!important;
 }
 
+/* V4: Masaüstünde giriş yapılmış üye butonu, avatar ve kullanıcı adı için genişletildi. */
+@media (min-width: 992px){
+  html body .hv-member-login-button.giris-yapildi,
+  html body .hv-member-login-button.giris-yapildi:hover,
+  html body .hv-member-login-button.giris-yapildi:focus-visible{
+    min-width:156px!important;
+    max-width:210px!important;
+    height:40px!important;
+    min-height:40px!important;
+    max-height:40px!important;
+    padding:0 12px!important;
+    gap:9px!important;
+    border-radius:8px!important;
+    box-sizing:border-box!important;
+  }
+  html body .hv-member-login-button.giris-yapildi .hv-auth-avatar-wrap{
+    flex:0 0 28px!important;
+    width:28px!important;
+    height:28px!important;
+    min-width:28px!important;
+    min-height:28px!important;
+  }
+  html body .hv-member-login-button.giris-yapildi .hv-auth-kadi{
+    flex:1 1 auto!important;
+    min-width:0!important;
+    max-width:100%!important;
+    gap:0!important;
+    padding:0!important;
+  }
+  html body .hv-member-login-button.giris-yapildi .hv-auth-kadi-name{
+    display:block!important;
+    min-width:0!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+}
+
 /* Mobilde oturum açılmış üye bağlantısı yeşil, belirgin ve kutu biçiminde görünür. */
 html body .mm-root a.mm-uye-girisi.giris-yapildi,
 html body .mm-root a.mm-uye-girisi.giris-yapildi:hover,
@@ -1998,7 +2037,7 @@ import {
   deleteUser,
   onAuthStateChanged,
   getAuth
-} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js';
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 
 import {
   doc,
@@ -2018,7 +2057,7 @@ import {
   increment,
   where,
   runTransaction
-} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js';
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 /* ÖNEMLİ GÜVENLİK NOTU:
    Bu dosyadaki client-side kontroller (veriKontrol, isAdmin, küfür filtresi vb.)
    SADECE arayüz kolaylığıdır. Gerçek güvenlik Firestore Security Rules'ta
