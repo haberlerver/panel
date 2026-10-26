@@ -523,81 +523,25 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   overflow-wrap:anywhere;
 }
 
-/* --- MODERN SAĞ ÜST KULLANICI BUTONU &#8212; TEK OTORİTER TANIM --- */
-#site-navigation{position:relative;}
-#hv-auth-btn{
-  height:38px;
-  min-width:116px;
-  max-width:220px;
-  padding:4px 10px 4px 7px;
-  border-radius:11px;
-  gap:7px;
-  border:1px solid #e2e8f0;
-  background:#fff;
-  box-shadow:0 4px 14px rgba(15,23,42,.08);
-  color:#2563eb;
-  line-height:1;
-  font-size:13px;
-  font-weight:700;
-  font-family:Arial,sans-serif;
-  cursor:pointer;
-  display:none;
-  align-items:center;
-  position:absolute;
-  right:50px;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:100;
-  white-space:nowrap;
-  overflow:hidden;
-  transition:all .2s ease;
-}
-#hv-auth-btn:hover{
-  background:#f8fafc;
-  border-color:#bfdbfe;
-  box-shadow:0 6px 18px rgba(15,23,42,.10);
-}
-#hv-auth-btn.giris-yapildi{
-  background:linear-gradient(135deg,#16a34a,#15803d);
-  color:#fff;
-  border-color:#15803d;
-}
-#hv-auth-btn.giris-yapildi:hover{
-  background:linear-gradient(135deg,#15803d,#166534);
-}
-#hv-auth-btn .avatar-circle,#hv-auth-btn img{
-  width:28px !important;
-  height:28px !important;
-  min-width:28px !important;
-  min-height:28px !important;
-  flex:0 0 28px;
-  border-radius:50% !important;
-  object-fit:cover !important;
-}
-#hv-auth-btn &gt; span{
-  display:block;
-  min-width:0;
-  max-width:155px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-#hv-auth-btn &gt; .hv-auth-kadi,
-#hv-mobil-auth-btn &gt; .hv-auth-kadi{
+/* --- V2: V74 TEMA MENÜSÜNDEN GELEN DİNAMİK ÜYE GİRİŞİ --- */
+/* Masaüstü ve mobil menüdeki gerçek tema bağlantıları, oturum açıldığında
+   profil avatarı/adı gösterebilir. Menü bağlantısının tıklama davranışı JS ile
+   mevcut hvAuthTikla() akışına bağlanır. */
+.hv-member-login-button .hv-auth-kadi,
+.mm-root .mm-uye-girisi .hv-auth-kadi{
   position:relative!important;
   direction:ltr!important;
   unicode-bidi:plaintext!important;
-  display:flex!important;
+  display:inline-flex!important;
   align-items:center!important;
   justify-content:flex-start!important;
   gap:2px!important;
-  flex:1 1 auto;
   min-width:0!important;
-  max-width:none!important;
+  max-width:100%!important;
   padding:0 1px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
   line-height:1!important;
   font-weight:800;
   text-align:left!important;
@@ -605,95 +549,36 @@ body.dark .hv-haber-eylem-btn.aktif-begenmeme{
   font-variant-numeric:tabular-nums;
   text-rendering:optimizeLegibility;
 }
-.hv-auth-avatar-wrap{flex:0 0 auto!important;}
-
-#hv-auth-btn .hv-auth-kadi-name,
-#hv-mobil-auth-btn .hv-auth-kadi-name{
+.hv-member-login-button .hv-auth-kadi-name,
+.mm-root .mm-uye-girisi .hv-auth-kadi-name{
   display:inline-block!important;
   min-width:0!important;
+  max-width:100%!important;
   overflow:hidden!important;
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
   line-height:1!important;
 }
-body.dark #hv-auth-btn{
-  background:#111827;
-  color:#93c5fd;
-  border-color:#334155;
-  box-shadow:0 5px 18px rgba(0,0,0,.28);
+.hv-member-login-button .hv-auth-avatar-wrap,
+.mm-root .mm-uye-girisi .hv-auth-avatar-wrap{
+  flex:0 0 auto!important;
 }
-body.dark #hv-auth-btn:hover{
-  background:#1f2937;
-  border-color:#475569;
+.hv-member-login-button .hv-auth-avatar-wrap .avatar-circle,
+.hv-member-login-button .hv-auth-avatar-wrap img,
+.mm-root .mm-uye-girisi .hv-auth-avatar-wrap .avatar-circle,
+.mm-root .mm-uye-girisi .hv-auth-avatar-wrap img{
+  width:28px!important;
+  height:28px!important;
+  min-width:28px!important;
+  min-height:28px!important;
+  flex:0 0 28px!important;
+  border-radius:50%!important;
+  object-fit:cover!important;
 }
-body.dark #hv-auth-btn.giris-yapildi{
-  background:linear-gradient(135deg,#166534,#14532d);
-  color:#dcfce7;
-  border-color:#166534;
-}
-#hv-mobil-auth-btn{min-height:44px;min-width:0;}
-#hv-mobil-auth-btn .avatar-circle,#hv-mobil-auth-btn img{
-  width:28px !important;
-  height:28px !important;
-  min-width:28px !important;
-  min-height:28px !important;
-  flex:0 0 28px;
-  border-radius:50% !important;
-  object-fit:cover !important;
-}
-#hv-mobil-auth-btn &gt; span{
-  min-width:0;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-@media (min-width:769px){#hv-auth-btn{display:flex;}}
-@media (max-width:560px){
-  #hv-auth-btn{min-width:0;max-width:47vw;}
-  #hv-auth-btn &gt; span{max-width:calc(47vw - 52px);}
-}
-
-/* --- KAYMA / TAŞMA STABİLİZASYONU BİTİŞ --- */
-
 
 /* --- GİRİŞ PANELİ CSS BAŞLANGIÇ --- */
 
-/* Giriş/desktop butonunun tek CSS tanımı yukarıdaki modern bloktadır. */
-
-/* ===== MOBİL MENÜ ===== */
-#hv-mobil-uye-li { list-style: none; }
-#hv-mobil-auth-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #1a73e8;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 14px 18px;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: Arial, sans-serif;
-  cursor: pointer;
-  width: 100%;
-  box-sizing: border-box;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 100%;
-  transition: background 0.2s;
-}
-#hv-mobil-auth-btn:active { background: #1557b0; }
-#hv-mobil-auth-btn.giris-yapildi { background: #34a853; }
-
-body.dark #hv-mobil-auth-btn { background: #1d4ed8; }
-body.dark #hv-mobil-auth-btn.giris-yapildi { background: #166534; }
-
-@media (min-width: 769px) {
-  #hv-mobil-uye-li { display: none; }
-}
+/* V74 menüsü kendi masaüstü ve mobil bağlantı stillerini yönetir. */
 
 /* ===== MODAL OVERLAY ===== */
 #hv-modal-overlay {
@@ -1233,21 +1118,6 @@ body.dark #hv-bildirim-modal-tumunu-oku{background:#172554;color:#93c5fd;}
   box-sizing:border-box;
   z-index:20;
 }
-/* Mobil avatar + bildirim aksiyon grubu */
-.hv-mobil-auth-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  width:100%;
-  min-width:0;
-}
-.hv-mobil-auth-actions &gt; *{min-width:0;}
-.hv-mobil-auth-actions .hv-mobil-auth-actions .hv-mobil-auth-btn,
-.hv-mobil-auth-actions #hv-mobil-auth-btn{flex:1 1 auto;min-width:0;}
-@media(max-width:480px){
-  .hv-mobil-auth-actions{gap:6px;}
-  }
-
 /* ============================================================
    MODAL İÇİ BİLDİRİMLER
    ============================================================ */
@@ -1746,11 +1616,6 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
      Mantıkta hiçbir değişiklik yapılmadı; her bölüm kendi
      IIFE / blok kapsamında olduğu için aralarında isim çakışması yok.
      ============================================================ -->
-<button id='hv-auth-btn' onclick='hvAuthTikla()'>
-  <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>
-  <span>ÜYE GİRİŞİ</span>
-</button>
-
 <!-- Modal Overlay -->
 <div id='hv-modal-overlay'>
   <div id='hv-modal'>
@@ -3139,8 +3004,8 @@ import {
   }
 
   async function btnVeMenuGuncelle(user, dbData) {
-    const masaustuBtn = document.getElementById('hv-auth-btn');
-    const mobilBtn = document.getElementById('hv-mobil-auth-btn');
+    const masaustuBtn = document.querySelector('.hv-member-login-button');
+    const mobilBtn = document.querySelector('.mm-root .mm-uye-girisi');
     hvBildirimYerelRozetGeriYukle(user);
     if (user) hvBildirimYukle(user).catch(() => {});
     else hvBildirimTemizle();
@@ -3191,6 +3056,8 @@ import {
         spanM.appendChild(nameM);
         hvAuthKadiFontAyarla(spanM, gorunen);
         masaustuBtn.appendChild(spanM);
+        masaustuBtn.setAttribute('aria-label', 'Hesabım: ' + (gorunen || 'Kullanıcı'));
+        masaustuBtn.setAttribute('title', 'Hesabım: ' + (gorunen || 'Kullanıcı'));
       }
       if (mobilBtn) {
         mobilBtn.classList.add('giris-yapildi');
@@ -3206,13 +3073,15 @@ import {
         avatarWrapM.appendChild(avatarBadgeM);
         mobilBtn.appendChild(avatarWrapM);
         const spanMb = document.createElement('span');
-        spanMb.className = 'hv-auth-kadi';
+        spanMb.className = 'mm-satir-ad hv-auth-kadi';
         const nameMb = document.createElement('span');
         nameMb.className = 'hv-auth-kadi-name';
         nameMb.textContent = gorunen || 'Kullanıcı';
         spanMb.appendChild(nameMb);
         hvAuthKadiFontAyarla(spanMb, gorunen);
         mobilBtn.appendChild(spanMb);
+        mobilBtn.setAttribute('aria-label', 'Hesabım: ' + (gorunen || 'Kullanıcı'));
+        mobilBtn.setAttribute('title', 'Hesabım: ' + (gorunen || 'Kullanıcı'));
       }
 
       /* Eksik username indeksini güvenli biçimde tamir et; doğrudan kullanıcı UID'sine
@@ -3220,14 +3089,18 @@ import {
       if (kadi) hvKadiIndeksiSaglamlastir(user, kadi).catch(e => console.warn('Kullanıcı adı indeksi onarılamadı:', e?.code || e?.message || e));
     } else {
       hvDuyuruTemizle();
-      const svgIcon = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>`;
+      const svgIcon = `<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><circle cx='12' cy='8' r='3.2'></circle><path d='M5.8 19c.7-3 2.8-4.6 6.2-4.6s5.5 1.6 6.2 4.6'></path><circle cx='12' cy='12' r='9'></circle></svg>`;
       if (masaustuBtn) {
         masaustuBtn.classList.remove('giris-yapildi');
         masaustuBtn.innerHTML = svgIcon + '<span>ÜYE GİRİŞİ</span>';
+        masaustuBtn.setAttribute('aria-label', 'Üye Girişi');
+        masaustuBtn.setAttribute('title', 'Üye Girişi');
       }
       if (mobilBtn) {
         mobilBtn.classList.remove('giris-yapildi');
-        mobilBtn.innerHTML = svgIcon + '<span>ÜYE GİRİŞİ</span>';
+        mobilBtn.innerHTML = '<span class="mm-ikon">' + svgIcon + '</span><span class="mm-satir-ad">Üye Ol/Giriş Yap</span>';
+        mobilBtn.setAttribute('aria-label', 'Üye Ol/Giriş Yap');
+        mobilBtn.setAttribute('title', 'Üye Ol/Giriş Yap');
       }
       hvBildirimTemizle();
     }
@@ -4080,31 +3953,44 @@ import {
     return m[c] || `Bir hata oluştu (${c || 'bilinmeyen'})`;
   }
 
-  /* ===== MOBİL MENÜYE EKLE ===== */
-  function mobilMenuyeEkle() {
-    const menushiftUl = document.querySelector('.ui-menushift > ul');
-    if (menushiftUl && !document.getElementById('hv-mobil-uye-li')) {
-      const li = document.createElement('li');
-      li.id = 'hv-mobil-uye-li';
-      li.innerHTML = `
-        <div class="hv-mobil-auth-actions">
-          <button id="hv-mobil-auth-btn" onclick="hvAuthTikla()">
-            <svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>
-            <span>ÜYE GİRİŞİ</span>
-          </button>
-        </div>`;
-      menushiftUl.insertBefore(li, menushiftUl.firstChild);
-    } else if (!document.getElementById('hv-mobil-uye-li')) {
-      const nav = document.getElementById('site-navigation');
-      if (nav) {
-        const btn = document.createElement('button');
-        btn.id = 'hv-mobil-auth-btn';
-        btn.onclick = hvAuthTikla;
-        btn.innerHTML = `<svg fill='none' height='18' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' viewBox='0 0 24 24' width='18'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg><span>ÜYE GİRİŞİ</span>`;
-        btn.style.display = 'none';
-        nav.appendChild(btn);
+  /* ===== V74 DİNAMİK MENÜLERİNİ GİRİŞ PANELİNE BAĞLA ===== */
+  function dinamikUyeGirisButonlariniBagla() {
+    /* Eski panel sürümlerinden kalmış ayrı mobil buton varsa kaldır. */
+    const eskiMobilSatir = document.getElementById('hv-mobil-uye-li');
+    if (eskiMobilSatir) eskiMobilSatir.remove();
+
+    if (window.__hvV74UyeGirisClickBagli) return;
+    window.__hvV74UyeGirisClickBagli = true;
+
+    /*
+      V74 masaüstü menüsü .hv-member-login-button,
+      V74 mobil mega menüsü .mm-root .mm-uye-girisi sınıfını üretir.
+      Belge seviyesindeki dinleyici, öğeler tema tarafından daha sonra
+      oluşturulsa bile bağlantıyı mevcut hvAuthTikla() akışına bağlar.
+    */
+    document.addEventListener('click', function(event) {
+      const hedef = event.target && event.target.closest
+        ? event.target.closest('.hv-member-login-button, .mm-root .mm-uye-girisi, #xoxx0i-Menulist li > a')
+        : null;
+      if (!hedef) return;
+
+      const etiket = String(hedef.getAttribute('data-menu-label') || hedef.textContent || '')
+        .replace(/\s+/g, ' ').trim().toLocaleLowerCase('tr-TR');
+      const temaUyeButonu = hedef.classList.contains('hv-member-login-button') ||
+        hedef.classList.contains('mm-uye-girisi');
+      const etiketUyeButonu = ['üye girişi', 'üye giriş', 'üye ol/giriş yap', 'üye ol / giriş yap'].includes(etiket);
+      if (!temaUyeButonu && !etiketUyeButonu) return;
+
+      event.preventDefault();
+      if (typeof window.hvAuthTikla !== 'function') return;
+      try {
+        Promise.resolve(window.hvAuthTikla()).catch(function(error) {
+          console.warn('Giriş paneli açılamadı:', error);
+        });
+      } catch (error) {
+        console.warn('Giriş paneli açılamadı:', error);
       }
-    }
+    });
   }
 
   /* ===== SAYFA YÜKLENİNCE ===== */
@@ -4162,14 +4048,7 @@ import {
   }
 
   async function hvSayfaYuklendi() {
-    const nav = document.getElementById('site-navigation');
-    const masaustuBtn = document.getElementById('hv-auth-btn');
-    if (nav && masaustuBtn && masaustuBtn.parentNode !== nav) {
-      nav.style.position = 'relative';
-      nav.appendChild(masaustuBtn);
-    }
-
-    mobilMenuyeEkle();
+    dinamikUyeGirisButonlariniBagla();
 
     const urlParams = new URLSearchParams(window.location.search);
     const mode = urlParams.get('mode');
