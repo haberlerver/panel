@@ -1,7 +1,8 @@
-/* Haberlerver.com — CSS v1
-   External stylesheet extracted from haberlerver-com tema v1.txt.
-   Theme Designer variables remain in Blogger <b:skin> and are exposed
-   through --hv-b-* custom properties. Selectors/rules are moved, not redesigned.
+/* Haberlerver.com — CSS v2
+   Immutable v2.0.0 CDN asset for the tested V1 stylesheet.
+   CSS selectors, declarations, order and Blogger-variable references are unchanged.
+   The stylesheet is preloaded at high priority, then applied as a normal stylesheet
+   to avoid an unstyled flash and layout shifts.
 */
 
 :root {
