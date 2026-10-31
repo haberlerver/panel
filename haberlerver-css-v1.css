@@ -1,14 +1,15 @@
-/* Haberlerver.com — CSS v1
-   External stylesheet extracted from haberlerver-com tema v1.txt.
-   Theme Designer variables remain in Blogger <b:skin> and are exposed
-   through --hv-b-* custom properties. Selectors/rules are moved, not redesigned.
+/* Haberlerver.com — CSS v3
+   Rebuilt directly from the original uploaded Blogger theme.
+   Only the main <b:skin> stylesheet is externalized.
+   Conditional inline <style> blocks remain at their original positions.
+   Blogger Theme Designer values are supplied by the preserved <b:skin> bridge.
 */
 
 :root {
-  --body-font: var(--hv-b-main-font-family),Inter,sans-serif;
-  --title-font: var(--hv-b-title-font-family),Inter,sans-serif;
-  --meta-font: var(--hv-b-meta-font-family),Inter,sans-serif;
-  --text-font: var(--hv-b-text-font-family),Inter,sans-serif;
+  --body-font: "var(--hv-b-main-font-family)",Inter,sans-serif;
+  --title-font: "var(--hv-b-title-font-family)",Inter,sans-serif;
+  --meta-font: "var(--hv-b-meta-font-family)",Inter,sans-serif;
+  --text-font: "var(--hv-b-text-font-family)",Inter,sans-serif;
   --text-font-color: #505050;
   --evo-solid-color: #c1bbbb;
   --black-color: #404040;
@@ -26564,129 +26565,3 @@ html body.static_page .hv-static-page-layout.hv-static-page-index-layout.hv-stat
   body.dark .xoxx0i-relatedui .relatedui-posts{background:#111827!important;border-color:#334155!important}
   body.dark .xoxx0i-relatedui .entry-title a{color:#f3f4f6!important}
 }
-
-
-/* === Search and label page rules; original inline style block retained here. === */
-
-/* Search and label grid titles match homepage sizing. */
-@media screen and (min-width:1024px) {
-  html body:is(.search-view,.label-view) #Blog1 .post-filter-wrap .grid-posts .post-filter :is(.entry-title,.entry-title a,.entry-title a span) {
-    font-size:18px !important;
-    line-height:1.4 !important;
-  }
-}
-@media screen and (min-width:768px) and (max-width:1023px) {
-  html body:is(.search-view,.label-view) #Blog1 .post-filter-wrap .grid-posts .post-filter :is(.entry-title,.entry-title a,.entry-title a span) {
-    font-size:15px !important;
-    line-height:1.4 !important;
-  }
-}
-@media screen and (max-width:767px) {
-  html body:is(.search-view,.label-view) #Blog1 .post-filter-wrap .grid-posts .post-filter :is(.entry-title,.entry-title a,.entry-title a span) {
-    font-size:19px !important;
-    line-height:1.4 !important;
-  }
-}
-
-
-/* === Homepage category config visibility rule; originally conditional on homepage only. === */
-#HVHomeCategoryConfig{display:none!important}
-
-/* === Homepage module rules; original inline style block retained here. === */
-
-/* V84 ana sayfa kategori modülleri: Benzer Haberler mavi başlığı ve altılı kart ızgarası. */
-#hv-home-sections{display:flex;flex-direction:column;gap:20px;width:min(1000px,calc(100vw - 24px));max-width:1000px;margin:22px auto -10px;padding:0;background:transparent;box-sizing:border-box}
-#hv-home-sections .hv-home-grid-section{display:block;width:100%;min-width:0;margin:0;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;box-sizing:border-box}
-#hv-home-sections .hv-home-grid-heading{display:none}
-#hv-home-sections .hv-home-grid-heading h2{display:flex;align-items:center;flex:1 1 auto;min-width:0;height:42px;margin:0!important;padding:0 14px!important;border:0;background:#1A73E8;color:#fff!important;font-size:16px;line-height:1.2;font-weight:850;letter-spacing:.025em;text-transform:uppercase;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#hv-home-sections .hv-home-grid-viewall{position:relative;display:flex;align-items:center;justify-content:center;flex:0 0 48px;width:48px;min-width:48px;height:42px;min-height:42px;margin:0;padding:0;border:0;border-left:1px solid rgba(255,255,255,.3);border-radius:0;background:#0d4fa8;color:transparent!important;font-size:0!important;line-height:0;text-decoration:none;white-space:nowrap;box-sizing:border-box;transition:background-color .18s ease}
-#hv-home-sections .hv-home-grid-viewall:before{content:"";display:block;width:10px;height:10px;margin:0 4px 0 0;border-top:3px solid #fff;border-right:3px solid #fff;transform:rotate(45deg)}#hv-home-sections .hv-home-grid-viewall:hover{background:#073d86}#hv-home-sections .hv-home-grid-viewall:focus-visible{outline:3px solid #1A73E8;outline-offset:-3px}
-#hv-home-sections .hv-home-grid-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch;width:100%;min-width:0;margin:0;padding:0;box-sizing:border-box}
-#hv-home-sections .hv-home-grid-card{display:flex;flex-direction:column;min-width:0;width:100%;margin:0;padding:0;border:1px solid #e8edf3;border-radius:14px!important;background:var(--main-menu-one,var(--hv-card-bg,#fff));background-clip:padding-box;color:var(--main-text-color,#202124);text-decoration:none;overflow:hidden!important;clip-path:inset(0 round 14px)!important;box-sizing:border-box;box-shadow:none;transition:none}
-#hv-home-sections a.hv-home-grid-card:hover{transform:none;box-shadow:none}
-#hv-home-sections .hv-home-grid-thumb{position:relative;display:block;width:100%;aspect-ratio:16/9;overflow:hidden;background:#eef2f7;box-sizing:border-box}
-#hv-home-sections .hv-home-grid-thumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;aspect-ratio:16/9;transition:transform .2s ease}
-#hv-home-sections a.hv-home-grid-card:hover .hv-home-grid-thumb img{transform:scale(1.025)}
-#hv-home-sections .hv-home-grid-card-title{display:-webkit-box;min-width:0;margin:0;padding:8px 10px 10px;border-bottom-left-radius:14px!important;border-bottom-right-radius:14px!important;background:transparent!important;background-clip:padding-box;color:var(--main-text-color,#202124);font-size:18px;line-height:1.4;font-weight:750;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow-wrap:anywhere}
-#hv-home-sections .hv-home-grid-skeleton{pointer-events:none;border-color:#e5e7eb}
-#hv-home-sections .hv-home-grid-skeleton .hv-home-grid-thumb{background:linear-gradient(110deg,#eef1f5 8%,#f7f8fa 18%,#eef1f5 33%);background-size:200% 100%}
-#hv-home-sections .hv-home-grid-skeleton .hv-home-grid-card-title{min-height:66px}
-#hv-home-sections .hv-home-grid-skeleton .hv-skeleton-line{display:block;height:9px;margin:0 0 9px;border-radius:5px;background:#edf0f4}
-#hv-home-sections .hv-home-grid-skeleton .hv-skeleton-line:last-child{width:64%}
-#hv-home-sections .hv-home-grid-status{grid-column:1/-1;margin:0;padding:10px 0;color:#64748b;font-size:13px;text-align:center}
-body.dark #hv-home-sections .hv-home-grid-section{background:transparent;border:0;box-shadow:none}body.dark #hv-home-sections .hv-home-grid-card{background:#111827;border-color:transparent;color:#e5e7eb;box-shadow:none;transition:none}
-body.dark #hv-home-sections .hv-home-grid-heading h2,body.dark #hv-home-sections .hv-home-grid-card-title{color:#f3f4f6}
-body.dark #hv-home-sections .hv-home-grid-thumb{background:#1e293b}
-body.dark #hv-home-sections .hv-home-grid-skeleton .hv-home-grid-thumb{background:linear-gradient(110deg,#1e293b 8%,#273449 18%,#1e293b 33%);background-size:200% 100%}
-body.dark #hv-home-sections .hv-home-grid-skeleton .hv-skeleton-line{background:#273449}
-/* Blog1'in 13–16. yayınları: masaüstü üç sütun, mobil mevcut kart düzeni. */
-#hv-home-blog1-four-grid-wrap{display:block;width:min(1000px,calc(100vw - 24px));max-width:1000px;margin:18px auto 18px;padding:0;box-sizing:border-box}
-#hv-home-blog1-four-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch;width:100%;min-width:0;margin:0;padding:0;box-sizing:border-box}
-#hv-home-blog1-four-grid .hv-home-grid-card{display:flex;flex-direction:column;min-width:0;width:100%;margin:0;padding:0;border:1px solid var(--hv-border,#e2e8f0);border-radius:11px;background:var(--hv-card-bg,#fff);color:var(--main-text-color,#202124);text-decoration:none;overflow:hidden;box-sizing:border-box;transition:box-shadow .16s ease,border-color .16s ease}
-#hv-home-blog1-four-grid a.hv-home-grid-card:hover{border-color:#93c5fd;box-shadow:0 5px 16px rgba(15,23,42,.09)}
-#hv-home-blog1-four-grid .hv-home-grid-thumb{position:relative;display:block;width:100%;aspect-ratio:16/9;overflow:hidden;background:#eef2f7;box-sizing:border-box}
-#hv-home-blog1-four-grid .hv-home-grid-thumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;aspect-ratio:16/9;transition:transform .2s ease}
-#hv-home-blog1-four-grid a.hv-home-grid-card:hover .hv-home-grid-thumb img{transform:scale(1.025)}
-#hv-home-blog1-four-grid .hv-home-grid-card-title{display:-webkit-box;min-width:0;margin:0;padding:11px 12px 13px;color:var(--main-text-color,#202124);font-size:15px;line-height:1.35;font-weight:750;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow-wrap:anywhere}
-body.dark #hv-home-blog1-four-grid .hv-home-grid-card{background:#111827;border-color:#334155;color:#e5e7eb}
-body.dark #hv-home-blog1-four-grid .hv-home-grid-card-title{color:#f3f4f6}
-body.dark #hv-home-blog1-four-grid .hv-home-grid-thumb{background:#1e293b}
-@media (min-width:1024px){#hv-home-blog1-four-grid .hv-home-grid-card-title,#hv-home-blog1-four-grid .hv-home-grid-card-title-text{font-size:19px!important;line-height:1.35!important}}
-@media (min-width:768px) and (max-width:1023px){#hv-home-sections{gap:12px}#hv-home-blog1-four-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}#hv-home-blog1-four-grid .hv-home-grid-card-title{font-size:15px}}
-@media (max-width:767px){#hv-home-blog1-four-grid-wrap{width:calc(100% - 20px);margin:10px auto 16px}#hv-home-blog1-four-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#hv-home-blog1-four-grid .hv-home-grid-card-title{padding:9px 9px 11px;font-size:15px;line-height:1.35}html body #hv-home-blog1-four-grid .hv-home-grid-card-title-text{font-size:15px!important}}
-@media (prefers-reduced-motion:reduce){#hv-home-blog1-four-grid .hv-home-grid-card,#hv-home-blog1-four-grid .hv-home-grid-thumb img{transition:none!important}}
-@media (min-width:768px) and (max-width:1023px){#hv-home-sections .hv-home-grid-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}#hv-home-sections .hv-home-grid-card-title{font-size:15px}}
-@media (max-width:767px){
-  #hv-home-sections{width:calc(100% - 10px);margin:16px auto 0!important;padding-bottom:0!important;gap:10px}
-  #hv-home-sections .hv-home-grid-section:last-child,
-  #hv-home-sections .hv-home-grid-cards{margin-bottom:0!important;padding-bottom:0!important}
-  html body.home #ekomoni-seridi,
-  html body.home #ekomoni-seridi > .widget,
-  html body.home #ekomoni-seridi > .widget > .widget-content,
-  html body.home #center-container,
-  html body.home #center-container > .container.outer-container,
-  html body.home #center-container #feed-view,
-  html body.home #center-container #feed-view > #main,
-  html body.home #center-container #feed-view > .section.main,
-  html body.home #center-container #feed-view #Blog1,
-  html body.home #center-container #feed-view #Blog1 > .widget-content,
-  html body.home #center-container #feed-view #Blog1 .blog-posts,
-  html body.home #center-container #feed-view #Blog1 .post-filter-wrap{margin-top:0!important;padding-top:0!important}
-  html body.home #ekomoni-seridi{margin-bottom:0!important;padding-bottom:0!important}
-  html body.home #ekomoni-seridi + .clearfix{display:block!important;clear:both!important;width:100%!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;line-height:0!important;font-size:0!important;overflow:hidden!important}
-  html body.home #center-container #feed-view #Blog1 .post-filter-wrap{margin:0 auto!important;padding:0!important}
-  html body.home #center-container #feed-view #Blog1 .hv-infinite-grid{margin-top:10px!important;padding-top:0!important}
-  #hv-home-sections .hv-home-grid-section{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
-  #hv-home-sections .hv-home-grid-heading{display:none}
-  #hv-home-sections .hv-home-grid-heading h2{height:40px;padding:0 11px!important;font-size:15px;letter-spacing:.015em}
-  #hv-home-sections .hv-home-grid-viewall{flex-basis:42px;width:42px;min-width:42px;height:40px;min-height:40px}
-  #hv-home-sections .hv-home-grid-viewall:before{width:9px;height:9px;border-top-width:2.5px;border-right-width:2.5px}
-  #hv-home-sections .hv-home-grid-cards{grid-template-columns:repeat(1,minmax(0,1fr));gap:10px!important;margin-bottom:0!important;padding-bottom:0!important}
-  #hv-home-sections .hv-home-grid-card{border-radius:12px!important;clip-path:inset(0 round 12px)!important;box-shadow:0 5px 5px rgb(0 0 0 / 10%);transition:none}
-  #hv-home-sections .hv-home-grid-card-title{padding:9px 9px 11px;border-bottom-left-radius:12px!important;border-bottom-right-radius:12px!important;background:transparent!important;font-size:19px;line-height:1.4}
-}
-/* V31: 12-card category grids keep their final three-card row clipped at the rounded lower corners. */
-@media (min-width:1024px){
-  html body.home #hv-home-sections .hv-home-grid-cards > .hv-home-grid-card:nth-last-child(-n+3){
-    border-bottom-left-radius:14px!important;
-    border-bottom-right-radius:14px!important;
-    overflow:hidden!important;
-    clip-path:inset(0 round 14px)!important;
-    -webkit-mask-image:-webkit-radial-gradient(white,black);
-    isolation:isolate!important;
-  }
-  html body.home #hv-home-sections .hv-home-grid-cards > .hv-home-grid-card:nth-last-child(-n+3) .hv-home-grid-card-title{
-    border-bottom-left-radius:14px!important;
-    border-bottom-right-radius:14px!important;
-    background:inherit!important;
-    background-clip:padding-box!important;
-    overflow:hidden!important;
-    clip-path:inset(0 round 0 0 14px 14px)!important;
-  }
-  html body.home #hv-home-sections .hv-home-grid-cards > .hv-home-grid-card:nth-last-child(-n+3) .hv-home-grid-card-title-text{
-    border-bottom-left-radius:14px!important;
-    border-bottom-right-radius:14px!important;
-    background:transparent!important;
-  }
-}
-@media (prefers-reduced-motion:reduce){#hv-home-sections .hv-home-grid-card,#hv-home-sections .hv-home-grid-thumb img{transition:none!important}}
