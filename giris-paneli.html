@@ -5544,13 +5544,18 @@ import {
 
   const isMember = user => !!(user && user.uid);
 
+  // İçerik kilidi ayarı Firestore'dan başarıyla okunmadan hiçbir blok açılmaz.
+  // Başarılı okuma sonrası aktif=false ise herkes için açılır.
+  let kilitAyarHazir = false;
+  let kilitYuklemeBaslatildi = false;
+
   function hedefKilitli(config, user, block) {
     const member = isMember(user);
 
-    // Admin içerik kilidi kapalıysa eski davranış korunur:
-    // .hv-uye-icerik sadece giriş yapmayanlara kilitlidir.
+    // Yönetim panelindeki genel anahtar kapalıysa .hv-uye-icerik herkese açıktır.
+    // Hedef ve etiket kuralları yalnızca genel anahtar açıkken değerlendirilir.
     if (!config || config.aktif !== true) {
-      return member ? null : 'guest';
+      return null;
     }
 
     const hedefler = config.hedefler || {};
@@ -5647,10 +5652,11 @@ import {
   }
 
   function uygulayici(config, user) {
-    // BURADA BAŞKA HİÇBİR DOM ELEMANI KİLİTLENMEZ.
-    // Özellikle body / article / admin panel / üye paneli gizlenmez.
-    const blocks = getContentBlocks();
+    // Firestore ayarı henüz gelmediyse CSS'in başlangıçtaki gizleme kuralı korunur.
+    if (!kilitAyarHazir || !config) return;
 
+    // Yalnızca makale içindeki .hv-uye-icerik blokları işlenir.
+    const blocks = getContentBlocks();
     blocks.forEach(block => {
       const mode = hedefKilitli(config, user, block);
       if (mode) gizliIcerigiKilitle(block, mode);
@@ -5662,60 +5668,77 @@ import {
     const fallback = { aktif: false, hedefler: {} };
     const ref = doc(db, 'siteAyarlari', 'icerikKilidi');
 
-    try {
-      const snap = await getDoc(ref);
-      const config = snap.exists() ? snap.data() : fallback;
-      window.hvIcerikKilidi = config;
-      uygulayici(config, user);
+    window.hvIcerikKilidiDurum = 'bekleniyor';
+    window.hvIcerikKilidiYuklendi = false;
+    window.hvIcerikKilidiYuklemeHatasi = false;
 
-      if (window.hvIcerikKilidiUnsub) {
-        try { window.hvIcerikKilidiUnsub(); } catch (e) {}
+    const ayariOkuVeUygula = async () => {
+      try {
+        const snap = await getDoc(ref);
+        const config = snap.exists() ? (snap.data() || fallback) : fallback;
+
+        // Ayar ancak Firestore okuması başarılı olduktan sonra geçerli sayılır.
+        window.hvIcerikKilidi = config;
+        kilitAyarHazir = true;
+        window.hvIcerikKilidiYuklendi = true;
+        window.hvIcerikKilidiYuklemeHatasi = false;
+        window.hvIcerikKilidiDurum = 'hazir';
+        uygulayici(config, auth.currentUser || user || null);
+      } catch (e) {
+        window.hvIcerikKilidiYuklemeHatasi = true;
+        window.hvIcerikKilidiDurum = kilitAyarHazir ? 'son-bilinen-ayar' : 'hata';
+
+        // İlk okuma başarısızsa fallback olarak aktif=false uygulama.
+        // Bu durumda .hv-uye-icerik CSS ile gizli kalır; içerik yanlışlıkla açılmaz.
+        // Önceden başarıyla okunmuş ayar varsa mevcut erişim durumu korunur.
+        console.warn('[İçerik Kilidi] Ayar okunamadı; mevcut güvenli görünüm korundu.', e);
       }
+    };
 
-      
-      window.hvIcerikKilidiUnsub = window.hvGuvenliFirestorePolling(async () => {
-        try {
-          const snap2 = await getDoc(ref);
-          const c = snap2.exists() ? snap2.data() : fallback;
-          window.hvIcerikKilidi = c;
-          uygulayici(c, auth.currentUser);
-        } catch(e) {
-          // Geçici ağ hatasında mevcut yapı korunur.
-        }
-      }, 45000);
-    } catch (e) {
-      /* Geçici Firestore ağ hatasında mevcut kilit durumu korunur. */
-      window.hvIcerikKilidi = fallback;
-      uygulayici(fallback, auth.currentUser);
+    // İlk Firestore okuması tamamlanmadan panel hiçbir bloğu açmaz.
+    await ayariOkuVeUygula();
+
+    if (window.hvIcerikKilidiUnsub) {
+      try { window.hvIcerikKilidiUnsub(); } catch (e) {}
     }
+
+    // İlk okuma başarısız olsa bile sonraki turlarda yeniden dene.
+    window.hvIcerikKilidiUnsub = window.hvGuvenliFirestorePolling(ayariOkuVeUygula, 45000);
   }
 
   function init() {
-    // Sayfada gerçekten .hv-uye-icerik varsa içerik kilidi ayarlarını yükle.
-    // Kilitli içerik yoksa siteAyarlari/icerikKilidi için gereksiz Firestore okuması yapılmaz.
+    // Makalede kilit bloğu yoksa Firestore'dan gereksiz ayar okunmaz.
     const kilitBaslat = () => {
       const blocks = getContentBlocks();
-      if (!blocks.length) return;
-      uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, auth.currentUser);
+      if (!blocks.length || kilitYuklemeBaslatildi) return;
+
+      kilitYuklemeBaslatildi = true;
       if (!window.hvIcerikKilidiReady) {
-        window.hvIcerikKilidiReady = kilidiYukle(auth.currentUser).catch(() => {});
+        window.hvIcerikKilidiReady = kilidiYukle(auth.currentUser || null).catch(e => {
+          window.hvIcerikKilidiYuklemeHatasi = true;
+          window.hvIcerikKilidiDurum = 'hata';
+          console.warn('[İçerik Kilidi] Başlatma hatası:', e);
+        });
       }
     };
 
     kilitBaslat();
 
+    // Kimlik durumu, içerik kilidi ayarı okunduktan sonra uygulanır.
     onAuthStateChanged(auth, user => {
-      uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, user);
+      if (kilitAyarHazir && window.hvIcerikKilidi) {
+        uygulayici(window.hvIcerikKilidi, user);
+      }
     });
 
-    // Blogger içeriği sonradan DOM'a ekleniyorsa yalnızca yeni .hv-uye-icerik
-    // düğümlerini yakala. Kendi oluşturduğumuz kilit kutuları bu gözlemciyi
-    // tekrar tetiklemez; böylece sonsuz render döngüsü oluşmaz.
-    // Blogger bazı temalarda etiketleri içerikten sonra ayrı render eder.
-    // Kısa gecikmeli iki yeniden değerlendirme, etiket DOM'u sonradan oluşsa bile
-    // etiket tabanlı kilidin kesin olarak uygulanmasını sağlar.
+    // Gecikmeli Blogger içerik/etiket render'larında mevcut ayarı yeniden uygula.
     [250, 1000, 2500].forEach(ms => setTimeout(() => {
-      try { uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, auth.currentUser); } catch (e) {}
+      try {
+        kilitBaslat();
+        if (kilitAyarHazir && window.hvIcerikKilidi) {
+          uygulayici(window.hvIcerikKilidi, auth.currentUser || null);
+        }
+      } catch (e) {}
     }, ms));
 
     if (!window.hvContentLockObserver) {
@@ -5731,7 +5754,9 @@ import {
         clearTimeout(timer);
         timer = setTimeout(() => {
           kilitBaslat();
-          uygulayici(window.hvIcerikKilidi || {aktif:false, hedefler:{}}, auth.currentUser);
+          if (kilitAyarHazir && window.hvIcerikKilidi) {
+            uygulayici(window.hvIcerikKilidi, auth.currentUser || null);
+          }
         }, 80);
       });
       window.hvContentLockObserver.observe(document.body, { childList: true, subtree: true });
