@@ -2018,6 +2018,7 @@ body.dark .hv-sifre-mail-hata{background:#450a0a;border-color:#991b1b;color:#fec
    ============================================================ */
 import {
   GoogleAuthProvider,
+  browserPopupRedirectResolver,
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -2058,6 +2059,14 @@ import {
   where,
   runTransaction
 } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js';
+
+// V778: Tema Firestore'u ihtiyaç anında başlatıyorsa, panel kodu çalışmadan önce
+// ortak veritabanı örneğinin hazır olmasını bekle. Dış panellerin mevcut
+// window._firebaseDb / authReady entegrasyon sözleşmesi değiştirilmez.
+if (!window._firebaseDb && typeof window.hvEnsureFirebaseDb === 'function') {
+  await window.hvEnsureFirebaseDb();
+}
+
 /* ÖNEMLİ GÜVENLİK NOTU:
    Bu dosyadaki client-side kontroller (veriKontrol, isAdmin, küfür filtresi vb.)
    SADECE arayüz kolaylığıdır. Gerçek güvenlik Firestore Security Rules'ta
@@ -2489,7 +2498,7 @@ import {
     hvModalKilit(true);
     try {
       const provider = new GoogleAuthProvider();
-      const r = await signInWithPopup(auth, provider);
+      const r = await signInWithPopup(auth, provider, browserPopupRedirectResolver);
       await hesapSilIslemi(r.user);
     } catch(e) {
       if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
@@ -3538,7 +3547,7 @@ import {
       const provider = new GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
-      const r = await signInWithPopup(auth, provider);
+      const r = await signInWithPopup(auth, provider, browserPopupRedirectResolver);
       const user = r.user;
       _sosyalGirisYapildi = true;
 
@@ -3928,7 +3937,7 @@ import {
           await reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email, mevSifre));
         } else {
           const provider = new GoogleAuthProvider(); provider.addScope('email');
-          await reauthenticateWithPopup(user, provider);
+          await reauthenticateWithPopup(user, provider, browserPopupRedirectResolver);
         }
         await verifyBeforeUpdateEmail(user, yeniE);
         hvMesaj('Yeni e-posta adresinize doğrulama bağlantısı gönderildi. Doğrulama tamamlanmadan hesap adresi değiştirilmeyecek.', 'basari', 'hv-profil');
