@@ -2060,11 +2060,22 @@ import {
   runTransaction
 } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js';
 
-// V778: Tema Firestore'u ihtiyaç anında başlatıyorsa, panel kodu çalışmadan önce
-// ortak veritabanı örneğinin hazır olmasını bekle. Dış panellerin mevcut
-// window._firebaseDb / authReady entegrasyon sözleşmesi değiştirilmez.
+// V779: Tema Firebase modülü asenkron başlatılır. Panel modülü, modülün
+// çalışmasını varsaymak yerine ortak çekirdek hazır sinyalini bekler.
+if (window.hvFirebaseCoreReady && typeof window.hvFirebaseCoreReady.then === 'function') {
+  const coreState = await window.hvFirebaseCoreReady;
+  if (!coreState || coreState.ok !== true) {
+    throw (coreState && coreState.error) || new Error('Firebase App/Auth başlatılamadı.');
+  }
+}
 if (!window._firebaseDb && typeof window.hvEnsureFirebaseDb === 'function') {
   await window.hvEnsureFirebaseDb();
+}
+if (!window._firebaseAuth) {
+  throw new Error('Firebase Auth hazır değil; giriş paneli başlatılmadı.');
+}
+if (!window._firebaseDb) {
+  throw new Error('Firebase Firestore hazır değil; giriş paneli başlatılmadı.');
 }
 
 /* ÖNEMLİ GÜVENLİK NOTU:
@@ -3535,7 +3546,8 @@ if (!window._firebaseDb && typeof window.hvEnsureFirebaseDb === 'function') {
   }
 
   window.hvSosyalGiris = async function(tur) {
-    const auth = window._firebaseAuth || getAuth();
+    const auth = window._firebaseAuth;
+    if (!auth || !window._firebaseDb) return hvMesaj('Giriş servisi henüz hazır değil. Sayfayı yenileyip tekrar deneyin.', 'hata');
     hvMesajGizle();
     if (rateLimitKontrol(3000)) return hvMesaj('Çok hızlı istek gönderiyorsunuz, lütfen bekleyin.', 'hata');
     if (tur !== 'google') return hvMesaj('Yalnızca Google girişi destekleniyor.', 'hata');
@@ -3594,6 +3606,7 @@ if (!window._firebaseDb && typeof window.hvEnsureFirebaseDb === 'function') {
   window.hvEmailIslem = async function() {
     const auth = window._firebaseAuth;
     const db = window._firebaseDb;
+    if (!auth || !db) return hvMesaj('Giriş servisi henüz hazır değil. Sayfayı yenileyip tekrar deneyin.', 'hata');
     const girisAlan = document.getElementById('hv-giris-alan').value.trim();
     const sifre = document.getElementById('hv-sifre').value;
     hvMesajGizle();
@@ -4377,7 +4390,7 @@ if (!window._firebaseDb && typeof window.hvEnsureFirebaseDb === 'function') {
   const postPath = window.location.pathname;
   const encodedPost = btoa(unescape(encodeURIComponent(postPath))).replace(/=/g, '');
 
-  const auth = getAuth();
+  const auth = window._firebaseAuth || getAuth();
   const db = window._firebaseDb;
   if (!db) { console.warn('Firestore bulunamadı'); return; }
 
@@ -5814,7 +5827,7 @@ if (!window._firebaseDb && typeof window.hvEnsureFirebaseDb === 'function') {
    BÖLÜM 6 — GİRİŞ YAPMIŞ KULLANICILAR İÇİN OKUMA GEÇMİŞİ (Firestore)
    ============================================================ */
 {
-  const auth = getAuth();
+  const auth = window._firebaseAuth || getAuth();
   const db = getFirestore();
 
   const kaydet = async (user) => {
